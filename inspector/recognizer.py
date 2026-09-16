@@ -19,6 +19,7 @@ from . import image_features as F
 from . import renderer as A
 from . import recall_orient as RO
 from parts.bracket import serration as SR
+from parts.bracket import dark_spots as DSP
 from . import settings
 
 DEFAULT_MODEL = settings.MODEL_PATH
@@ -150,6 +151,35 @@ def inspect(path, m, out_dir, needs_review_dir=None):
                 status += f" | serration=MISSING ({sr['confidence']}%)"
             else:
                 status += f" | serration={sr['status'].upper()} ({sr['confidence']}%)"
+
+    # Dark-spots second opinion (trained classifier) — recognises the defect at
+    # ANY angle (trained with full rotation/flip augmentation), unlike recall.
+    if "bracket" in (verdict.get("part") or "").lower():
+        ds = DSP.predict(path)
+        if ds:
+            verdict["dark_spots"] = ds
+            already = any("dark spot" in (d.get("type", "").lower())
+                          for d in verdict.get("defects", []))
+            if ds["status"] == "present" and not already:
+                verdict.setdefault("defects", []).append({
+                    "type": "Dark Spots", "confidence": ds["confidence"],
+                    "location": "part surface",
+                    "reason": "trained classifier: dark spot pattern detected",
+                    "severity_priority": _priority("Dark Spots", m["severity_rules"]),
+                    "primary": not verdict.get("defects"),
+                    "source": "ml_classifier"})
+                if verdict["result"] in ("OK", "NEEDS_REVIEW"):
+                    verdict["result"] = "DEFECT"
+                    verdict["part_confident"] = True
+                    pending_ok = False
+                    pending_review = False
+                    if not had_boxes:
+                        cv2.rectangle(img, (0, 0), (img.shape[1] - 1, img.shape[0] - 1), (0, 0, 255), 8)
+                sy = 120 if had_boxes else 40
+                A.draw_label(img, 15, sy, f"Dark Spots (ML {ds['confidence']}%)", (190, 90, 90))
+                status += f" | dark_spots=PRESENT ({ds['confidence']}%)"
+            else:
+                status += f" | dark_spots={ds['status'].upper()} ({ds['confidence']}%)"
 
     # Draw the deferred verdict banner now that serration has had its say.
     if pending_ok:
