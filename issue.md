@@ -562,3 +562,154 @@ Unifying principle: **the drawing must always be a faithful function of the fina
 Keep the *decision* and the *rendering* in that order, and keep the *served artifact* in sync
 with its *source*.
 
+
+
+---
+
+# Issue #3 - "Uploading a zip suddenly takes too long"
+
+## TL;DR - Root cause and fix
+
+The slow zip upload had **two independent causes stacked on top of each other**, and I had to
+separate them before either made sense:
+
+1. **The "today" regression: stale servers competing for the CPU.** `qms.py serve` does NOT
+   kill previous instances. Over a debugging session I had accumulated *three* live servers.
+   The oldest one held port 8000 and served requests; the other two sat there burning CPU on
+   nothing. On a CPU-only box that roughly tripled the effective per-image time. Killing all of
+   them and running exactly one server erased the day-over-day slowdown.
+
+2. **The steady-state cost: `cv2.HoughCircles` inside `image_features.extract()`.** Even with a
+   single clean server, each image took ~2.3s and the dominant term was a Hough **circle**
+   transform that produced a single feature called `hole_rough` (0.05-1.36s/image, avg ~0.6s,
+   spiking on glary images). That feature was **vestigial**: its rule was disabled long ago
+   (`hole_rough_high = 999`), and serration - the only thing it was ever meant to proxy - is now
+   decided by the dedicated YOLO-crop + MobileNetV2 classifier. So it was pure dead weight.
+
+**Fix:** removed `hole_rough` from `FEATURE_KEYS` and the feature vector, deleted the HoughCircles
+block entirely, guarded the one remaining reader (`live_classifier.py`) with `vec.get(...)`, and
+rebuilt `best.pt` / `defect_kb.json` on the new 12-feature set. Result on the 22-image bracket zip:
+**~50s -> ~14s total**, warm images **~2.3s -> ~0.4s** each. All 22 verdicts unchanged
+(163907/164017 DEFECT, 164314 OK). Committed `124942f`.
+
+## My complete thought process (the raw version)
+
+**"'Today' is the key word - what changed *today* vs. the model?"**
+The user said it got slow *today*, not that it was always slow. That framing mattered. A feature
+that has always been in `extract()` cannot explain a *sudden* regression. So I split the question
+into two: (a) what made it slower *today* specifically, and (b) what makes it slow *in general*.
+Conflating those two is exactly how you "fix" something and have the user come back saying it's
+still slow.
+
+**"Rule out the environment before blaming the code."**
+Same reflex as Issues #1 and #2: before touching a single line, find out what's actually running.
+`Get-CimInstance Win32_Process -Filter "Name='python.exe'"` filtered to `*qms.py serve*` showed
+**three** servers alive, started at different times. That is the "today" regression right there -
+each debugging restart had left the old process running (start.bat/serve never kills prior
+instances), and the oldest one was still bound to port 8000 while the newer ones idled and stole
+CPU. On a CPU-only inference box, three python processes contending for cores is enough to triple
+wall-clock time. I killed all of them and started exactly one. That alone explained the
+*day-over-day* slowdown.
+
+**"The environment fix doesn't make it *fast*, only *not-slower*. Now measure the real floor."**
+With a single clean server I still needed the steady-state number. I wrote a tiny harness that
+unzips into a temp dir and calls `REC.inspect()` on all 22 images, printing per-image time and the
+total. Baseline: ~2.3s/image, ~50s total, with a ~3.9s cold first image (the YOLO + MobileNet
+singletons load lazily on the first bracket - a one-time cost, not worth optimizing).
+
+**"Don't guess which op is slow - instrument each stage."**
+Rather than eyeball the code, I timed the pipeline stage by stage: `F.extract` (the recall
+feature vector), `holes.find_big_hole` (YOLO), `SR.predict` (YOLO crop + classifier), and the full
+`REC.inspect`. `F.extract` dominated. Then I went one level deeper and micro-profiled the
+operations *inside* extract: cvtColor, segment_part, Laplacian, Canny, HoughLinesP, medianBlur,
+connectedComponents, phash, and `HoughCircles`. The circle transform was the clear outlier -
+0.05 to 1.36s depending on image content, versus ~0.1s or less for everything else. Circle Hough
+is expensive because it votes in a 3-D accumulator (x, y, r); glary rims create spurious edges
+that blow up the vote count, which is why the *slow* images were the shiny ones.
+
+**"Before optimizing it, ask whether it should exist at all."**
+This is the step people skip. The fastest code is code you delete. `HoughCircles` fed exactly one
+feature: `hole_rough`, a "serration proxy" from the classical-CV era. I traced its consumers:
+- `grep hole_rough` -> `image_features.py` (produce), `defect_kb.json` + `knowledge_base.py`
+  (`hole_rough_high`), `live_classifier.py` (read), and doc mentions.
+- The threshold was `999.0`, i.e. the rule can never fire. It had been **disabled on purpose**
+  when serration moved to the YOLO+classifier. So the feature was computed every single image and
+  then never used for any decision. Vestigial. The honest fix is removal, not micro-optimization.
+
+**"Removal has a sharp edge - who reads the key?"**
+The one real risk was `live_classifier.py`, which indexed `vec["hole_rough"]` directly. Drop the
+key from the vector and that path KeyErrors. I checked and it's the older `/inspect` path (not the
+`/ui/inspect` REC.inspect path the zip upload uses), and its rule is dead anyway, but a crash is a
+crash. I made the access defensive: `vec.get("hole_rough", 0.0)` and `th["hole_rough_high"]`
+stays 999, so even if that path runs it simply never fires - no exception, no behavior change.
+
+**"The feature vector length is baked into the model - rebuild, don't just edit."**
+Same lesson as Issue #1's geometry: the running server is a cache of `best.pt`, which is a snapshot
+of the DB/reviews. `FEATURE_KEYS` defines the vector *dimension*; the model's `norm.mean/std` and
+`centroids` are arrays of that exact length. If I shortened the code's key list but didn't rebuild,
+the loaded model would still expect 13 dims and the math would misalign. So I ran `qms.py build`,
+which re-derived a 12-length `feature_keys`, mean, std, and centroids (visible in the
+`defect_kb.json` diff). I verified the checkpoint really had 12 keys and no `hole_rough` before
+trusting it - `torch.load(best.pt)['feature_keys']`.
+
+**"Prove no regression the same way I proved the speedup."**
+The whole justification for deleting a feature is that it changed no decision. So I re-ran all 22
+images through `REC.inspect` on the rebuilt model and diffed the outcomes against the known-good
+set: 163907 -> DEFECT / Serration Missing (bottom hole, conf 96), 164017 -> DEFECT (classifier,
+100), 164314 -> OK, present parts still OK. Identical verdicts. New timing: **13.9s total, ~0.4s
+warm/image**, cold first image 3.86s (unchanged - that's the model load, which I deliberately left
+alone). Roughly a 3.5x speedup on warm throughput, with zero verdict drift.
+
+## The fix in code (what changed)
+
+`inspector/image_features.py`
+```python
+# FEATURE_KEYS: dropped the trailing "hole_rough" entry (13 -> 12 features).
+
+# DELETED this entire block from extract() (the single most expensive op):
+#   hole_rough = 0.0
+#   circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, dp=1.2,
+#                              minDist=int(part_axis*0.15), param1=120, param2=30,
+#                              minRadius=int(part_axis*0.02), maxRadius=int(part_axis*0.10))
+#   if circles is not None:
+#       for cx0, cy0, r0 in np.round(circles[0]).astype(int):
+#           ... sample a ring of pixels, take the std as roughness ...
+#           hole_rough = max(hole_rough, float(ring.std()))
+
+# and removed "hole_rough": round(hole_rough, 2) from the returned vector dict.
+```
+
+`inspector/live_classifier.py`
+```python
+# Made the (already-disabled) reader crash-proof after the key was removed:
+if vec.get("hole_rough", 0.0) >= th["hole_rough_high"]:   # th=999 => never fires
+    ...
+```
+
+Then `qms.py build` repacked `best.pt` (54982 -> 54278 bytes) and rewrote `defect_kb.json` with the
+12-feature norm/centroids.
+
+## Lessons this issue reinforced
+
+1. **Separate "why did it change today" from "why is it slow in general."** They usually have
+   different causes. Here: stale servers (regression) vs. HoughCircles (steady state).
+2. **Always audit running processes first.** For the third time this session, a stale/duplicate
+   `qms.py serve` was part of the problem. Kill everything, run one.
+3. **The cheapest optimization is deletion.** Before speeding up an operation, prove that its
+   output is actually consumed by a live decision. `hole_rough` failed that test.
+4. **A feature's dimension is baked into `best.pt`.** Changing `FEATURE_KEYS` is not real until
+   `qms.py build` re-derives the norm/centroids and you reload. Verify the checkpoint.
+5. **Deleting a feature is only "safe" once you prove no verdict moved.** Re-run the full set and
+   diff outcomes; a speedup that changes a verdict is a bug, not a win.
+
+## Updated mental model (all three issues)
+
+| issue | subsystem at fault | nature of bug | fix |
+|-------|--------------------|---------------|-----|
+| #1 - wrong hole highlighted | stored review polygon (recall path) | wrong data baked into best.pt | correct polygon -> build -> restart |
+| #2 - two verdicts at once   | banner draw order in inspect()      | wrong order (draw before verdict final) | defer banner until after serration |
+| #3 - slow zip upload        | stale servers + vestigial HoughCircles | wasted work (dup processes + dead feature) | one server + delete feature + rebuild |
+
+Unifying principle across all three: **keep the served artifact a faithful, minimal function of
+the final decision.** #1 fixed the *data*, #2 fixed the *order*, #3 removed *work that fed no
+decision at all* - and, again, made sure only one server owns the truth.
