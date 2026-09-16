@@ -216,6 +216,62 @@ Now the inspector runs on every boot with **no terminal needed**. Check it with
 
 ---
 
+## Will it run efficiently on a Pi?
+
+Short answer: **yes — it will work, and it's efficient *for what it's designed to do*
+(inspecting parts one at a time).** "Efficient" depends on your expectation, so here are
+the real details.
+
+### Why it's a good fit for a Pi
+
+Your project is **lightweight by ML standards**:
+
+- **Tiny models:** YOLOv8n (5.9 MB) + MobileNetV2 (8.7 MB). Both are the *small/mobile*
+  variants — MobileNet was literally designed for phones and edge devices.
+- **CPU-only, no GPU needed:** everything loads on the CPU already.
+- **Modest RAM:** ~1 GB resident. A 4 GB Pi has plenty of headroom.
+- **Recent optimization:** removing the `hole_rough` / `HoughCircles` step cut the heaviest
+  CPU operation — that speedup helps the slower Pi CPU proportionally *more* than a fast
+  desktop.
+
+### Realistic speed
+
+On a fast x86 dev machine it's ~0.43s/image (warm). A Pi's CPU is several times slower, so
+expect roughly:
+
+| Board | Per image (warm) | First image (cold model load) |
+|-------|------------------|-------------------------------|
+| **Raspberry Pi 5** | ~1.5–3s | ~15–25s |
+| **Raspberry Pi 4** | ~3–8s  | ~25–40s |
+
+So a **22-image batch ≈ 1–3 minutes on a Pi.** The cold delay happens only **once per
+startup** (models load into memory), not per image.
+
+### What "efficient" means for this use case
+
+- ✅ **Efficient** if inspection is: operator places a part → snap → wait a couple seconds
+  → red/green. That's exactly this project's workflow. A few seconds per part is completely
+  fine on a line.
+- ❌ **Not** efficient if you expect **real-time video** (30 frames/sec) or **hundreds of
+  parts per minute** — a Pi CPU can't do that.
+
+### If you ever need it faster
+
+1. **Use a Pi 5** over a Pi 4 (biggest easy win).
+2. **Add an AI accelerator** — Google Coral or Hailo-8 (a small add-on module) can run
+   YOLO/MobileNet 10–50× faster than the Pi CPU.
+3. **Keep the server running** (the autostart service in Step 8) so you pay the cold-load
+   cost once, not on every batch.
+
+### Bottom line
+
+For an **offline, point-of-inspection appliance checking parts one-by-one**, this project
+runs **efficiently enough on a Raspberry Pi 4, and comfortably on a Pi 5.** It's small,
+low-power, and the models are already the edge-optimized kind. The only thing a Pi *can't*
+give you is high-throughput / real-time speed — and this use case doesn't need that.
+
+---
+
 ## Frequently asked beginner questions
 
 **Do I need internet on the Pi?** Only during install (Steps 3–5, to download things).
