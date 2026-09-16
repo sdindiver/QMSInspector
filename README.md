@@ -41,6 +41,11 @@ flowchart TD
     F -- No --> H[Needs Review]
     H --> I[Train again]
     I --> C
+
+    E -. Bracket only .-> S[Serration second opinion]
+    S --> S1[YOLO big-hole crop]
+    S1 --> S2[MobileNetV2 present/missing]
+    S2 --> G2
 ```
 
 ---
@@ -67,6 +72,15 @@ flowchart TD
  an input image, performs local recall against stored reference entries, and returns
  either a resolved verdict with defect overlays or a `Needs Review` result. Images that
  fail recall are copied into `needs_review/` for later retraining.
+
+For **Bracket** parts the inspector adds a trained *serration second opinion*: a small
+MobileNetV2 classifier decides whether the serration teeth on the big splined hole are
+present or missing. Because recall only recognises near-duplicates, this classifier is
+what lets a *never-seen* bracket photo still get a serration verdict. To stay honest it
+looks **only at the big hole**: a trained YOLO detector localises that hole (any
+orientation), the image is cropped to it, and only the crop is classified - so part
+colour or body markings cannot leak into the decision. This part-specific code lives
+under `parts/bracket/` (see below).
 
 Inspection never calls any external service.
 
@@ -168,9 +182,49 @@ zero tokens.
 
 To add a **new part**, create `inspection_state/reviews/<new_part>.json` (human
 markings, same schema) and one rule file `inspection_state/knowledge/rules/<new_part>.json`
-that defines the part's defects (name, severity, color, aliases, signature),
+that defines the part's defects (name, severity, color, signature),
 confirmed rulings and confusions - all in that single file. Then run
 `python qms.py train` and `python qms.py build`. No code changes needed.
+
+---
+
+## Part-specific models (`parts/`)
+
+Some defects cannot be judged by recall alone and need a small trained model. That
+part-specific code lives under `parts/<part_name>/` so it stays separate from the
+generic engine in `inspector/`.
+
+### Bracket - serration detection
+
+`parts/bracket/` holds the serration present/missing feature:
+
+- `holes.py` - localises the big splined hole (trained YOLO detector, with Hough +
+  whole-image fallbacks) and crops to it.
+- `serration.py` - MobileNetV2 classifier that reads only the big-hole crop and
+  returns present/missing. `inspector/recognizer.py` calls this for Bracket parts and
+  raises a `Serration Missing` defect when the rim is smooth.
+- `train_serration.py` - offline trainer for the classifier.
+- `train_big_hole_yolo.py` - offline trainer for the big-hole detector (hand-annotated
+  boxes are embedded in the script as the source of truth).
+
+The two trained artifacts are `inspection_state/models/serration_bracket.pt` and
+`inspection_state/models/big_hole_yolo.pt`. Both load lazily and degrade gracefully -
+if a weights file or a dependency (torch / ultralytics) is missing, serration is simply
+skipped and the rest of the pipeline is unaffected.
+
+To retrain after adding new bracket images (update the label / box tables at the top of
+each script first):
+
+```powershell
+# cross-validation report (no save)
+python parts/bracket/train_serration.py
+
+# retrain the big-hole detector -> models/big_hole_yolo.pt
+python parts/bracket/train_big_hole_yolo.py --train
+
+# retrain + save the serration classifier -> models/serration_bracket.pt
+python parts/bracket/train_serration.py --final
+```
 
 ---
 
@@ -191,10 +245,18 @@ inspector/
   live_classifier.py       kNN + rule engine used by the REST API
   live_trainer.py          runtime add/correct used by the REST API
   web_api.py               Flask REST server (offline)
+parts/                     per-part specialized modules (layered on inspector/)
+  bracket/
+    holes.py               locate + crop the big splined (serration) hole
+    serration.py           serration present/missing classifier (used by recognizer)
+    train_serration.py         (re)train the serration classifier on big-hole crops
+    train_big_hole_yolo.py     (re)train the YOLO big-hole detector used for cropping
 inspection_state/
   knowledge/              rules/<part>.json (one file per part), corrections.json
   reviews/                 bearing_cup.json, bracket.json (human markings)
   models/best.pt           the packed model
+  models/serration_bracket.pt  Bracket serration classifier (MobileNetV2)
+  models/big_hole_yolo.pt      Bracket big-hole detector (YOLO, for cropping)
   data/inspection_memory.db durable learned memory
 ```
 
@@ -206,12 +268,15 @@ inspection_state/
 - `inspection_state/reviews/` - human-reviewed sample annotations for each part
 - `inspection_state/knowledge/` - per-part rule files (`rules/<part>.json`: defects, severity, rulings) and training guidance
 - `inspection_state/models/` - built inspection model package used for offline inference
+- `parts/` - part-specific modules and trainers layered on the generic engine (e.g. Bracket serration)
 - `inspect_out/` - generated annotated inspection outputs
 - `needs_review/` - images that did not match confidently and need human review
 
 All inspection is local and free. The only durable state you need to keep is
 `inspection_state/data/inspection_memory.db`, `inspection_state/models/best.pt`,
-`inspection_state/reviews/`, and `inspection_state/knowledge/`.
+`inspection_state/reviews/`, and `inspection_state/knowledge/`. If you use the Bracket
+serration feature, also keep `inspection_state/models/serration_bracket.pt` and
+`inspection_state/models/big_hole_yolo.pt` (or retrain them via `parts/bracket/`).
 
 ## Release snapshot
 

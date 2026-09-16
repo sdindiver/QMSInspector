@@ -17,6 +17,7 @@ import cv2
 
 from . import image_features as F
 from . import renderer as A
+from parts.bracket import serration as SR
 from . import settings
 
 DEFAULT_MODEL = settings.MODEL_PATH
@@ -115,6 +116,30 @@ def inspect(path, m, out_dir, needs_review_dir=None):
         status = f"NEEDS_REVIEW (likely part={part}; no recall; nearest: {hint})"
         if collected:
             status += f"; copied to {collected}"
+
+    # Serration second opinion (trained classifier) — generalises beyond recall
+    # so even a never-seen bracket photo gets a serration present/missing answer.
+    if "bracket" in (verdict.get("part") or "").lower():
+        sr = SR.predict(path)
+        if sr:
+            verdict["serration"] = sr
+            already = any("serration" in (d.get("type", "").lower())
+                          for d in verdict.get("defects", []))
+            if sr["status"] == "missing" and not already:
+                verdict.setdefault("defects", []).append({
+                    "type": "Serration Missing", "confidence": sr["confidence"],
+                    "location": "big mounting hole rim",
+                    "reason": "trained classifier: rim serration not detected",
+                    "severity_priority": _priority("Serration Missing", m["severity_rules"]),
+                    "primary": not verdict.get("defects"),
+                    "source": "ml_classifier"})
+                if verdict["result"] in ("OK", "NEEDS_REVIEW"):
+                    verdict["result"] = "DEFECT"
+                    verdict["part_confident"] = True
+                A.draw_label(img, 15, 80, f"Serration Missing (ML {sr['confidence']}%)", (0, 0, 255))
+                status += f" | serration=MISSING ({sr['confidence']}%)"
+            else:
+                status += f" | serration={sr['status'].upper()} ({sr['confidence']}%)"
 
     out_img = os.path.join(out_dir, base + "_annotated.jpg")
     cv2.imwrite(out_img, img)

@@ -2,6 +2,9 @@ doe# Python
 __pycache__/
 *.pyc
 
+# IDE
+.idea/
+
 # runtime outputs
 inspect_out/
 needs_review/
