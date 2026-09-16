@@ -2,34 +2,62 @@
   "part": "Bearing Cup",
   "default_part": true,
   "description": "Deep-drawn metal bearing cup: outer flange (rolled edge), a stepped inner rim/collar, and a central bore. Photographed top-down (rim visible as a ring) or tilted (side view, rim foreshortened).",
-
   "defects": {
     "Dent": {
       "severity": 4,
-      "color": [0, 140, 255],
-      "aliases": ["dent", "ding", "deformation on inner rim", "notch / dent on outer flange", "cut", "missing material", "torn", "crack", "broken"],
+      "color": [
+        0,
+        140,
+        255
+      ],
       "signature": "Use Dent as the single bearing-cup edge/rim damage category for any localised edge, rim, collar, or flange damage."
+    },
+    "Missing Punch": {
+      "severity": 5,
+      "color": [
+        0,
+        0,
+        255
+      ],
+      "signature": "The central bore/hole is absent - the piercing/punching operation was missed, leaving a solid blind face where a through-hole should be. Critical high-priority defect."
+    },
+    "Edge Cut": {
+      "severity": 4,
+      "color": [
+        0,
+        200,
+        255
+      ],
+      "signature": "A clean cut / sheared notch on the outer flange rim where edge material is missing - a straight or angular break in the otherwise smooth round flange silhouette."
     },
     "Out-of-Round": {
       "severity": 4,
-      "color": [0, 90, 255],
-      "aliases": ["deformation", "out-of-round", "out of round", "ovality", "ovalised", "pinched", "bent", "distortion"],
+      "color": [
+        0,
+        90,
+        255
+      ],
       "signature": "Central bore is not a clean circle - one side pinched, dented inward or ovalised (out-of-round)."
     },
     "Corrosion": {
       "severity": 2,
-      "color": [30, 90, 160],
-      "aliases": ["corrosion", "rust", "oxidation", "scratch"],
+      "color": [
+        30,
+        90,
+        160
+      ],
       "signature": "Brown/orange mottled corrosion or rust on the drawn wall or face."
     },
     "OK": {
       "severity": 0,
-      "color": [0, 180, 0],
-      "aliases": ["ok", "pass", "no defect"],
+      "color": [
+        0,
+        180,
+        0
+      ],
       "signature": "Smooth continuous outer flange, unbroken inner rim curve, round bore, no discrete dark mark, no missing material."
     }
   },
-
   "rulings": [
     "The square tab at ~12 o'clock on the inner rim IS a defect (not a by-design locating tab). Flag it every time.",
     "Tilted / side-view cups whose inner rim is smooth and not clearly visible (e.g. 162751, 162819, 162618, 162900, 163000, 163031) are OK - do NOT paint a speculative box; a false mark is worse than none.",
@@ -37,31 +65,44 @@
     "A defect type seen on one cup (e.g. flange cut on 162340) must be looked for on ALL cups - cross-apply learned defect types.",
     "Capture MULTIPLE defects per image and rank them; mark the highest-severity one as PRIMARY."
   ],
-
   "confusions": [
-    ["Corrosion", "shadow/plating tint"]
+    [
+      "Corrosion",
+      "shadow/plating tint"
+    ]
   ],
-
   "segmentation_gotchas": [
     "edge/Canny segmentation on a small feature that sits ON a bright curved rim will LOCK ONTO THE RIM and trace a long arc instead of the feature. For small rim defects, use a TINY tight box and DROP edge-seg (draw a plain rectangle). Root cause of repeated 'mask too big / wrong spot' complaints.",
     "dark segmentation grabs the shadowed rim, not the actual stain, when the box is loose. Shrink the box below/away from the rim so the stain is the darkest pixel region.",
     "Always place boxes tiny and tight on the actual defect, then verify each output at full zoom before reporting."
   ],
-
   "recurring_mistakes": [
     "Stopping at the first defect per image instead of scanning the whole part.",
     "Not cross-applying a defect type seen on one image to the others.",
     "Misreading shallow cuts / dark marks as the part's natural pressed shape.",
     "Placing boxes from downscaled previews and not verifying at full resolution."
   ],
-
   "confirmed_defects_by_image": {
-    "IMG20260824161530": ["Dent (small raised nub on inner rim ~2 o'clock, tight box no edge-seg)"],
-    "IMG20260824161547": ["Dent (inner rim ~12 o'clock)"],
-    "IMG20260824162142": ["Corrosion (dark boss mark on bottom flange)"],
-    "IMG20260824162258": ["Dent (outer flange)"],
-    "IMG20260824162340": ["Dent (outer silhouette step / missing-edge damage, ~4-5 o'clock, tight box no edge-seg)"],
-    "IMG20260824162425": ["Dent (top outer flange edge damage)"],
-    "IMG20260824161920": ["Deformation (pinched / out-of-round bore, PRIMARY P4)"]
+    "IMG20260824161530": [
+      "Dent (small raised nub on inner rim ~2 o'clock, tight box no edge-seg)"
+    ],
+    "IMG20260824161547": [
+      "Dent (inner rim ~12 o'clock)"
+    ],
+    "IMG20260824162142": [
+      "Corrosion (dark boss mark on bottom flange)"
+    ],
+    "IMG20260824162258": [
+      "Dent (outer flange)"
+    ],
+    "IMG20260824162340": [
+      "Dent (outer silhouette step / missing-edge damage, ~4-5 o'clock, tight box no edge-seg)"
+    ],
+    "IMG20260824162425": [
+      "Dent (top outer flange edge damage)"
+    ],
+    "IMG20260824161920": [
+      "Deformation (pinched / out-of-round bore, PRIMARY P4)"
+    ]
   }
 }

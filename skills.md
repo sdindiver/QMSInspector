@@ -20,12 +20,42 @@ This file is for future work sessions. Read this before making UI or labeling ch
 Important behavior:
 
 - `train` is idempotent and skips already learned exemplar names
-- If a review label changes for an already learned image, updating the JSON alone is not enough
-- For relabeling an already learned sample, update both:
-  - `reviews\*.json`
-  - `data\inspection_memory.db`
-- Then run `python qms.py build`
+- If a review label changes for an already learned image, updating the JSON alone is NOT enough
+- The trainer skips any image whose name already exists in the DB, so a changed label in
+  `reviews\*.json` will be ignored unless the stale exemplar row is deleted first
 - Restart the server after rebuilding because the Flask app caches the model in memory
+
+## SKILL: Relabel a sample or add a new defect category
+
+Use this exact procedure whenever a defect label is wrong, or a new defect type is needed.
+Following all 5 steps keeps rules -> reviews -> DB -> cache -> model in sync (this is the
+#1 source of "it still shows the old label" bugs).
+
+1. (New category only) Add it to the part rule file
+   `knowledge\rules\<part>.json` under `defects`:
+   - `severity` (0=OK .. 5=critical; higher renders as PRIMARY), `color` [B,G,R],
+     `signature` (one-line description)
+
+2. Edit the human label + geometry in `reviews\<part>.json` for each affected image
+   (`category`, tight `bbox` [x,y,w,h] normalized, `location`, `reason`).
+   For small rim/edge features, use a tight box and DO NOT set `seg` (edge-seg locks onto the rim).
+
+3. Delete the stale exemplar row(s) so the trainer re-learns the new label:
+   ```python
+   import sqlite3; con=sqlite3.connect(r"inspection_state\data\inspection_memory.db")
+   con.execute("DELETE FROM exemplars WHERE name IN ('IMG...', 'IMG...')"); con.commit()
+   ```
+
+4. Retrain + rebuild:
+   ```powershell
+   python qms.py train   # re-adds the images with the new label
+   python qms.py build   # repacks models\best.pt + regenerates knowledge\defect_kb.json
+   ```
+
+5. Verify: `python qms.py inspect "<image>" --no-collect` shows the new `type`/severity,
+   and (if serving) restart the server so the cached model reloads.
+
+Always back up `reviews\<part>.json` before editing (a `.bak` copy is enough).
 
 ## Startup
 
@@ -104,18 +134,32 @@ Implemented direction:
 
 ## Domain labeling decisions
 
-### Corrosion labeling
+### Bearing Cup defect categories (current source of truth)
 
-Current user/domain preference:
+Defined in `knowledge\rules\bearing_cup.json`. Severity drives PRIMARY ranking:
 
-- If the mark looks like rust/corrosion, classify it as `Corrosion`
-- Keep one category: `Corrosion`
-- Multiple images can belong to the same `Corrosion` category
+- `Missing Punch` (severity 5, critical): central bore/hole absent - the piercing/punching
+  step was missed, leaving a solid blind face where a through-hole is required. Highest priority.
+- `Dent` (severity 4): metal pushed in / deformed but intact, no missing material.
+- `Edge Cut` (severity 4): sheared/cut notch on the outer flange rim where edge material
+  is missing - a straight/angular break in the smooth round flange silhouette.
+- `Out-of-Round` (severity 4): bore not a clean circle (pinched / ovalised).
+- `Corrosion` (severity 2): brown/orange rust/oxidation stain.
+- `OK` (severity 0): no defect.
 
-Already updated:
+Labeling rule of thumb:
+- Missing/sheared material at the rim -> `Edge Cut`
+- Metal pushed in but intact -> `Dent`
+- Central hole not punched -> `Missing Punch`
+- Rust/stain -> `Corrosion`
 
-- `IMG20260824162037` -> `Corrosion`
-- `IMG20260824162142` -> `Corrosion`
+Confirmed relabels (kept aligned across rules/reviews/DB/cache/model):
+- `IMG20260824162142` -> `Edge Cut` (was Dent, originally mislabeled Corrosion)
+- `IMG20260824162258` -> `Edge Cut` (was Dent)
+- `IMG20260824162340` -> `Edge Cut` (was Dent)
+- `IMG20260824162425` -> `Edge Cut` (was Dent)
+- `IMG20260824162037` -> `Missing Punch` (was mislabeled Corrosion; the box marks the
+  unpunched bottom cup, not the whole image)
 
 ### Legacy manual-mark category removal
 
@@ -124,14 +168,6 @@ Current user/domain preference:
 - The old manual-mark category is not a real defect category for this project
 - Remove that legacy category from the part rule file (`knowledge/rules/<part>.json`), training data, and model artifacts
 - Do not show or train manual-mark / reject-paint categories in the UI
-
-### Dent category simplification
-
-Current user/domain preference:
-
-- Do not keep separate small edge/rim damage categories for bearing cups
-- Merge all small bearing-cup edge/rim damage into a single category: `Dent`
-- Treat cut/stepped edge damage and small rim interruptions as `Dent`
 
 ## Files most relevant for future edits
 

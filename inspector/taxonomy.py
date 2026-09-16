@@ -34,29 +34,19 @@ DEFAULT_SEVERITY = int(_TAX.get("default_severity", 2))
 DEFECT_NAMES = list(DEFECTS.keys())
 FALLBACK_COLOR = (0, 0, 255)
 
-# name (lowercased) -> canonical, built from canonical names + aliases
-_LOOKUP = {}
-for _name, _spec in DEFECTS.items():
-    _LOOKUP[_name.lower()] = _name
-    for _a in _spec.get("aliases", []):
-        _LOOKUP.setdefault(_a.lower(), _name)
+# name (lowercased) -> canonical, built from canonical defect names
+_LOOKUP = {_name.lower(): _name for _name in DEFECTS}
 
 
 def canonical(name):
-    """Map any raw/legacy defect string to its canonical name (best effort)."""
+    """Map a defect string to its canonical name (case-insensitive exact match)."""
     if not name:
         return name
-    key = name.strip().lower()
-    if key in _LOOKUP:
-        return _LOOKUP[key]
-    for alias, canon in _LOOKUP.items():
-        if alias in key:
-            return canon
-    return name
+    return _LOOKUP.get(name.strip().lower(), name)
 
 
 def priority(name):
-    """Severity for a defect name. Exact canonical first, then alias/keyword match."""
+    """Severity for a defect name (exact canonical match)."""
     if not name:
         return DEFAULT_SEVERITY
     spec = DEFECTS.get(canonical(name))
@@ -85,17 +75,15 @@ def colors_map():
 def severity_rules():
     """Checkpoint-compatible [(severity, (keyword, ...)), ...], highest first.
 
-    Groups each defect's canonical name + aliases under its severity so legacy
-    keyword-substring matching keeps working from the packed model.
+    Groups each defect's canonical name under its severity so the packed model's
+    keyword-substring matching keeps working.
     """
     by_sev = {}
     for name, spec in DEFECTS.items():
         sev = int(spec.get("severity", DEFAULT_SEVERITY))
         if sev <= 0:
             continue
-        kws = by_sev.setdefault(sev, [])
-        kws.append(name.lower())
-        kws.extend(a.lower() for a in spec.get("aliases", []))
+        by_sev.setdefault(sev, []).append(name.lower())
     return [(sev, tuple(dict.fromkeys(by_sev[sev]))) for sev in sorted(by_sev, reverse=True)]
 
 

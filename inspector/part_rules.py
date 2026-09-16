@@ -10,7 +10,6 @@ Each ``knowledge/rules/<part>.json`` fully describes a single part in one file:
         "Dark Burn": {
           "severity": 4,                # 4=critical .. 1=minor, 0=OK
           "color": [0, 0, 180],         # BGR for the annotation box
-          "aliases": ["dark burn", "burn-through"],
           "signature": "what it looks like / how to tell it apart"
         },
         ...
@@ -44,7 +43,6 @@ FALLBACK_COLOR = [0, 0, 255]
 _OK = {
     "severity": 0,
     "color": [0, 180, 0],
-    "aliases": ["ok", "pass", "no defect"],
     "signature": "No defect present - the part passes inspection.",
 }
 
@@ -77,7 +75,7 @@ def _signature(spec):
 
 
 def build_taxonomy():
-    """Assemble the taxonomy structure (names/severity/colors/aliases) from rules."""
+    """Assemble the taxonomy structure (names/severity/colors) from rules."""
     rules = load_rules()
     parts = list(rules.keys())
     default_part = next(
@@ -90,19 +88,12 @@ def build_taxonomy():
             entry = {
                 "severity": int(spec.get("severity", DEFAULT_SEVERITY)),
                 "color": spec.get("color", list(FALLBACK_COLOR)),
-                "aliases": list(spec.get("aliases", [])),
                 "description": _signature(spec),
             }
-            if name in defects:
-                # Same defect shared by several parts: union the aliases.
-                defects[name]["aliases"] = list(
-                    dict.fromkeys(defects[name]["aliases"] + entry["aliases"]))
-            else:
-                defects[name] = entry
+            defects.setdefault(name, entry)
     defects.setdefault("OK", {
         "severity": _OK["severity"],
         "color": list(_OK["color"]),
-        "aliases": list(_OK["aliases"]),
         "description": _OK["signature"],
     })
     return {

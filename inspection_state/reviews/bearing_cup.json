@@ -111,16 +111,15 @@
     "result": "DEFECT",
     "defects": [
       {
-        "category": "Corrosion",
-        "seg": "rust",
+        "category": "Missing Punch",
         "bbox": [
-          0.27,
-          0.605,
-          0.15,
-          0.075
+          0.24,
+          0.62,
+          0.26,
+          0.22
         ],
-        "location": "domed face of the lower cup, upper-left",
-        "reason": "Dark rust/corrosion patch on the drawn face of the lower cup."
+        "location": "bottom cup - solid blind face, central bore not punched",
+        "reason": "Critical: center piercing/punching operation missed - the bottom cup has no through-hole where a bore is required."
       }
     ]
   },
@@ -129,16 +128,15 @@
     "result": "DEFECT",
     "defects": [
       {
-        "category": "Corrosion",
-        "seg": "rust",
+        "category": "Edge Cut",
         "bbox": [
           0.4,
-          0.685,
-          0.17,
-          0.075
+          0.7,
+          0.14,
+          0.07
         ],
-        "location": "raised oval boss on the bottom flange (~6 o'clock)",
-        "reason": "Rust/corrosion mark on the raised oval boss of the bottom flange."
+        "location": "flattened chip/notch on bottom outer flange rim (~6 o'clock)",
+        "reason": "Edge chip / flattened notch: material missing/deformed on the bottom outer flange rim."
       }
     ]
   },
@@ -147,7 +145,7 @@
     "result": "DEFECT",
     "defects": [
       {
-        "category": "Dent",
+        "category": "Edge Cut",
         "seg": "edge",
         "bbox": [
           0.58,
@@ -165,7 +163,7 @@
     "result": "DEFECT",
     "defects": [
       {
-        "category": "Dent",
+        "category": "Edge Cut",
         "bbox": [
           0.66,
           0.69,
@@ -182,7 +180,7 @@
     "result": "DEFECT",
     "defects": [
       {
-        "category": "Dent",
+        "category": "Edge Cut",
         "seg": "edge",
         "bbox": [
           0.37,

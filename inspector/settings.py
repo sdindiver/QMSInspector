@@ -58,7 +58,7 @@ CACHE_PATH = os.path.join(KNOWLEDGE_DIR, "defect_kb.json")
 
 # --- per-part rule files (the ONE file a developer edits per part) ---
 # Each rules/<part>.json fully describes a part: its defects (name, severity,
-# color, aliases, signature), confirmed rulings, confusions and gotchas. Add a
+# color, signature), confirmed rulings, confusions and gotchas. Add a
 # new part by dropping a new <part>.json here, then run: python qms.py build.
 RULES_DIR = os.environ.get("QMS_RULES_DIR", os.path.join(KNOWLEDGE_DIR, "rules"))
 
