@@ -379,3 +379,186 @@ the same fix — find the second path.
 
 Remember: **JSON is the source, `best.pt` is the snapshot, the running server is the
 cache.** A change is only real once it has travelled through all three.
+
+---
+---
+
+# Issue #2 — "Two verdicts on one image" (backside 164017 shows OK *and* Serration Missing)
+
+Reported right after Issue #1 was fixed. On `IMG20260824164017.jpg` (the **backside** of a
+bracket, 6 / 22), the annotated image showed **two contradictory verdicts at once**: a green
+**"OK — no defect"** banner with a green border, *and* a red **"Serration Missing (ML 100%)"**
+label stacked on top of it. The user confirmed the serration call was the correct one — the
+question was why an "OK" verdict was also being drawn on the same frame.
+
+---
+
+## TL;DR — Root cause and fix
+
+**Root cause:** a **render-ordering** bug in `recognizer.inspect()`. For a recalled image
+with no stored defect, the recall path drew the green OK banner+border **immediately**.
+*Then* the YOLO serration second-opinion ran, correctly detected "missing", flipped the
+verdict to `DEFECT`, and drew the red label — but the green OK visuals were already painted
+and stayed. Two verdicts, one image.
+
+**Fix:** defer the OK / Needs-Review banner until *after* the serration second-opinion has
+decided the final verdict. If serration flips a non-defect verdict to DEFECT, suppress the
+banner and draw a red defect border instead, so the frame shows a single consistent verdict.
+
+- Verified: 164017 → one clean DEFECT (red border + serration label, no green banner);
+  164314 (present) → still green OK; 163907 (recall defect) → still DEFECT. No regression.
+- Committed `bfe5464`, pushed.
+
+---
+
+## My complete thought process (the raw version)
+
+**"This is the third time the same bracket family bites me — but this symptom is different."**
+My first reaction was to notice this was *not* the same bug as Issue #1. Issue #1 was about
+*which hole* the box highlighted (a localization/geometry problem). This was about *two whole
+verdicts* on one image — a green OK and a red DEFECT. Different symptom, so I resisted the urge
+to assume it was the same cause. The user even told me the serration verdict was correct, which
+was a gift: it meant I didn't need to question the ML at all. The bug was purely **visual/logic
+consistency** — the picture was disagreeing with itself.
+
+**"Which verdict is the 'wrong' one to draw — or is it an ordering problem?"**
+The green banner said OK; the red label said DEFECT. The *final* verdict in the JSON was
+DEFECT (correct). So the green OK banner was a **stale artifact** — something drew it before the
+verdict was finalized. That immediately smelled like an ordering bug: draw-then-decide instead
+of decide-then-draw. I didn't need to reproduce anything elaborate; I needed to read the draw
+sequence in `inspect()`.
+
+**Reading the sequence — and there it was, plain as day.**
+The recall branch does, in order:
+1. `elif result == "OK": A.draw_ok_banner(img)` — paints the green border + "OK - no defect".
+2. Later, the serration block: if missing, append the defect, flip `result` OK→DEFECT, and
+   `A.draw_label(..., "Serration Missing (ML ..%)", red)`.
+
+So step 1 commits a visual decision *before* step 2 is even allowed to change the verdict.
+`draw_ok_banner` (in `renderer.py`) draws a green border (`cv2.rectangle`, thickness 8) and the
+"OK - no defect" text. Nothing ever erases them when the verdict flips. The red serration label
+is simply drawn on top. Hence: green OK border + green banner + red serration label,
+simultaneously. The logic (`verdict["result"]`) was right; only the **pixels** were
+self-contradictory.
+
+**Same shape of bug as Issue #1, one layer over.**
+I noticed the family resemblance: Issue #1 was "the verdict was right but the overlay pointed at
+the wrong hole"; Issue #2 is "the verdict is right but the overlay shows an extra stale verdict."
+Both are cases where **the decision and its visualization drift apart.** That reframing told me
+the fix should be structural: *never draw a verdict banner until the verdict is final.*
+
+**Designing the fix — defer, don't patch-over.**
+The tempting quick hack was: in the serration flip, just repaint a red border over the green one.
+That "works" but leaves the latent ordering bug for the next verdict-changing feature to trip on.
+The cleaner fix is to **defer** the banner: in the recall/kNN branches, instead of drawing the OK
+or Needs-Review banner immediately, set a flag (`pending_ok` / `pending_review`). After the
+serration block — the last thing that can change the verdict — draw the banner that matches the
+*final* result. If serration flipped OK/Review → DEFECT, clear the flags and draw a red defect
+border (and, since an ML-only defect has no locator box, that border is what signals "defect").
+
+**Guarding the edge cases so I don't create Issue #3.**
+Before writing, I walked the branches to make sure I wasn't trading one inconsistency for
+another:
+- *Recall = OK, serration = present* → `pending_ok` stays true → green banner drawn at the end.
+  Unchanged behaviour. ✓
+- *Recall = OK, serration = missing* → flip to DEFECT, `pending_ok` cleared, red border + label.
+  The specific bug, now fixed. ✓
+- *Recall had real defect boxes (had_boxes)* → those are drawn by `A.annotate` regardless; if
+  serration is *also* missing I keep its label lower (y=80) so it doesn't overwrite the primary
+  defect's label at the top. No border conflict because the verdict was already DEFECT. ✓
+- *No recall → Needs-Review* → now deferred via `pending_review`; if serration flips it, red
+  border replaces the orange "Needs Review" so we don't show "review" and "defect" together. ✓
+I also added a `had_boxes` flag purely to decide the serration label's vertical position, so the
+top-of-image slot isn't double-used.
+
+**Verifying with pixels, through the real path — again.**
+Numbers ("result == DEFECT") are necessary but not sufficient for a *rendering* bug — the whole
+point is what the image looks like. So I rendered three representative cases and **viewed the
+actual annotated JPEGs**: 164017 (the flip) now shows only the red border + serration label;
+164314 (present) still shows the green OK banner with the visibly serrated bottom hole; 163907
+(recall defect) still shows its DEFECT box. Then I restarted the server (the model/handlers are
+loaded once) and left it verified through the same `/ui/inspect` flow the user uses. Only then
+did I clean up the debug images and commit.
+
+**What ties Issues #1 and #2 together.**
+Both are "the model was right, the drawing lied." In #1 the drawing came from a stale stored
+polygon; in #2 from a stale draw-order. The durable lesson: **treat the annotated image as an
+output that must be derived from the *final* verdict, never assembled incrementally while the
+verdict is still being decided.** Any feature that can change a verdict must run *before* the
+verdict is visualized.
+
+---
+
+## The fix in code (what changed in `recognizer.inspect()`)
+
+Before (simplified):
+
+```python
+if recalled:
+    ...
+    elif result == "OK":
+        A.draw_ok_banner(img)          # drawn too early
+else:
+    ...
+    A.draw_label(img, ..., "Needs Review", orange)   # drawn too early
+    cv2.rectangle(img, ..., orange, 6)
+
+# serration second opinion runs AFTER the banners are already painted
+if serration missing:
+    verdict["result"] = "DEFECT"
+    A.draw_label(img, ..., "Serration Missing", red)   # stacks on top of green/orange
+```
+
+After:
+
+```python
+pending_ok = False
+pending_review = False
+had_boxes = False
+
+if recalled:
+    ...
+    if dets:
+        A.annotate(...); had_boxes = True
+    elif result == "OK":
+        pending_ok = True              # DEFER
+else:
+    ...
+    pending_review = True              # DEFER
+
+if serration missing and not already:
+    verdict["defects"].append(...)
+    if verdict["result"] in ("OK", "NEEDS_REVIEW"):
+        verdict["result"] = "DEFECT"
+        pending_ok = pending_review = False
+        if not had_boxes:
+            cv2.rectangle(img, (0,0), (w-1,h-1), (0,0,255), 8)   # red defect border
+    A.draw_label(img, 15, 80 if had_boxes else 40, "Serration Missing (ML ..%)", red)
+
+# draw the deferred banner ONLY now, matching the FINAL verdict
+if pending_ok:
+    A.draw_ok_banner(img)
+elif pending_review:
+    A.draw_label(img, 15, 45, "Needs Review", orange)
+    cv2.rectangle(img, ..., orange, 6)
+```
+
+**One-line summary of the change:** move from *draw-then-decide* to *decide-then-draw* for the
+verdict banner.
+
+---
+
+## Updated mental model (both issues)
+
+The annotated image is produced by several subsystems that can each draw onto the frame. Two
+independent failure modes have now shown up:
+
+| issue | subsystem at fault | nature of bug | fix |
+|-------|--------------------|---------------|-----|
+| #1 — wrong hole highlighted | stored review polygon (recall path) | **wrong data** baked into `best.pt` | correct polygon → `qms.py build` → restart |
+| #2 — two verdicts at once   | banner draw order in `inspect()`     | **wrong order** (draw before verdict final) | defer banner until after serration |
+
+Unifying principle: **the drawing must always be a faithful function of the final verdict.**
+Keep the *decision* and the *rendering* in that order, and keep the *served artifact* in sync
+with its *source*.
+
