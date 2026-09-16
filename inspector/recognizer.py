@@ -84,6 +84,12 @@ def inspect(path, m, out_dir, needs_review_dir=None):
     pending_review = False    # defer Needs-Review banner likewise
     had_boxes = False         # whether defect locator boxes were already drawn
 
+    # Trained Line-Mark ensemble runs UP FRONT so the MODEL owns line-mark
+    # detection and marking -- the stored review polygon is only a fallback used
+    # when the model misses. lm carries a normalised box the model located itself.
+    lm = LMK.predict(path)
+    lm_present = bool(lm and lm.get("status") == "present")
+
     if recalled:
         ref = names[best_i]
         geo = m["geometry"].get(ref, {"defects": [], "result": labels[best_i]})
@@ -91,6 +97,11 @@ def inspect(path, m, out_dir, needs_review_dir=None):
         dets = geo.get("defects", [])
         if orient != "id":
             dets = RO.transform_defects(dets, inv_pt)
+        # When the model detects the line mark, drop the stored line-mark polygon
+        # so the MODEL (not bracket.json) draws and owns the mark.
+        if "bracket" in (part or "").lower() and lm_present:
+            dets = [d for d in dets
+                    if d.get("category", "").strip().lower() != "line mark"]
         result = geo.get("result") or ("DEFECT" if dets else "OK")
         conf = 96 if best_h == 0 else 88
         if dets:
@@ -182,36 +193,40 @@ def inspect(path, m, out_dir, needs_review_dir=None):
             else:
                 status += f" | dark_spots={ds['status'].upper()} ({ds['confidence']}%)"
 
-    # Line-mark second opinion (two-model ensemble: ridge-CNN OR geometric
-    # longest-line). Members fail on different parts, so OR-voting reaches the
-    # any-angle recall bar that no single model hit. Rotation robust.
-    if "bracket" in (verdict.get("part") or "").lower():
-        lm = LMK.predict(path)
-        if lm:
-            verdict["line_mark"] = lm
-            already = any("line mark" in (d.get("type", "").lower())
-                          for d in verdict.get("defects", []))
-            if lm["status"] == "present" and not already:
-                verdict.setdefault("defects", []).append({
-                    "type": "Line Mark", "confidence": lm["confidence"],
-                    "location": "part surface",
-                    "reason": "ensemble detector: line/scratch pattern detected "
-                              f"(votes: {', '.join(lm['votes'])})",
-                    "severity_priority": _priority("Line Mark", m["severity_rules"]),
-                    "primary": not verdict.get("defects"),
-                    "source": "ml_ensemble"})
-                if verdict["result"] in ("OK", "NEEDS_REVIEW"):
-                    verdict["result"] = "DEFECT"
-                    verdict["part_confident"] = True
-                    pending_ok = False
-                    pending_review = False
-                    if not had_boxes:
-                        cv2.rectangle(img, (0, 0), (img.shape[1] - 1, img.shape[0] - 1), (0, 0, 255), 8)
-                sy = 160 if had_boxes else 40
-                A.draw_label(img, 15, sy, f"Line Mark (ML {lm['confidence']}%)", (0, 0, 255))
-                status += f" | line_mark=PRESENT ({lm['confidence']}%)"
-            else:
-                status += f" | line_mark={lm['status'].upper()} ({lm['confidence']}%)"
+    # Line-mark ensemble (ridge-CNN OR geometric longest-line). Computed up front
+    # (lm/lm_present) so the MODEL -- not the stored review polygon -- marks line
+    # marks. Members fail on different parts, so OR-voting reaches the any-angle
+    # bar no single model hit. The geometric member localises the line for drawing.
+    if "bracket" in (verdict.get("part") or "").lower() and lm:
+        verdict["line_mark"] = lm
+        already = any("line mark" in (d.get("type", "").lower())
+                      for d in verdict.get("defects", []))
+        if lm["status"] == "present" and not already:
+            verdict.setdefault("defects", []).append({
+                "type": "Line Mark", "confidence": lm["confidence"],
+                "location": "part surface",
+                "reason": "ensemble detector: line/scratch pattern detected "
+                          f"(votes: {', '.join(lm['votes'])})",
+                "severity_priority": _priority("Line Mark", m["severity_rules"]),
+                "primary": not verdict.get("defects"),
+                "source": "ml_ensemble"})
+            if verdict["result"] in ("OK", "NEEDS_REVIEW"):
+                verdict["result"] = "DEFECT"
+                verdict["part_confident"] = True
+                pending_ok = False
+                pending_review = False
+            # Draw the model's OWN mark: the box the geometric detector located.
+            if lm.get("box"):
+                A.annotate(img, [{"category": "Line Mark", "bbox": lm["box"],
+                                  "reason": "trained ensemble"}])
+                had_boxes = True
+            elif not had_boxes:
+                cv2.rectangle(img, (0, 0), (img.shape[1] - 1, img.shape[0] - 1), (0, 0, 255), 8)
+            sy = 160 if had_boxes else 40
+            A.draw_label(img, 15, sy, f"Line Mark (ML {lm['confidence']}%)", (0, 0, 255))
+            status += f" | line_mark=PRESENT ({lm['confidence']}%)"
+        else:
+            status += f" | line_mark={lm['status'].upper()} ({lm['confidence']}%)"
 
     # Draw the deferred verdict banner now that serration has had its say.
     if pending_ok:

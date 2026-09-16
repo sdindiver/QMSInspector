@@ -115,10 +115,17 @@ def _ridge_map(g2, valid):
 
 
 def _geom_score(prep):
-    """Longest coherent ridge line, normalised by part length."""
+    """Longest coherent ridge line, normalised by part length.
+
+    Returns (score, line_norm) where line_norm is (x1, y1, x2, y2) in normalised
+    [0, 1] image coordinates of the longest detected line, or None if no line was
+    found. The line location lets the model draw its OWN mark instead of relying
+    on the stored review polygon.
+    """
     import cv2
     import numpy as np
     g2, valid, axis, _ = prep
+    h, w = g2.shape[:2]
     r = _ridge_map(g2, valid)
     rr = r[valid]
     thr = np.percentile(rr, 97) if rr.size else 255
@@ -126,12 +133,15 @@ def _geom_score(prep):
     lines = cv2.HoughLinesP(edges, 1, np.pi / 180, threshold=30,
                             minLineLength=40, maxLineGap=8)
     best = 0.0
+    best_line = None
     if lines is not None:
         for l in lines:
             x1, y1, x2, y2 = l[0]
             d = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
-            best = max(best, d)
-    return best / axis if axis else 0.0
+            if d > best:
+                best = d
+                best_line = (x1 / w, y1 / h, x2 / w, y2 / h)
+    return (best / axis if axis else 0.0), best_line
 
 
 def _cnn_prob(path):
@@ -190,17 +200,20 @@ def predict(path):
     """Return line-mark prediction for a bracket image, or None if unreadable.
 
     {"status": "present"|"absent", "prob": float, "confidence": int,
-     "cnn_prob": float|None, "geom_score": float, "votes": [str,...]}
+     "cnn_prob": float|None, "geom_score": float, "votes": [str,...],
+     "line": (x1, y1, x2, y2)|None, "box": (x, y, w, h)|None}
 
-    A line mark is asserted when EITHER ensemble member fires (OR vote).
+    ``line``/``box`` are normalised [0, 1] coordinates of the line the geometric
+    detector localised, so the caller can draw the model's OWN mark rather than a
+    stored review polygon. A line mark is asserted when EITHER member fires.
     """
     prep = _ridge_prep(path)
     if prep is None:
         return None
     try:
-        geom = _geom_score(prep)
+        geom, line = _geom_score(prep)
     except Exception:
-        geom = 0.0
+        geom, line = 0.0, None
     cnn = _cnn_prob(path)
 
     votes = []
@@ -224,7 +237,23 @@ def predict(path):
         prob = min(max(prob, 0.01), 0.5)
     status = "present" if present else "absent"
     conf = prob if present else (1.0 - prob)
+
+    # Build a normalised bounding box around the located line so the model can
+    # draw its own mark. Padded so a thin diagonal line is still visible.
+    box = None
+    if line is not None:
+        x1, y1, x2, y2 = line
+        pad = 0.02
+        bx0 = max(0.0, min(x1, x2) - pad)
+        by0 = max(0.0, min(y1, y2) - pad)
+        bx1 = min(1.0, max(x1, x2) + pad)
+        by1 = min(1.0, max(y1, y2) + pad)
+        box = (round(float(bx0), 4), round(float(by0), 4),
+               round(float(bx1 - bx0), 4), round(float(by1 - by0), 4))
+
     return {"status": status, "prob": round(prob, 3),
             "confidence": int(round(conf * 100)),
             "cnn_prob": round(cnn, 3) if cnn is not None else None,
-            "geom_score": round(geom, 3), "votes": votes}
+            "geom_score": round(geom, 3), "votes": votes,
+            "line": tuple(round(float(c), 4) for c in line) if line is not None else None,
+            "box": box}
