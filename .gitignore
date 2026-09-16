@@ -14,3 +14,7 @@ uploads/
 data/images/
 
 inspection_jobs/
+
+# YOLO training artifacts (regenerable)
+parts/bracket/_yolo/
+yolov8n.pt
