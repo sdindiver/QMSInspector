@@ -92,6 +92,11 @@ Inspection never calls any external service.
 pip install -r requirements.txt
 ```
 
+> **Deploying on a Raspberry Pi?** See the beginner step-by-step guide in
+> [`RASPBERRY_PI.md`](RASPBERRY_PI.md) (64-bit Pi OS, CPU PyTorch, run as a service,
+> view results in a browser).
+
+
 ## Usage
 
 ```powershell
