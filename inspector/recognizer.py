@@ -80,6 +80,9 @@ def inspect(path, m, out_dir, needs_review_dir=None):
     base = os.path.splitext(os.path.basename(path))[0]
     os.makedirs(out_dir, exist_ok=True)
     collected = None
+    pending_ok = False        # defer OK banner until serration second-opinion decides
+    pending_review = False    # defer Needs-Review banner likewise
+    had_boxes = False         # whether defect locator boxes were already drawn
 
     if recalled:
         ref = names[best_i]
@@ -90,8 +93,9 @@ def inspect(path, m, out_dir, needs_review_dir=None):
         conf = 96 if best_h == 0 else 88
         if dets:
             A.annotate(img, dets, needs_review=(result == "NEEDS_REVIEW"))
+            had_boxes = True
         elif result == "OK":
-            A.draw_ok_banner(img)
+            pending_ok = True
         sdets = sorted(dets, key=lambda d: _priority(d.get("category", ""), m["severity_rules"]), reverse=True)
         verdict = {"result": result, "part": part, "part_confident": True,
                    "defects": [] if result == "OK" else [{
@@ -110,8 +114,7 @@ def inspect(path, m, out_dir, needs_review_dir=None):
         hint = ", ".join(f"{labels[i]}({dists[i]:.1f})" for i in order[:3]) if len(dists) else ""
         verdict = {"result": "NEEDS_REVIEW", "part": part, "part_confident": False,
                    "defects": [], "hint": hint}
-        A.draw_label(img, 15, 45, "Needs Review", (0, 140, 255))
-        cv2.rectangle(img, (0, 0), (img.shape[1] - 1, img.shape[0] - 1), (0, 140, 255), 6)
+        pending_review = True
         collected = _collect_needs_review(path, needs_review_dir)
         status = f"NEEDS_REVIEW (likely part={part}; no recall; nearest: {hint})"
         if collected:
@@ -136,10 +139,25 @@ def inspect(path, m, out_dir, needs_review_dir=None):
                 if verdict["result"] in ("OK", "NEEDS_REVIEW"):
                     verdict["result"] = "DEFECT"
                     verdict["part_confident"] = True
-                A.draw_label(img, 15, 80, f"Serration Missing (ML {sr['confidence']}%)", (0, 0, 255))
+                    # Serration flipped a non-defect verdict: suppress the OK/Review
+                    # banner and mark the frame as a defect so verdicts don't conflict.
+                    pending_ok = False
+                    pending_review = False
+                    if not had_boxes:
+                        cv2.rectangle(img, (0, 0), (img.shape[1] - 1, img.shape[0] - 1), (0, 0, 255), 8)
+                sy = 80 if had_boxes else 40
+                A.draw_label(img, 15, sy, f"Serration Missing (ML {sr['confidence']}%)", (0, 0, 255))
                 status += f" | serration=MISSING ({sr['confidence']}%)"
             else:
                 status += f" | serration={sr['status'].upper()} ({sr['confidence']}%)"
+
+    # Draw the deferred verdict banner now that serration has had its say.
+    if pending_ok:
+        A.draw_ok_banner(img)
+    elif pending_review:
+        A.draw_label(img, 15, 45, "Needs Review", (0, 140, 255))
+        cv2.rectangle(img, (0, 0), (img.shape[1] - 1, img.shape[0] - 1), (0, 140, 255), 6)
+
 
     out_img = os.path.join(out_dir, base + "_annotated.jpg")
     cv2.imwrite(out_img, img)
