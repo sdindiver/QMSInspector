@@ -215,8 +215,14 @@ def inspect(path, m, out_dir, needs_review_dir=None):
                 verdict["part_confident"] = True
                 pending_ok = False
                 pending_review = False
-            # Draw the model's OWN mark: the box the geometric detector located.
-            if lm.get("box"):
+            # Draw the model's OWN mark: a polygon tracing the scratch when the
+            # geometric detector localised it, else the located box, else a
+            # whole-part indicator (CNN-only detections don't localise).
+            if lm.get("polygon"):
+                A.annotate(img, [{"category": "Line Mark", "points": lm["polygon"],
+                                  "reason": "trained ensemble"}])
+                had_boxes = True
+            elif lm.get("box"):
                 A.annotate(img, [{"category": "Line Mark", "bbox": lm["box"],
                                   "reason": "trained ensemble"}])
                 had_boxes = True

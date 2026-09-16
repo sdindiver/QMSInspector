@@ -117,10 +117,12 @@ def _ridge_map(g2, valid):
 def _geom_score(prep):
     """Longest coherent ridge line, normalised by part length.
 
-    Returns (score, line_norm) where line_norm is (x1, y1, x2, y2) in normalised
-    [0, 1] image coordinates of the longest detected line, or None if no line was
-    found. The line location lets the model draw its OWN mark instead of relying
-    on the stored review polygon.
+    Returns (score, line_norm, poly_norm):
+      - score: longest line length / part axis
+      - line_norm: (x1, y1, x2, y2) in normalised [0, 1] coords, or None
+      - poly_norm: list of normalised (x, y) points tracing the actual scratch, or
+        None. The polygon lets the model draw a tight outline of the line mark
+        (like a segmentation) instead of a coarse box or the stored review polygon.
     """
     import cv2
     import numpy as np
@@ -129,19 +131,43 @@ def _geom_score(prep):
     r = _ridge_map(g2, valid)
     rr = r[valid]
     thr = np.percentile(rr, 97) if rr.size else 255
-    edges = (r > thr).astype(np.uint8) * 255
-    lines = cv2.HoughLinesP(edges, 1, np.pi / 180, threshold=30,
+    edges = (r > thr).astype(np.uint8)
+    lines = cv2.HoughLinesP(edges * 255, 1, np.pi / 180, threshold=30,
                             minLineLength=40, maxLineGap=8)
-    best = 0.0
-    best_line = None
-    if lines is not None:
-        for l in lines:
-            x1, y1, x2, y2 = l[0]
-            d = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
-            if d > best:
-                best = d
-                best_line = (x1 / w, y1 / h, x2 / w, y2 / h)
-    return (best / axis if axis else 0.0), best_line
+    if lines is None:
+        return (0.0, None, None)
+    segs = [tuple(int(v) for v in l[0]) for l in lines]
+
+    def _len(s):
+        return ((s[2] - s[0]) ** 2 + (s[3] - s[1]) ** 2) ** 0.5
+
+    main = max(segs, key=_len)
+    best = _len(main)
+    best_line = (main[0] / w, main[1] / h, main[2] / w, main[3] / h)
+
+    # Trace the actual scratch: keep ridge pixels inside a thin band along the
+    # main line (and segments roughly collinear with it), then contour them. This
+    # yields a polygon that hugs the scratch instead of a coarse rectangle.
+    ang0 = np.arctan2(main[3] - main[1], main[2] - main[0])
+    band = np.zeros((h, w), np.uint8)
+    tk = max(6, int(0.018 * axis))
+    for s in segs:
+        a = np.arctan2(s[3] - s[1], s[2] - s[0])
+        if abs(np.sin(a - ang0)) < 0.30:  # within ~17deg of the main line
+            cv2.line(band, (s[0], s[1]), (s[2], s[3]), 1, thickness=tk)
+    scratch = ((edges > 0) & (band > 0)).astype(np.uint8)
+    scratch = cv2.morphologyEx(scratch, cv2.MORPH_CLOSE,
+                               cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9)))
+    scratch = cv2.dilate(scratch, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3)))
+    cnts, _ = cv2.findContours(scratch, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    poly = None
+    if cnts:
+        c = max(cnts, key=cv2.contourArea)
+        if cv2.contourArea(c) >= 30:
+            eps = 0.008 * cv2.arcLength(c, True)
+            ap = cv2.approxPolyDP(c, eps, True).reshape(-1, 2)
+            poly = [(round(float(px) / w, 4), round(float(py) / h, 4)) for px, py in ap]
+    return (best / axis if axis else 0.0), best_line, poly
 
 
 def _cnn_prob(path):
@@ -211,9 +237,9 @@ def predict(path):
     if prep is None:
         return None
     try:
-        geom, line = _geom_score(prep)
+        geom, line, poly = _geom_score(prep)
     except Exception:
-        geom, line = 0.0, None
+        geom, line, poly = 0.0, None, None
     cnn = _cnn_prob(path)
 
     votes = []
@@ -256,4 +282,4 @@ def predict(path):
             "cnn_prob": round(cnn, 3) if cnn is not None else None,
             "geom_score": round(geom, 3), "votes": votes,
             "line": tuple(round(float(c), 4) for c in line) if line is not None else None,
-            "box": box}
+            "box": box, "polygon": poly}
