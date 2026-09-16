@@ -963,7 +963,7 @@
     "image": "dataset/train/images/IMG20260824164818_jpg.rf.69624d6ed4a5a8fcf0268fbeda8be863.jpg",
     "defects": [
       {
-        "category": "Dark Marks",
+        "category": "Dark Spots",
         "points": [
           [
             0.32407407407407407,
@@ -1036,7 +1036,7 @@
     "image": "dataset/train/images/IMG20260824164838_jpg.rf.0840aeacb511d26fe3392adfe7022c2b.jpg",
     "defects": [
       {
-        "category": "Dark Marks",
+        "category": "Dark Spots",
         "points": [
           [
             0.5859319880418534,
@@ -1077,7 +1077,7 @@
     "image": "dataset/train/images/IMG20260824164950_jpg.rf.7137a89466d6b0a53e1a97ef8891bc3e.jpg",
     "defects": [
       {
-        "category": "Dark Marks",
+        "category": "Dark Spots",
         "points": [
           [
             0.3958333333333333,
@@ -1150,7 +1150,7 @@
     "image": "dataset/train/images/IMG20260824165050_jpg.rf.3d59361773104d85ef93c0179d18bf86.jpg",
     "defects": [
       {
-        "category": "Dark Marks",
+        "category": "Dark Spots",
         "points": [
           [
             0.3680555555555556,
@@ -1275,7 +1275,7 @@
     "image": "dataset/train/images/IMG20260824165106_jpg.rf.d0affafeebaeb7a1c990c1f2db8c4433.jpg",
     "defects": [
       {
-        "category": "Dark Marks",
+        "category": "Dark Spots",
         "points": [
           [
             0.4837962962962963,

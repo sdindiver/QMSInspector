@@ -30,6 +30,15 @@
       ],
       "signature": "Discrete, irregular dark blemishes that are not dot-based. They appear as smudges, streaks, or small blotches with defined but non-geometric boundaries. Covers generic post-electroplating dark/plating blemishes."
     },
+    "Dark Spots": {
+      "severity": 1,
+      "color": [
+        90,
+        90,
+        190
+      ],
+      "signature": "One or a few small, roughly rounded dark spots on the plated surface. Lighter and more localized than a solid Dark Mark, but clearly darker than the surrounding finish (unlike the near-black, solid appearance of a Dark Mark)."
+    },
     "Dark Speckle Cluster": {
       "severity": 2,
       "color": [
