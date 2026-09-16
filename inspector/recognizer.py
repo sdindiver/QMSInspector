@@ -17,6 +17,7 @@ import cv2
 
 from . import image_features as F
 from . import renderer as A
+from . import recall_orient as RO
 from parts.bracket import serration as SR
 from . import settings
 
@@ -66,14 +67,11 @@ def inspect(path, m, out_dir, needs_review_dir=None):
     parts = E.get("parts", ["default"] * len(names))
     th = m["thresholds"]
 
-    # zero-token perceptual-hash recall
-    ph = signals.get("phash", "")
-    best_h, best_i = 999, -1
-    for i, h in enumerate(phashes):
-        if h:
-            d = F.hamming(ph, h)
-            if d < best_h:
-                best_h, best_i = d, i
+    # zero-token perceptual-hash recall -- orientation-invariant so a flipped or
+    # 90/180/270-rotated copy of a known part still recalls (box is mapped to the
+    # matched orientation). Arbitrary angles (e.g. 45 deg) still won't recall.
+    input_gray = cv2.cvtColor(F._resize(cv2.imread(path)), cv2.COLOR_BGR2GRAY)
+    best_h, best_i, inv_pt, orient = RO.best_recall(input_gray, phashes)
     recalled = best_i >= 0 and best_h <= th.get("phash_recall_max", 6)
 
     img = cv2.imread(path)
@@ -89,6 +87,8 @@ def inspect(path, m, out_dir, needs_review_dir=None):
         geo = m["geometry"].get(ref, {"defects": [], "result": labels[best_i]})
         part = geo.get("part") or parts[best_i]
         dets = geo.get("defects", [])
+        if orient != "id":
+            dets = RO.transform_defects(dets, inv_pt)
         result = geo.get("result") or ("DEFECT" if dets else "OK")
         conf = 96 if best_h == 0 else 88
         if dets:
@@ -103,7 +103,7 @@ def inspect(path, m, out_dir, needs_review_dir=None):
             "location": d.get("location", "see box"), "reason": d.get("reason", ""),
             "severity_priority": _priority(d["category"], m["severity_rules"]),
             "primary": (i == 0)} for i, d in enumerate(sdets)]}
-        status = f"RESOLVED (part={part}, recall '{ref}' hamming={best_h}, conf={conf}) -> 0 LLM tokens"
+        status = f"RESOLVED (part={part}, recall '{ref}' hamming={best_h}, orient={orient}, conf={conf}) -> 0 LLM tokens"
     else:
         # nearest-prototype hint (kNN), still local
         Xn = (m["_X"] - m["_mean"]) / m["_std"]
