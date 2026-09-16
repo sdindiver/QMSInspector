@@ -43,6 +43,106 @@ Reload the UI and re-upload — 163907 will now highlight the correct bottom hol
 
 ---
 
+## My complete thought process (the raw version)
+
+This is the honest, first-person account of what actually went through my head — including
+the wrong turns, the moments of doubt, and the assumptions I had to catch myself making.
+The polished "steps + lessons" version is further below; this section is the messy
+reality of how I got there.
+
+**"Wait — didn't I already fix this?"**
+The very first thing I felt was confusion, because the user had made me fix 163907 in a
+previous session. My instinct was almost to be defensive — "I retrained YOLO, I verified
+it, the crop was on the bottom hole, I saw it with my own eyes." But that reaction is a
+trap. If the user is looking at the same wrong thing after a fix, then either (a) my fix
+didn't deploy, or (b) my fix addressed something other than what they're looking at.
+Both are *my* problem, not the user's. So I forced myself to drop the "but I already
+fixed it" feeling and treat it as a fresh bug. The fact that it "came back" became my
+biggest clue rather than an annoyance.
+
+**First hypothesis: "It's stale — the server is running old code/weights."**
+This is the most common failure mode in this project, and I've been bitten by it before
+(two stale `qms.py serve` processes serving old code on port 8000). So my honest first
+bet was: the fix is fine, the server just didn't pick it up. This felt likely and would
+have been an easy win. I checked the server's `StartTime` against the model files'
+`LastWriteTime`... and it killed my hypothesis: the server had started *after* the
+retrain, and it was pointed at the current model files. Mild disappointment — the easy
+explanation was wrong — but also useful, because now I *knew* the server was faithfully
+rendering current data. The bug was real and in the logic, not the environment.
+
+**The moment that reframed everything: "That box isn't even mine."**
+I was still mentally anchored on "my YOLO serration detector drew this." Then I actually
+*looked* at the screenshot properly instead of glancing at it: a magenta polygon tracing
+the rim, a rectangle, and a `[P4]` priority tag. And something clicked — my serration
+branch only calls `A.draw_label(...)`. It writes **text**. It does not draw a polygon, it
+does not draw a rectangle, and it certainly doesn't compute a `[P4]` severity priority.
+So whatever was drawing this box, *it was not the code I had been obsessing over.* That
+was the turning point. I'd spent the whole previous session inside the YOLO subsystem, and
+the actual culprit was somewhere I'd never looked. Slightly humbling: I had "fixed" a bug
+in a subsystem that doesn't even produce the symptom.
+
+**Following the evidence into `recognizer.inspect()`.**
+Now I needed to find *what* draws polygons with priority tags. I grepped for `cv2.circle`,
+`cv2.rectangle`, `Serration`, and traced the render calls. Reading `inspect()` top to
+bottom, the structure became obvious: there are **two** completely separate things that
+can put a "serration" mark on the image. The recall path — when a perceptual-hash match
+is found — calls `A.annotate(img, dets)` where `dets` comes from
+`m["geometry"][ref]["defects"]`. *That* draws the polygon+box+`[P4]`. My YOLO branch runs
+afterwards and only appends a text label. So the polygon is driven by **stored geometry**,
+not by any live detection. My earlier fix had corrected the YOLO training label, which
+governs the crop and the text verdict — and it worked, for that. But the visible box was
+never connected to it. This is why the "fix didn't hold": I had fixed a real thing, just
+not the thing the user was pointing at. Two mechanisms, one symptom.
+
+**"Where does that stored geometry actually come from?"**
+`m["geometry"]` is loaded from the packed checkpoint, but the human-authored source is
+`inspection_state/reviews/bracket.json`. I dumped 163907's polygon and there it was:
+centre ≈ (0.505, **0.262**) — the top hole. Confirmed. But I didn't want to fix just this
+one and declare victory, because if the labels were entered by hand, others could be wrong
+too. So I did a paranoia pass: I computed the centre of **every** stored polygon and
+compared it to where YOLO independently localises the big hole. That table was reassuring
+— only 163907 disagreed. 164631/164648/164704 matched, and 164704 legitimately has its big
+hole at the top (so a top-centre polygon there is correct, not a bug). 164017 had no stored
+polygon at all, so it only ever gets a text label. Isolated to one record. Good.
+
+**Deciding the correct coordinates — and not trusting my own numbers.**
+I could have hand-typed a box over the bottom hole, but on this glary metal I don't trust
+"looks about right." Instead I generated the replacement polygon *from the detector that I
+already trusted*: take YOLO's big-hole centre/radius, build a 20-point ellipse, pad it
+~1.1× so it sits just outside the rim. Then — and this is the part I refuse to skip — I
+**drew it onto the image and looked at it** before writing anything to the JSON. It sat
+cleanly on the bottom hole. Only then did I overwrite the `points` array. A discarded
+debug image is cheap; a second wrong box shipped to the user is not.
+
+**The step I almost missed: the JSON isn't what the server reads.**
+I edited `reviews/bracket.json` and my instinct was to just restart and test. But I paused:
+does the server read this JSON live, or a packed copy? It reads the packed checkpoint
+`best.pt`. So I ran `qms.py train` — and it said `+0 added, 40 already present` and did
+**not** refresh the geometry. That would have been a nasty trap: JSON edited, everything
+"looks done," but the served artifact unchanged. The step that actually mattered was
+`qms.py build`, which repacks `best.pt` from the reviews. I verified by reloading the model
+in-process and checking the geometry centre had moved to (0.429, 0.806). Mental model I
+locked in: **JSON is the source, `best.pt` is the snapshot, the running server is the
+cache — a change is only real once it's travelled through all three.**
+
+**Refusing to trust an internal call as "proof."**
+The in-process check was encouraging, but the user experiences this through the web UI, not
+a Python REPL. So the final verification was deliberately through the *same* path they use:
+killed the stale server (PID 37788), started a fresh one, and `curl`-posted 163907 to
+`/ui/inspect`, then downloaded the returned `annotated_url` and viewed it. The magenta box
+was on the bottom big hole; verdict still `DEFECT / Serration Missing`. Only at that point
+did I consider it actually fixed, clean up the debug images, and commit.
+
+**What I'd do differently next time.**
+The whole episode would have been shorter if, the *first* time the user reported "small
+hole," I had matched the visual style of the box to the exact drawing call before assuming
+it was my YOLO branch. I jumped to the subsystem I'd just built instead of following the
+pixels to their source. The lesson I'm taking: when a symptom appears, identify the exact
+line of code that renders it *before* forming a theory about which model is responsible.
+
+---
+
+
 ## 1. The report
 
 While clicking through the 22 brackets in the UI lightbox, image **5 / 22**
