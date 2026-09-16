@@ -20,6 +20,7 @@ from . import renderer as A
 from . import recall_orient as RO
 from parts.bracket import serration as SR
 from parts.bracket import dark_spots as DSP
+from parts.bracket import line_mark as LMK
 from . import settings
 
 DEFAULT_MODEL = settings.MODEL_PATH
@@ -180,6 +181,37 @@ def inspect(path, m, out_dir, needs_review_dir=None):
                 status += f" | dark_spots=PRESENT ({ds['confidence']}%)"
             else:
                 status += f" | dark_spots={ds['status'].upper()} ({ds['confidence']}%)"
+
+    # Line-mark second opinion (two-model ensemble: ridge-CNN OR geometric
+    # longest-line). Members fail on different parts, so OR-voting reaches the
+    # any-angle recall bar that no single model hit. Rotation robust.
+    if "bracket" in (verdict.get("part") or "").lower():
+        lm = LMK.predict(path)
+        if lm:
+            verdict["line_mark"] = lm
+            already = any("line mark" in (d.get("type", "").lower())
+                          for d in verdict.get("defects", []))
+            if lm["status"] == "present" and not already:
+                verdict.setdefault("defects", []).append({
+                    "type": "Line Mark", "confidence": lm["confidence"],
+                    "location": "part surface",
+                    "reason": "ensemble detector: line/scratch pattern detected "
+                              f"(votes: {', '.join(lm['votes'])})",
+                    "severity_priority": _priority("Line Mark", m["severity_rules"]),
+                    "primary": not verdict.get("defects"),
+                    "source": "ml_ensemble"})
+                if verdict["result"] in ("OK", "NEEDS_REVIEW"):
+                    verdict["result"] = "DEFECT"
+                    verdict["part_confident"] = True
+                    pending_ok = False
+                    pending_review = False
+                    if not had_boxes:
+                        cv2.rectangle(img, (0, 0), (img.shape[1] - 1, img.shape[0] - 1), (0, 0, 255), 8)
+                sy = 160 if had_boxes else 40
+                A.draw_label(img, 15, sy, f"Line Mark (ML {lm['confidence']}%)", (0, 0, 255))
+                status += f" | line_mark=PRESENT ({lm['confidence']}%)"
+            else:
+                status += f" | line_mark={lm['status'].upper()} ({lm['confidence']}%)"
 
     # Draw the deferred verdict banner now that serration has had its say.
     if pending_ok:
