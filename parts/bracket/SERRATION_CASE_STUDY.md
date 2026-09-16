@@ -333,3 +333,149 @@ python parts/bracket/train_serration.py --final
   predictions.
 - *Stale server:* `start.bat` starts a new server but won't kill an old one on the
   same port; kill the previous `python qms.py serve` before trusting a UI result.
+
+
+---
+
+# Chapter 2 — "Why did it crop the *small* hole on IMG…163907?"
+
+> This chapter is a second, self-contained case study written after the model was
+> already in production. It captures the full investigative thought process — including
+> the wrong turns — for a single reported anomaly. The lesson here is different from
+> Chapter 1: it is about **trusting evidence over your own assumptions**, and about the
+> difference between *model behaviour* and *dataset correctness*.
+
+## The report
+
+The user was clicking through the 22 brackets in the UI lightbox and stopped on
+`IMG20260824163907.jpg` (item 5 / 22). The serration crop shown for it looked like a
+**small hole**, not the big serration hole. The question was blunt:
+
+> "For IMG…163907 it took small hole… why?"
+
+At face value this sounds like a localizer bug: the big-hole detector supposedly grabbed
+one of the two tiny fastener holes in the middle of the bracket instead of the large
+serration hole at the end. If true, that would be serious — a wrong crop feeds the
+classifier the wrong pixels, and any verdict after that is luck.
+
+## Step 1 — Reproduce, don't theorize
+
+The first instinct was **not** to reason about it but to run the detector and print raw
+numbers. I ran `find_big_hole()` on the image and got a center at roughly `cy ≈ 0.80`
+(normalized) — i.e. near the **bottom end** of the bracket, with a real radius. That
+already contradicted the "it grabbed a tiny middle hole" theory: the middle fastener
+holes sit around `cy ≈ 0.45–0.55`. So whatever it picked, it was an **end** hole, not a
+middle one.
+
+**Thought:** the word "small" from the user and the word "wrong" in my head were two
+different claims. I had conflated them. The crop can look small *and* still be the
+correct hole.
+
+## Step 2 — Look at the actual pixels
+
+I cropped both end holes of 163907 and compared them side by side with a couple of
+*present* (toothed) brackets. Two facts jumped out:
+
+1. On 163907, the **bottom** end hole is clearly the **larger** of the two end holes, and
+   both end holes are **smooth** (no teeth) — consistent with this being a
+   Serration-Missing part.
+2. On present parts (e.g. 164314, 163734) the serration hole is *also* at the bottom
+   end, and it is *full of teeth*, which makes it look visually **bigger and busier**.
+
+**Insight (the crux):** a missing-serration hole is physically bored **plainer and a
+touch smaller** than a toothed one. So the crop on 163907 genuinely *looks* smaller than
+the crops on good parts — not because the detector missed, but because the defect itself
+removes the teeth that make the hole look large. "Small-looking" was a **symptom of the
+defect**, not a localization error. The final verdict (Serration Missing, prob 1.0) was
+correct all along.
+
+## Step 3 — But something *was* wrong (just not what was reported)
+
+While auditing all 5 missing parts I compared, for each image, **where YOLO landed** vs.
+**where my hand-drawn training box was**. Most matched. Two did not:
+
+| image  | my training box (cy) | where YOLO actually landed |
+|--------|----------------------|----------------------------|
+| 163907 | 0.27 (top end)       | ~0.80 (bottom end)         |
+| 164017 | 0.22 (top end)       | ~0.84 (bottom end)         |
+
+So my **annotations** for these two images had been placed on the *wrong (top, smaller)
+end*. The model had **disagreed with its own training label** and picked the bottom hole
+instead.
+
+**Why did the model still behave correctly?** Because the other 20 images were labeled
+consistently (serration hole at the larger end), and 20 good labels outvote 2 bad ones.
+The network learned the general concept "big rounded end hole" and **self-corrected** on
+the two mislabeled images at inference time. A cross-check that clinched it: 164704 is
+*genuinely* a top-hole part (annotated 0.23) and YOLO agreed — proving the model keys on
+the hole itself, not a memorized "always bottom" rule.
+
+**Thought:** this is the important distinction — **model behaviour was right, but the
+dataset source-of-truth was wrong.** Those are two separate things. A model that works
+*despite* bad labels is a liability: the next retrain, augmentation change, or seed could
+let the bad labels win. Silent correctness is not the same as correctness.
+
+## Step 4 — The measurement rabbit hole (what failed)
+
+Before trusting my eyes I tried to **prove** which end hole was bigger *automatically* —
+measure both hole diameters and compare. This failed repeatedly:
+
+- **Otsu threshold + circularity:** the specular **glare** ring inside the polished holes
+  either filled the hole (making it look solid) or broke its contour (making circularity
+  reject it).
+- **Hough circles:** fabricated many false circles off the glare highlights and the
+  stamped "VA" text; picking "the" hole from the noise was itself guesswork.
+
+**Lesson:** on shiny, specular metal, classical geometric measurement is as unreliable as
+the classical texture analysis from Chapter 1 — and for the **same root cause: glare**.
+The reliable evidence was the **visual crop comparison**, and ultimately the user, the
+domain expert, confirming the bottom hole is the true big hole.
+
+## Step 5 — The fix
+
+Because the model was already correct, the fix was about **dataset integrity**, not
+chasing a bug. Steps:
+
+1. Computed corrected, tight boxes from the detector's own (correct) predictions:
+   - `163907 → (0.43, 0.80, 0.18, 0.14)`
+   - `164017 → (0.43, 0.84, 0.17, 0.15)`
+2. Edited the `BOXES` source-of-truth in `train_big_hole_yolo.py`.
+3. **Retrained YOLO** (120 epochs, CPU) so the labels and weights finally agree.
+4. **Retrained the serration classifier** on the regenerated crops (the crops for these
+   two images shifted, so the classifier had to see the new pixels).
+
+## Step 6 — Verify the fix didn't cause a regression
+
+The whole point of Chapter 1 was that a good-looking accuracy number can hide a rotten
+core, so I re-verified everything end to end:
+
+- **All 22 crops** now land on the correct big hole; 163907 → `cy 0.81`,
+  164017 → `cy 0.84` (both bottom, as they should be).
+- **Classifier cross-val stayed 100%** — TP=17, TN=5, FP=0, FN=0; **5/5** defects caught.
+- **End-to-end through `serration.predict()`**: 163907 & 164017 → *missing* (100%);
+  present parts 164314 & 163734 → *present* (100%).
+
+Only after all three checks passed did I commit and push.
+
+## What I would tell a junior AI engineer
+
+- **Separate the two questions:** "is the *output* right?" and "is the *reason* right?"
+  Here the output was right (correct verdict) but one *reason* (the training label) was
+  wrong. Ship-blocking bugs hide in that gap.
+- **Reproduce with numbers before you argue with words.** One `print(cx, cy, r)` dissolved
+  the entire "it grabbed a tiny hole" theory in seconds.
+- **A user's symptom is a clue, not a diagnosis.** "It's small" was true and useful, but
+  the *cause* wasn't the one implied. Take the observation seriously, then verify it your
+  own way.
+- **A model that works *despite* bad labels is on borrowed time.** Fix the source of
+  truth even when the metric already looks perfect.
+- **Same enemy as Chapter 1: glare.** It defeated texture analysis *and* geometric
+  measurement. When your environment has one dominant nuisance variable, expect it to
+  reappear in every "clever" shortcut you try.
+- **Trust the domain expert.** The user circling the bottom hole was the ground truth
+  that automated measurement could not produce.
+
+**Net result:** no behavioural change for the user (verdicts were already correct), but
+the dataset, the detector weights, and the classifier are now all **mutually
+consistent** — the codebase tells the truth about itself, which is what makes the *next*
+change safe.
