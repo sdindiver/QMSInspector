@@ -264,6 +264,14 @@ HTML = r"""<!doctype html>
   @keyframes spin{to{transform:rotate(360deg)}}
   #lightbox{display:none;position:fixed;inset:0;background:var(--lb-overlay);z-index:9;
         align-items:center;justify-content:center;flex-direction:column;padding:24px;backdrop-filter:blur(2px)}
+  #lbCaption{
+    position:absolute;top:18px;left:50%;transform:translateX(-50%);z-index:10;
+    max-width:min(80vw,900px);
+    padding:7px 16px;border-radius:999px;
+    background:var(--lb-tools-bg);border:1px solid var(--lb-tools-border);
+    color:var(--lb-btn-fg);font-size:14px;font-weight:600;letter-spacing:.2px;
+    text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
   #lightbox .lb-nav{
     position:absolute;
     top:50%;
@@ -359,6 +367,7 @@ HTML = r"""<!doctype html>
 </main>
 
 <div id="lightbox">
+  <div id="lbCaption" aria-live="polite"></div>
   <button id="lbPrev" class="lb-nav prev" title="Previous image" aria-label="Previous image">←</button>
   <button id="lbNext" class="lb-nav next" title="Next image" aria-label="Next image">→</button>
   <div id="lbStage">
@@ -388,6 +397,7 @@ const drop=document.getElementById('drop'), file=document.getElementById('file')
       lbClose=document.getElementById('lbClose'), lbZoomIn=document.getElementById('lbZoomIn'),
       lbZoomOut=document.getElementById('lbZoomOut'), lbReset=document.getElementById('lbReset'),
       lbPrev=document.getElementById('lbPrev'), lbNext=document.getElementById('lbNext'),
+      lbCaption=document.getElementById('lbCaption'),
       themeToggle=document.getElementById('themeToggle');
 let current='ALL', currentPart='ALL', lbPair={a:'',o:'',showOrig:false}, lbZoom=1;
 let lbItems=[], lbIndex=-1;
@@ -479,7 +489,7 @@ function render(data){
   for(const it of data.results){
     if(it.error){ continue; }
     const imgIndex=lbItems.length;
-    lbItems.push({a:it.annotated_url, o:it.original_url});
+    lbItems.push({a:it.annotated_url, o:it.original_url, name:it.name});
     const div=document.createElement('div');
     const normalizedResult = it.result === 'NEEDS_REVIEW' ? 'NEEDS_REVIEW' : (it.result || 'NEEDS_REVIEW');
     div.className='card'; div.dataset.result=normalizedResult; div.dataset.part=it.part||'default';
@@ -540,6 +550,14 @@ function setLightboxImage(src){
  lbImg.ondragstart=e=>e.preventDefault();
  lbImg.src=src;
 }
+function setCaption(){
+ if(!lbCaption) return;
+ const it=lbItems[lbIndex]||{};
+ const name=it.name || '';
+ const pos=lbItems.length>1 ? (lbIndex+1)+' / '+lbItems.length : '';
+ lbCaption.textContent = pos ? (name+'  ('+pos+')') : name;
+ lbCaption.style.display = name ? 'block' : 'none';
+}
 function setToggleLabel(){
  lbToggle.title=lbPair.showOrig?'Show annotated image':'Show original image';
  lbToggle.setAttribute('aria-label', lbToggle.title);
@@ -554,6 +572,7 @@ function showLightboxItem(index){
  lbIndex=((index % lbItems.length) + lbItems.length) % lbItems.length;
  const keepOriginal = lbPair.showOrig;
  lbPair={a:lbItems[lbIndex].a, o:lbItems[lbIndex].o, showOrig:keepOriginal};
+ setCaption();
  setToggleLabel();
  setLightboxImage(lbPair.showOrig ? lbPair.o : lbPair.a);
 }
