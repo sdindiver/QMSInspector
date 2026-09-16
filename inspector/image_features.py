@@ -24,7 +24,6 @@ FEATURE_KEYS = [
     "dark_score",      # strength of localized dark marks
     "dark_area_frac",  # area fraction of dark marks
     "center_contrast", # high-pass contrast in central region (emboss proxy)
-    "hole_rough",      # roughness of round-hole edges (serration proxy)
 ]
 
 MAX_DIM = 1024
@@ -199,17 +198,12 @@ def extract(path):
         center_contrast = float(hp.std())
 
     # --- hole edge roughness (serration proxy) ---
-    hole_rough = 0.0
-    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, dp=1.2, minDist=int(part_axis * 0.15),
-                               param1=120, param2=30,
-                               minRadius=int(part_axis * 0.02), maxRadius=int(part_axis * 0.10))
-    if circles is not None:
-        for cx0, cy0, r0 in np.round(circles[0]).astype(int):
-            ang = np.linspace(0, 2 * np.pi, 72, endpoint=False)
-            xs = np.clip((cx0 + (r0 + 2) * np.cos(ang)).astype(int), 0, w - 1)
-            ys = np.clip((cy0 + (r0 + 2) * np.sin(ang)).astype(int), 0, h - 1)
-            ring = gray[ys, xs].astype(np.float32)
-            hole_rough = max(hole_rough, float(ring.std()))
+    # Removed: the splined big hole is a design feature on every part, so raw
+    # hole-edge roughness was never discriminative (rule kept at 999). Serration
+    # is now judged by the dedicated YOLO-crop + MobileNetV2 classifier in
+    # parts/bracket/serration.py. The HoughCircles that produced this feature was
+    # the single most expensive op in extract() (up to ~1.4s/image), so it is
+    # dropped entirely for a large throughput win.
 
     vector = {
         "area_frac": round(area_frac, 4),
@@ -224,7 +218,6 @@ def extract(path):
         "dark_score": round(dark_score, 2),
         "dark_area_frac": round(dark_area_frac, 4),
         "center_contrast": round(center_contrast, 2),
-        "hole_rough": round(hole_rough, 2),
     }
     signals = {
         "lines": line_meta[:5],

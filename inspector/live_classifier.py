@@ -98,13 +98,13 @@ def _rule_signals(vec, signals, th, part_cats):
                 "center",
             ))
 
-    if vec["hole_rough"] >= th["hole_rough_high"]:
+    if vec.get("hole_rough", 0.0) >= th["hole_rough_high"]:
         cat = _pick_category(part_cats, "Serration")
         if cat:
             out.append((
                 cat,
-                min(1.0, vec["hole_rough"] / (th["hole_rough_high"] * 1.6)),
-                f"A round hole edge shows high roughness ({vec['hole_rough']:.0f}), suggesting a "
+                min(1.0, vec.get("hole_rough", 0.0) / (th["hole_rough_high"] * 1.6)),
+                f"A round hole edge shows high roughness ({vec.get('hole_rough', 0.0):.0f}), suggesting a "
                 f"jagged/serrated edge rather than a clean bore.",
                 "hole edge",
             ))
