@@ -7,6 +7,42 @@ was in a code path I had not touched.
 
 ---
 
+## TL;DR — Root cause (and why my earlier fix didn't touch it)
+
+The "small hole" box seen in the UI was **not** coming from the YOLO detector I
+retrained. It came from a **separate, hand-labeled polygon** stored in
+`inspection_state/reviews/bracket.json`.
+
+There are two independent paths for a recalled image:
+
+1. **Recall path** (`A.annotate`) draws the stored review polygon → this is the magenta
+   **"Serration Missing [P4]"** circle+box you see.
+2. **YOLO second-opinion** → only adds the text verdict.
+
+My previous fix corrected the YOLO training label (path 2), so the **verdict** was right —
+but the **visible box** (path 1) still pointed at the top/small hole because its stored
+polygon was centered at **(0.505, 0.262 = top)**.
+
+**What I fixed**
+
+- Rewrote 163907's stored polygon to circle the **bottom big hole** (center 0.43, 0.81),
+  verified visually before writing.
+- Ran `qms.py train` + `qms.py build` to repack `best.pt` (the geometry is baked into the
+  checkpoint — `train` alone doesn't refresh it).
+- Restarted the server (killed stale PID 37788) and confirmed through the live
+  `/ui/inspect` endpoint: box now on the bottom big hole, verdict still
+  **DEFECT / Serration Missing**.
+- Checked the other 4 serration entries — only 163907 was wrong;
+  164631 / 164648 / 164704 already matched.
+
+Reload the UI and re-upload — 163907 will now highlight the correct bottom hole.
+
+> Note: the "UI slow" question was set aside on request. First upload is slower because
+> the YOLO/classifier models load **lazily** on the first bracket; subsequent uploads
+> reuse the in-memory singletons.
+
+---
+
 ## 1. The report
 
 While clicking through the 22 brackets in the UI lightbox, image **5 / 22**
