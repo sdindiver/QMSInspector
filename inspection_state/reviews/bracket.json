@@ -1409,7 +1409,7 @@
     "image": "dataset/train/images/IMG20260824165247_jpg.rf.e7bf8fb268ee19dda939a586015ad544.jpg",
     "defects": [
       {
-        "category": "Dark Marks",
+        "category": "White Mark",
         "points": [
           [
             0.384278647463995,
@@ -1436,7 +1436,7 @@
             0.27173936430317847
           ]
         ],
-        "reason": "dataset ground-truth annotation"
+        "reason": "white patch on brushed surface (corrected category; was mislabeled Dark Marks in dataset ground-truth)"
       }
     ]
   },
