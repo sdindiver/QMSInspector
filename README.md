@@ -43,15 +43,15 @@ flowchart TD
     I --> C
 
     E -. Bracket only .-> S[Trained second opinions]
-    S --> S1[Serration: YOLO big-hole crop + MobileNetV2]
-    S --> S3[Dark Spots: MobileNetV2 + rotation TTA]
-    S --> S4[Line Mark: classical Hough + matched-filter OR ridge-CNN]
+    S --> S1["Serration:<br/>YOLO big-hole crop<br/>+ MobileNetV2"]
+    S --> S3["Dark Spots:<br/>MobileNetV2<br/>+ rotation TTA"]
+    S --> S4["Line Mark:<br/>classical Hough + matched-filter<br/>OR ridge-CNN"]
     S1 --> G2
     S3 --> G2
     S4 --> G2
 
     E -. Bearing Cup only .-> BC[Defect classifier]
-    BC --> BC1[MobileNetV2 multi-class + rotation TTA]
+    BC --> BC1["MobileNetV2 multi-class<br/>+ rotation TTA"]
     BC1 --> G2
 ```
 
