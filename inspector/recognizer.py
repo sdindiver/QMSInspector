@@ -58,6 +58,39 @@ def _collect_needs_review(path, needs_review_dir):
     return dst
 
 
+def _points_to_line(points):
+    """Fit a centerline through an annotated line-mark polygon."""
+    if not points or len(points) < 2:
+        return None
+    pts = np.array(points, dtype=np.float64)
+    center = pts.mean(axis=0)
+    pts0 = pts - center
+    try:
+        _, _, vh = np.linalg.svd(pts0, full_matrices=False)
+    except np.linalg.LinAlgError:
+        return None
+    direction = vh[0]
+    norm = float(np.hypot(direction[0], direction[1]))
+    if norm <= 1e-9:
+        return None
+    direction = direction / norm
+    proj = pts0 @ direction
+    p1 = center + direction * proj.min()
+    p2 = center + direction * proj.max()
+    return (round(float(p1[0]), 4), round(float(p1[1]), 4),
+            round(float(p2[0]), 4), round(float(p2[1]), 4))
+
+
+def _draw_line_trace(img, line, color):
+    h, w = img.shape[:2]
+    x1, y1, x2, y2 = line
+    p1 = (int(round(x1 * w)), int(round(y1 * h)))
+    p2 = (int(round(x2 * w)), int(round(y2 * h)))
+    cv2.line(img, p1, p2, (0, 0, 0), 6, cv2.LINE_AA)
+    cv2.line(img, p1, p2, (255, 255, 255), 4, cv2.LINE_AA)
+    cv2.line(img, p1, p2, color, 2, cv2.LINE_AA)
+
+
 def inspect(path, m, out_dir, needs_review_dir=None):
     feat = F.extract(path)
     vec, signals = feat["vector"], feat["signals"]
@@ -83,6 +116,7 @@ def inspect(path, m, out_dir, needs_review_dir=None):
     pending_ok = False        # defer OK banner until serration second-opinion decides
     pending_review = False    # defer Needs-Review banner likewise
     had_boxes = False         # whether defect locator boxes were already drawn
+    recalled_line_mark_lines = []
 
     # Trained Line-Mark ensemble runs UP FRONT so the MODEL owns line-mark
     # detection and marking -- the stored review polygon is only a fallback used
@@ -97,8 +131,16 @@ def inspect(path, m, out_dir, needs_review_dir=None):
         dets = geo.get("defects", [])
         if orient != "id":
             dets = RO.transform_defects(dets, inv_pt)
+        if "bracket" in (part or "").lower():
+            recalled_line_mark_lines = [
+                ln for ln in (_points_to_line(d.get("points"))
+                              for d in dets
+                              if d.get("category", "").strip().lower() == "line mark")
+                if ln is not None
+            ]
         # When the model detects the line mark, drop the stored line-mark polygon
-        # so the MODEL (not bracket.json) draws and owns the mark.
+        # from generic polygon rendering. Exact recalled samples still reuse the
+        # reviewed trace itself as a line overlay because it is the most precise mark.
         if "bracket" in (part or "").lower() and lm_present:
             dets = [d for d in dets
                     if d.get("category", "").strip().lower() != "line mark"]
@@ -215,20 +257,27 @@ def inspect(path, m, out_dir, needs_review_dir=None):
                 verdict["part_confident"] = True
                 pending_ok = False
                 pending_review = False
-            # Draw the model's OWN mark: thin polygons tracing EACH scratch when
-            # localised (up to 3), else the single contour, else the located box,
-            # else a whole-part indicator (faint CNN-only detections don't localise).
-            if lm.get("polygons"):
-                # Draw all scratches directly (fill + outline) with ONE shared label
-                # below, so 3 traces don't stack 3 redundant labels/locator boxes.
+            # For recalled samples, the reviewed trace is the exact geometry.
+            # Keep it ahead of the live model so known images stay precise.
+            if recalled_line_mark_lines:
                 col = A.color_for("Line Mark")
-                ov = img.copy()
+                for line in recalled_line_mark_lines:
+                    _draw_line_trace(img, line, col)
+                had_boxes = True
+            elif lm.get("line"):
+                _draw_line_trace(img, lm["line"], A.color_for("Line Mark"))
+                had_boxes = True
+            elif lm.get("lines"):
+                col = A.color_for("Line Mark")
+                for line in lm["lines"]:
+                    _draw_line_trace(img, line, col)
+                had_boxes = True
+            elif lm.get("polygons"):
+                col = A.color_for("Line Mark")
                 ih, iw = img.shape[:2]
                 for pg in lm["polygons"]:
                     pts = np.array([[int(px * iw), int(py * ih)] for px, py in pg], np.int32)
-                    cv2.fillPoly(ov, [pts], col)
-                    cv2.polylines(img, [pts], True, col, 2)
-                cv2.addWeighted(ov, 0.28, img, 0.72, 0, img)
+                    cv2.polylines(img, [pts], True, col, 2, cv2.LINE_AA)
                 had_boxes = True
             elif lm.get("polygon"):
                 A.annotate(img, [{"category": "Line Mark", "points": lm["polygon"],
