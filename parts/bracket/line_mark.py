@@ -180,11 +180,12 @@ def _band_mean(r, p, q, tk):
     return float(vals.mean()) if vals.size else 0.0
 
 
-def _extend_line(r, valid, s, tk, floor):
-    """Grow a segment along its own direction while the ridge band stays bright.
+def _contrast(r, valid, s, tk):
+    """How much brighter the line band is than the metal just beside it.
 
-    Lets a short Hough hit cover the FULL length of the scratch, walking across
-    the small gaps the mounting holes / stamp cut into it.
+    Real scratches stand out sharply from the adjacent surface; brushed-metal
+    texture does not. Returns the on-band mean minus the mean of two parallel
+    bands offset to either side (a local, orientation-aware contrast).
     """
     import numpy as np
     h, w = r.shape[:2]
@@ -193,69 +194,128 @@ def _extend_line(r, valid, s, tk, floor):
     d = q - p
     n = float(np.hypot(*d))
     if n < 1:
-        return s
+        return 0.0
     d /= n
-    step = max(3.0, tk * 0.6)
-    for _ in range(200):
-        nq = q + d * step
-        if not (0 <= nq[0] < w and 0 <= nq[1] < h):
-            break
-        if not valid[int(nq[1]), int(nq[0])]:
-            break
-        if _band_mean(r, q, nq, tk) < floor:
-            break
-        q = nq
-    for _ in range(200):
-        pp = p - d * step
-        if not (0 <= pp[0] < w and 0 <= pp[1] < h):
-            break
-        if not valid[int(pp[1]), int(pp[0])]:
-            break
-        if _band_mean(r, p, pp, tk) < floor:
-            break
-        p = pp
-    return (p[0], p[1], q[0], q[1])
+    nx, ny = -d[1], d[0]
+    off = tk * 2.2
+    on = _band_mean(r, p, q, tk)
+    sides = []
+    import cv2
+    for sgn in (1, -1):
+        pp = (p[0] + nx * off * sgn, p[1] + ny * off * sgn)
+        qq = (q[0] + nx * off * sgn, q[1] + ny * off * sgn)
+        m = np.zeros((h, w), np.uint8)
+        cv2.line(m, (int(pp[0]), int(pp[1])), (int(qq[0]), int(qq[1])), 1, thickness=tk)
+        sel = (m > 0) & valid
+        if sel.sum() > 0:
+            sides.append(float(r[sel].mean()))
+    if not sides:
+        return 0.0
+    return on - min(sides)
 
 
-def _locate_scratches(prep, max_lines=3, rel=0.5):
+def _line_se(length, ang_deg):
+    """Oriented line structuring element for morphological line-opening."""
+    import numpy as np
+    L = int(length) | 1
+    k = np.zeros((L, L), np.uint8)
+    c = L // 2
+    a = np.deg2rad(ang_deg)
+    for t in np.linspace(-c, c, L * 2):
+        x = int(round(c + t * np.cos(a)))
+        y = int(round(c + t * np.sin(a)))
+        if 0 <= x < L and 0 <= y < L:
+            k[y, x] = 1
+    return k
+
+
+def _coverage(r, s, tk, frac=0.5):
+    """Fraction of the segment length whose local ridge band is bright.
+
+    A real scratch is bright along its WHOLE length; a line Hough fits across a
+    short burr/blob is bright only in a small patch -> low coverage. This is what
+    separates a genuine long scratch from a bright burr of similar contrast.
+    """
+    import numpy as np
+    p = np.array([s[0], s[1]], float)
+    q = np.array([s[2], s[3]], float)
+    n = float(np.hypot(*(q - p)))
+    if n < 1:
+        return 0.0
+    d = (q - p) / n
+    nx, ny = -d[1], d[0]
+    h, w = r.shape[:2]
+    nsamp = max(6, int(n / 4))
+    vals = []
+    for t in np.linspace(0, n, nsamp):
+        c = p + d * t
+        best = 0.0
+        for o in range(-tk // 2, tk // 2 + 1):
+            x = int(round(c[0] + nx * o))
+            y = int(round(c[1] + ny * o))
+            if 0 <= x < w and 0 <= y < h:
+                best = max(best, float(r[y, x]))
+        vals.append(best)
+    if not vals:
+        return 0.0
+    vals = np.array(vals)
+    hi = np.percentile(vals, 80)
+    if hi <= 0:
+        return 0.0
+    return float((vals >= frac * hi).mean())
+
+
+def _locate_scratches(prep, max_lines=3, min_contrast=9.0, min_cover=0.75):
     """Trace up to ``max_lines`` distinct scratches as thin oriented polygons.
 
-    Anchored on ridge BRIGHTNESS so the marks land on the true scratches (not the
-    brushed-metal texture), each Hough hit is grown along its direction to span
-    the whole scratch, then wrapped in a thin oriented quad. Runs only after the
-    ensemble has already voted "line mark present", so it is purely a drawing aid
-    and cannot change the detection verdict. Returns a list of normalised polygons
-    (each a list of (x, y) points), longest first, or [] if nothing localises.
+    PRECISE policy: a scratch is drawn only when it is a long, coherent, genuinely
+    HIGH-CONTRAST and well-COVERED line -- i.e. a real bold scratch that stands out
+    from the brushed-metal texture. Faint scratches at/below the texture noise floor
+    localise nowhere reliable, so nothing is returned and the recognizer falls back
+    to a whole-part red border rather than guessing a wrong box.
+
+    Steps: line-opening edge map (amplifies coherent lines, kills speckle) -> Hough
+    thin lines -> score each on the RAW ridge map by contrast (scratch vs metal) and
+    coverage (bright along its whole length, not just a burr) -> keep only lines that
+    clear both gates -> dedupe collinear -> thin oriented quad on each segment.
+
+    Runs only after the ensemble has voted "line mark present"; it is purely a
+    drawing aid and cannot change the verdict. Returns [] when nothing is precise.
     """
     import cv2
     import numpy as np
     g2, valid, axis, _ = prep
     h, w = g2.shape[:2]
     r = _ridge_map(g2, valid)
-    rr = r[valid]
-    if rr.size == 0:
+    if r[valid].size == 0:
         return []
-    thr = np.percentile(rr, 97)
-    edges = ((r > thr) & valid).astype(np.uint8)
-    lines = cv2.HoughLinesP(edges * 255, 1, np.pi / 180, threshold=30,
-                            minLineLength=max(30, int(0.05 * axis)), maxLineGap=20)
+    L = max(21, int(0.05 * axis))
+    best = np.zeros_like(r)
+    for ang in range(0, 180, 15):
+        best = np.maximum(best, cv2.morphologyEx(r, cv2.MORPH_OPEN, _line_se(L, ang)))
+    bv = best[valid]
+    if bv.size == 0:
+        return []
+    thr = np.percentile(bv, 90)
+    edges = ((best > thr) & valid).astype(np.uint8)
+    minlen = max(38, int(0.11 * axis))
+    lines = cv2.HoughLinesP(edges * 255, 1, np.pi / 180, threshold=35,
+                            minLineLength=minlen, maxLineGap=10)
     if lines is None:
         return []
     tk = max(4, int(0.012 * axis))
-    scored = []
+    cand = []
     for l in lines:
         s = tuple(int(v) for v in l[0])
-        scored.append((_band_mean(r, (s[0], s[1]), (s[2], s[3]), tk), s))
-    scored.sort(key=lambda t: t[0], reverse=True)
-    top = scored[0][0]
-    if top <= 0:
-        return []
-    floor = rel * top
+        length = float(np.hypot(s[2] - s[0], s[3] - s[1]))
+        con = _contrast(r, valid, s, tk)
+        cov = _coverage(r, s, tk)
+        if con >= min_contrast and cov >= min_cover:
+            cand.append((con, length, s))
+    cand.sort(key=lambda t: t[0], reverse=True)
     picked = []
     out = []
-    for bm, s in scored:
-        if bm < floor:
-            break
+    for con, length, s in cand:
         cx, cy = (s[0] + s[2]) / 2.0, (s[1] + s[3]) / 2.0
         ang = np.arctan2(s[3] - s[1], s[2] - s[0]) % np.pi
         dup = False
@@ -263,23 +323,21 @@ def _locate_scratches(prep, max_lines=3, rel=0.5):
             dang = abs(((ang - pang + np.pi / 2) % np.pi) - np.pi / 2)
             dx, dy = np.cos(pang), np.sin(pang)
             pd = abs((cx - pcx) * (-dy) + (cy - pcy) * dx)
-            if dang < np.deg2rad(12) and pd < 0.05 * axis:
+            if dang < np.deg2rad(10) and pd < 0.06 * axis:
                 dup = True
                 break
         if dup:
             continue
-        es = _extend_line(r, valid, s, tk, floor * 0.6)
         picked.append((cx, cy, ang))
-        L = float(np.hypot(es[2] - es[0], es[3] - es[1]))
-        dx, dy = (es[2] - es[0]) / max(L, 1), (es[3] - es[1]) / max(L, 1)
+        dx, dy = (s[2] - s[0]) / max(length, 1), (s[3] - s[1]) / max(length, 1)
         nx, ny = -dy, dx
         hw = tk * 1.3
-        corners = [(es[0] + nx * hw, es[1] + ny * hw),
-                   (es[2] + nx * hw, es[3] + ny * hw),
-                   (es[2] - nx * hw, es[3] - ny * hw),
-                   (es[0] - nx * hw, es[1] - ny * hw)]
+        corners = [(s[0] + nx * hw, s[1] + ny * hw),
+                   (s[2] + nx * hw, s[3] + ny * hw),
+                   (s[2] - nx * hw, s[3] - ny * hw),
+                   (s[0] - nx * hw, s[1] - ny * hw)]
         poly = [(round(float(px) / w, 4), round(float(py) / h, 4)) for px, py in corners]
-        out.append((L, poly))
+        out.append((length, poly))
         if len(picked) >= max_lines:
             break
     out.sort(key=lambda t: t[0], reverse=True)
@@ -382,22 +440,22 @@ def predict(path):
     conf = prob if present else (1.0 - prob)
 
     # Trace the actual scratches for drawing ONLY when a line mark is asserted
-    # (this is a marking aid and never affects the verdict). Brightness-anchored
-    # so the polygons land on the real scratches, up to 3 distinct ones.
+    # (this is a marking aid and never affects the verdict). PRECISE policy: draw
+    # only bold, high-contrast scratches. When nothing localises precisely (faint
+    # scratch at/below the texture floor), return NO polygon and NO box so the
+    # recognizer falls back to a whole-part red border instead of a wrong guess.
     polygons = []
     if present:
         try:
             polygons = _locate_scratches(prep)
         except Exception:
             polygons = []
-    # Backward-compatible single polygon: prefer the multi-scratch trace, else the
-    # geometric contour from _geom_score.
-    main_poly = polygons[0] if polygons else poly
+    main_poly = polygons[0] if polygons else None
 
-    # Build a normalised bounding box around the located line so the model can
-    # draw its own mark. Padded so a thin diagonal line is still visible.
+    # A located box is offered ONLY when precise scratches were found, so faint
+    # detections deliberately have box=None and hit the border fallback.
     box = None
-    if line is not None:
+    if polygons and line is not None:
         x1, y1, x2, y2 = line
         pad = 0.02
         bx0 = max(0.0, min(x1, x2) - pad)
