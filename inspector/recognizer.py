@@ -21,6 +21,7 @@ from . import recall_orient as RO
 from parts.bracket import serration as SR
 from parts.bracket import dark_spots as DSP
 from parts.bracket import line_mark as LMK
+from parts.bearing_cup import defect as BCD
 from . import settings
 
 DEFAULT_MODEL = settings.MODEL_PATH
@@ -234,6 +235,39 @@ def inspect(path, m, out_dir, needs_review_dir=None):
                 status += f" | dark_spots=PRESENT ({ds['confidence']}%)"
             else:
                 status += f" | dark_spots={ds['status'].upper()} ({ds['confidence']}%)"
+
+    # Bearing-Cup defect second opinion (trained multi-class classifier). Trained
+    # with full 0-360 rotation/flip augmentation so it recognises the defect at
+    # ANY angle, unlike perceptual-hash recall. Layered on top of recall: it can
+    # add a defect a never-seen orientation missed, but won't silence a recall.
+    if "bearing" in (verdict.get("part") or "").lower():
+        bc = BCD.predict(path)
+        if bc:
+            verdict["bearing_cup_defect"] = bc
+            if bc["status"] == "present":
+                dtype = bc["defect"]
+                already = any(dtype.lower() in (d.get("type", "").lower())
+                              for d in verdict.get("defects", []))
+                if not already:
+                    verdict.setdefault("defects", []).append({
+                        "type": dtype, "confidence": bc["confidence"],
+                        "location": "part surface",
+                        "reason": f"trained classifier: {dtype} pattern detected",
+                        "severity_priority": _priority(dtype, m["severity_rules"]),
+                        "primary": not verdict.get("defects"),
+                        "source": "ml_classifier"})
+                    if verdict["result"] in ("OK", "NEEDS_REVIEW"):
+                        verdict["result"] = "DEFECT"
+                        verdict["part_confident"] = True
+                        pending_ok = False
+                        pending_review = False
+                        if not had_boxes:
+                            cv2.rectangle(img, (0, 0), (img.shape[1] - 1, img.shape[0] - 1), (0, 0, 255), 8)
+                    sy = 200 if had_boxes else 40
+                    A.draw_label(img, 15, sy, f"{dtype} (ML {bc['confidence']}%)", (0, 0, 255))
+                status += f" | bearing_cup={dtype.upper()} ({bc['confidence']}%)"
+            else:
+                status += f" | bearing_cup=OK ({bc['confidence']}%)"
 
     # Line-mark ensemble (ridge-CNN OR geometric longest-line). Computed up front
     # (lm/lm_present) so the MODEL -- not the stored review polygon -- marks line
