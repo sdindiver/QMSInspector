@@ -46,6 +46,10 @@ flowchart TD
     S --> S1[YOLO big-hole crop]
     S1 --> S2[MobileNetV2 present/missing]
     S2 --> G2
+
+    E -. Bearing Cup only .-> BC[Defect classifier]
+    BC --> BC1[MobileNetV2 multi-class]
+    BC1 --> G2
 ```
 
 ---
@@ -81,6 +85,12 @@ looks **only at the big hole**: a trained YOLO detector localises that hole (any
 orientation), the image is cropped to it, and only the crop is classified - so part
 colour or body markings cannot leak into the decision. This part-specific code lives
 under `parts/bracket/` (see below).
+
+For **Bearing Cup** parts the inspector adds a trained *defect classifier*: a MobileNetV2
+model that predicts the defect type (`Corrosion`, `Dent`, `Edge Cut`, `Missing Punch`,
+`Out-of-Round`) or `OK`. It is trained with full rotation/flip augmentation so it works at
+any orientation, letting a *never-seen* bearing-cup photo still get a verdict. This
+part-specific code lives under `parts/bearing_cup/` (see below).
 
 Inspection never calls any external service.
 
@@ -231,6 +241,46 @@ python parts/bracket/train_big_hole_yolo.py --train
 python parts/bracket/train_serration.py --final
 ```
 
+### Bearing Cup - defect classifier
+
+`parts/bearing_cup/` holds a trained multi-class defect classifier that recognises
+bearing-cup defects at any orientation:
+
+- `defect.py` - MobileNetV2 classifier that predicts one of
+  `Corrosion / Dent / Edge Cut / Missing Punch / Out-of-Round` or `OK`.
+  `inspector/recognizer.py` calls this for Bearing Cup parts and raises the matching
+  defect when a non-OK class wins above the threshold. It is a second opinion on top of
+  recall, so a *never-seen* bearing-cup photo (or one at an arbitrary angle) can still get
+  a verdict, unlike perceptual-hash recall which only matches stored orientations.
+- `train_defect.py` - offline trainer. Uses full 0-360 degree rotation + flip
+  augmentation so the model tolerates any orientation, not just 0/90/180/270.
+- `rotation_augment.py` - helper to generate rotated/flipped image variants for training.
+
+The trained artifact is `inspection_state/models/bearing_cup_defect.pt`. It loads lazily
+and degrades gracefully - if the weights or torch are missing, the bearing-cup opinion is
+skipped and the rest of the pipeline is unaffected.
+
+> **Important - preprocessing must match training.** `train_defect.py` feeds the model the
+> **whole resized image** (no crop, no background flatten). `defect.py` therefore does the
+> same at inference. Cropping or segmenting at inference only (a mismatch) makes the model
+> see an out-of-distribution input and predict unreliably.
+>
+> **Data caveat.** The classifier is only as good as its labelled data. With just a few
+> real parts per class it will *memorise* rather than generalise, and can be confidently
+> wrong on new photos. Collect more varied real images per defect type to improve it, and
+> keep the `reviews/bearing_cup.json` labels correct - a wrong label trains a wrong answer.
+
+To retrain after adding new bearing-cup images (labels come from
+`inspection_state/reviews/bearing_cup.json`):
+
+```powershell
+# 3-fold cross-validation report (no save)
+python parts/bearing_cup/train_defect.py
+
+# retrain + save the classifier -> models/bearing_cup_defect.pt
+python parts/bearing_cup/train_defect.py --final
+```
+
 ---
 
 ## Layout
@@ -256,12 +306,17 @@ parts/                     per-part specialized modules (layered on inspector/)
     serration.py           serration present/missing classifier (used by recognizer)
     train_serration.py         (re)train the serration classifier on big-hole crops
     train_big_hole_yolo.py     (re)train the YOLO big-hole detector used for cropping
+  bearing_cup/
+    defect.py              multi-class bearing-cup defect classifier (used by recognizer)
+    train_defect.py            (re)train + save the bearing-cup defect classifier
+    rotation_augment.py        generate rotated/flipped image variants for training
 inspection_state/
   knowledge/              rules/<part>.json (one file per part), corrections.json
   reviews/                 bearing_cup.json, bracket.json (human markings)
   models/best.pt           the packed model
   models/serration_bracket.pt  Bracket serration classifier (MobileNetV2)
   models/big_hole_yolo.pt      Bracket big-hole detector (YOLO, for cropping)
+  models/bearing_cup_defect.pt Bearing Cup defect classifier (MobileNetV2)
   data/inspection_memory.db durable learned memory
 ```
 
@@ -281,7 +336,9 @@ All inspection is local and free. The only durable state you need to keep is
 `inspection_state/data/inspection_memory.db`, `inspection_state/models/best.pt`,
 `inspection_state/reviews/`, and `inspection_state/knowledge/`. If you use the Bracket
 serration feature, also keep `inspection_state/models/serration_bracket.pt` and
-`inspection_state/models/big_hole_yolo.pt` (or retrain them via `parts/bracket/`).
+`inspection_state/models/big_hole_yolo.pt` (or retrain them via `parts/bracket/`). If you
+use the Bearing Cup defect classifier, also keep
+`inspection_state/models/bearing_cup_defect.pt` (or retrain it via `parts/bearing_cup/`).
 
 ## Release snapshot
 
