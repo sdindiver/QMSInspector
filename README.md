@@ -42,15 +42,33 @@ flowchart TD
     H --> I[Train again]
     I --> C
 
-    E -. Bracket only .-> S[Serration second opinion]
-    S --> S1[YOLO big-hole crop]
-    S1 --> S2[MobileNetV2 present/missing]
-    S2 --> G2
+    E -. Bracket only .-> S[Trained second opinions]
+    S --> S1[Serration: YOLO big-hole crop + MobileNetV2]
+    S --> S3[Dark Spots: MobileNetV2 + rotation TTA]
+    S --> S4[Line Mark: classical Hough + matched-filter OR ridge-CNN]
+    S1 --> G2
+    S3 --> G2
+    S4 --> G2
 
     E -. Bearing Cup only .-> BC[Defect classifier]
-    BC --> BC1[MobileNetV2 multi-class]
+    BC --> BC1[MobileNetV2 multi-class + rotation TTA]
     BC1 --> G2
 ```
+
+> **Which technique decides which defect?** Every defect is decided by a strategy
+> tuned to its physics - some are CNN classifiers, and **line mark is a classical
+> computer-vision + matched-filter + Hough pipeline** ensembled with a CNN. See the
+> full per-defect breakdown and diagrams in
+> **[`docs/detection_strategy.md`](docs/detection_strategy.md)**.
+>
+> | Defect | Part | Decider | Techniques |
+> |--------|------|---------|-----------|
+> | *any known match* | all | Perceptual-hash recall | OpenCV feature vector + pHash |
+> | Serration missing | Bracket | YOLO localise → CNN | YOLO big-hole crop + MobileNetV2 |
+> | Dark Spots | Bracket | CNN (whole part) | MobileNetV2 + rotation/flip TTA |
+> | Line Mark | Bracket | Classical CV **OR** ridge-CNN (OR-vote) | black-hat/top-hat ridge morphology + oriented line-opening (matched filter) + probabilistic Hough; CNN on [grey, ridge, Hough-mask] stack |
+> | Bearing-cup defects | Bearing Cup | Multi-class CNN | MobileNetV2 whole image + rotation/flip TTA |
+> | Dark Marks, White Mark, ... | any | *recall only (no model)* | near-duplicate geometry replay |
 
 ---
 
@@ -77,14 +95,30 @@ flowchart TD
  either a resolved verdict with defect overlays or a `Needs Review` result. Images that
  fail recall are copied into `needs_review/` for later retraining.
 
-For **Bracket** parts the inspector adds a trained *serration second opinion*: a small
-MobileNetV2 classifier decides whether the serration teeth on the big splined hole are
-present or missing. Because recall only recognises near-duplicates, this classifier is
-what lets a *never-seen* bracket photo still get a serration verdict. To stay honest it
-looks **only at the big hole**: a trained YOLO detector localises that hole (any
-orientation), the image is cropped to it, and only the crop is classified - so part
-colour or body markings cannot leak into the decision. This part-specific code lives
-under `parts/bracket/` (see below).
+For **Bracket** parts the inspector adds three *trained second opinions* that run on
+every bracket image and generalise **beyond recall** - so a *never-seen* bracket photo
+(or a known one at a new angle) still gets a verdict from the trained model, not just
+from the stored review geometry:
+
+- **Serration (present/missing)** - a MobileNetV2 classifier. To stay honest it looks
+  **only at the big hole**: a trained YOLO detector localises that hole (any orientation),
+  the image is cropped to it, and only the crop is classified - so part colour or body
+  markings cannot leak into the decision.
+- **Dark Spots (present/absent)** - a MobileNetV2 classifier trained on the segmented
+  part with full rotation/flip augmentation, so it recognises the defect at any angle.
+- **Line Mark (present/absent + localisation)** - an ensemble of a **classical
+  computer-vision detector** and a **ridge-enhanced MobileNetV2 CNN** that vote with
+  **OR**. The classical member flattens the background, excludes the rim and holes,
+  runs **black-hat/top-hat ridge morphology** and an **oriented line-opening**
+  (a matched filter for thin lines at 12 angles), then **probabilistic Hough**
+  (`HoughLinesP`) to find and *draw* the longest coherent scratch. The CNN member
+  classifies a 3-channel **[grey, ridge map, Hough line mask]** stack with full
+  rotation augmentation. The two members fail on different parts, so OR-voting catches
+  more line marks than either alone.
+
+When these trained detectors fire they own the verdict and the overlay; the stored review
+polygon is only a fallback used when the model misses. This part-specific code lives under
+`parts/bracket/` (see below).
 
 For **Bearing Cup** parts the inspector adds a trained *defect classifier*: a MobileNetV2
 model that predicts the defect type (`Corrosion`, `Dent`, `Edge Cut`, `Missing Punch`,
@@ -209,9 +243,13 @@ Some defects cannot be judged by recall alone and need a small trained model. Th
 part-specific code lives under `parts/<part_name>/` so it stays separate from the
 generic engine in `inspector/`.
 
-### Bracket - serration detection
+### Bracket - trained defect detectors
 
-`parts/bracket/` holds the serration present/missing feature:
+`parts/bracket/` holds three trained detectors that run as second opinions on top of
+recall. They use the trained models (not the saved review geometry) to decide, so they
+also flag defects on never-seen bracket photos and at new orientations:
+
+**Serration (present/missing)**
 
 - `holes.py` - localises the big splined hole (trained YOLO detector, with Hough +
   whole-image fallbacks) and crops to it.
@@ -221,24 +259,59 @@ generic engine in `inspector/`.
 - `train_serration.py` - offline trainer for the classifier.
 - `train_big_hole_yolo.py` - offline trainer for the big-hole detector (hand-annotated
   boxes are embedded in the script as the source of truth).
+- Artifacts: `inspection_state/models/serration_bracket.pt`,
+  `inspection_state/models/big_hole_yolo.pt`.
 
-The two trained artifacts are `inspection_state/models/serration_bracket.pt` and
-`inspection_state/models/big_hole_yolo.pt`. Both load lazily and degrade gracefully -
-if a weights file or a dependency (torch / ultralytics) is missing, serration is simply
-skipped and the rest of the pipeline is unaffected.
+**Dark Spots (present/absent)**
+
+- `dark_spots.py` - MobileNetV2 classifier over the segmented part (background flattened),
+  with test-time rotation/flip augmentation so it recognises the defect at any angle.
+  `recognizer.py` raises a `Dark Spots` defect when it fires.
+- `train_dark_spots.py` - offline trainer (labels from `reviews/bracket.json`,
+  category == "Dark Spots").
+- Artifact: `inspection_state/models/dark_spots_bracket.pt`.
+
+**Line Mark (present/absent + localisation)**
+
+- `line_mark.py` - an ensemble that both detects and *draws* the thin scratch as a line,
+  combining **classical computer vision** with a CNN (OR-vote):
+  - **Classical member** - background flatten + rim/hole exclusion →
+    **black-hat/top-hat ridge morphology** (matched filter for thin lines) →
+    **oriented line-opening** at 12 angles (matched filter) →
+    **probabilistic Hough** (`HoughLinesP`) → score by longest-line length, contrast and
+    coverage, and trace the scratch as a thin polygon. Rotation-invariant by construction.
+  - **Ridge-CNN member** - MobileNetV2 over a 3-channel **[grey, ridge map, Hough line
+    mask]** stack with full 0-360 rotation augmentation.
+
+  A bracket is flagged when *either* member votes; the classical member localises the
+  line for the overlay. Runs lazily (bracket only) so it does not slow down other parts.
+- `train_line_mark.py` - offline trainer for the ridge-CNN member.
+- Artifact: `inspection_state/models/line_mark_bracket.pt`.
+
+All of these load lazily and degrade gracefully - if a weights file or a dependency
+(torch / ultralytics) is missing, that detector is skipped and the rest of the pipeline is
+unaffected. When a trained detector fires it owns the verdict and overlay; the stored
+review polygon is only used as a fallback when the model misses.
 
 To retrain after adding new bracket images (update the label / box tables at the top of
 each script first):
 
 ```powershell
+# --- Serration ---
 # cross-validation report (no save)
 python parts/bracket/train_serration.py
-
 # retrain the big-hole detector -> models/big_hole_yolo.pt
 python parts/bracket/train_big_hole_yolo.py --train
-
 # retrain + save the serration classifier -> models/serration_bracket.pt
 python parts/bracket/train_serration.py --final
+
+# --- Dark Spots ---
+# retrain + save -> models/dark_spots_bracket.pt
+python parts/bracket/train_dark_spots.py --final
+
+# --- Line Mark ---
+# retrain + save the ridge-CNN -> models/line_mark_bracket.pt
+python parts/bracket/train_line_mark.py --final
 ```
 
 ### Bearing Cup - defect classifier
@@ -287,6 +360,8 @@ python parts/bearing_cup/train_defect.py --final
 
 ```
 qms.py                     single CLI (train | build | inspect | serve | stats)
+docs/
+  detection_strategy.md    per-defect detection strategy + mermaid diagrams
 inspector/
   settings.py              paths + tunables (env-overridable)
   taxonomy.py              central parts/defects/severity/colors loader
@@ -304,8 +379,12 @@ parts/                     per-part specialized modules (layered on inspector/)
   bracket/
     holes.py               locate + crop the big splined (serration) hole
     serration.py           serration present/missing classifier (used by recognizer)
+    dark_spots.py          dark-spots present/absent classifier (used by recognizer)
+    line_mark.py           line-mark ensemble detector + localiser (used by recognizer)
     train_serration.py         (re)train the serration classifier on big-hole crops
     train_big_hole_yolo.py     (re)train the YOLO big-hole detector used for cropping
+    train_dark_spots.py        (re)train the dark-spots classifier
+    train_line_mark.py         (re)train the line-mark ridge-CNN
   bearing_cup/
     defect.py              multi-class bearing-cup defect classifier (used by recognizer)
     train_defect.py            (re)train + save the bearing-cup defect classifier
@@ -316,6 +395,8 @@ inspection_state/
   models/best.pt           the packed model
   models/serration_bracket.pt  Bracket serration classifier (MobileNetV2)
   models/big_hole_yolo.pt      Bracket big-hole detector (YOLO, for cropping)
+  models/dark_spots_bracket.pt Bracket dark-spots classifier (MobileNetV2)
+  models/line_mark_bracket.pt  Bracket line-mark ridge-CNN (MobileNetV2)
   models/bearing_cup_defect.pt Bearing Cup defect classifier (MobileNetV2)
   data/inspection_memory.db durable learned memory
 ```
@@ -335,9 +416,10 @@ inspection_state/
 All inspection is local and free. The only durable state you need to keep is
 `inspection_state/data/inspection_memory.db`, `inspection_state/models/best.pt`,
 `inspection_state/reviews/`, and `inspection_state/knowledge/`. If you use the Bracket
-serration feature, also keep `inspection_state/models/serration_bracket.pt` and
-`inspection_state/models/big_hole_yolo.pt` (or retrain them via `parts/bracket/`). If you
-use the Bearing Cup defect classifier, also keep
+trained detectors, also keep `inspection_state/models/serration_bracket.pt`,
+`inspection_state/models/big_hole_yolo.pt`, `inspection_state/models/dark_spots_bracket.pt`
+and `inspection_state/models/line_mark_bracket.pt` (or retrain them via `parts/bracket/`).
+If you use the Bearing Cup defect classifier, also keep
 `inspection_state/models/bearing_cup_defect.pt` (or retrain it via `parts/bearing_cup/`).
 
 ## Release snapshot

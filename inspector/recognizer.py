@@ -119,11 +119,16 @@ def inspect(path, m, out_dir, needs_review_dir=None):
     had_boxes = False         # whether defect locator boxes were already drawn
     recalled_line_mark_lines = []
 
-    # Trained Line-Mark ensemble runs UP FRONT so the MODEL owns line-mark
-    # detection and marking -- the stored review polygon is only a fallback used
-    # when the model misses. lm carries a normalised box the model located itself.
-    lm = LMK.predict(path)
-    lm_present = bool(lm and lm.get("status") == "present")
+    # Line marks are a Bracket-only defect and the ensemble costs ~0.6s per image,
+    # so it is computed LAZILY -- only once we know the part is a bracket -- to avoid
+    # wasting that time on every non-bracket image (e.g. bearing cups). Memoised so
+    # it runs at most once per inspect().
+    _lm_cache = {}
+
+    def _line_mark_pred():
+        if "v" not in _lm_cache:
+            _lm_cache["v"] = LMK.predict(path)
+        return _lm_cache["v"]
 
     if recalled:
         ref = names[best_i]
@@ -142,9 +147,11 @@ def inspect(path, m, out_dir, needs_review_dir=None):
         # When the model detects the line mark, drop the stored line-mark polygon
         # from generic polygon rendering. Exact recalled samples still reuse the
         # reviewed trace itself as a line overlay because it is the most precise mark.
-        if "bracket" in (part or "").lower() and lm_present:
-            dets = [d for d in dets
-                    if d.get("category", "").strip().lower() != "line mark"]
+        if "bracket" in (part or "").lower():
+            lm0 = _line_mark_pred()
+            if lm0 and lm0.get("status") == "present":
+                dets = [d for d in dets
+                        if d.get("category", "").strip().lower() != "line mark"]
         result = geo.get("result") or ("DEFECT" if dets else "OK")
         conf = 96 if best_h == 0 else 88
         if dets:
@@ -269,10 +276,12 @@ def inspect(path, m, out_dir, needs_review_dir=None):
             else:
                 status += f" | bearing_cup=OK ({bc['confidence']}%)"
 
-    # Line-mark ensemble (ridge-CNN OR geometric longest-line). Computed up front
-    # (lm/lm_present) so the MODEL -- not the stored review polygon -- marks line
-    # marks. Members fail on different parts, so OR-voting reaches the any-angle
-    # bar no single model hit. The geometric member localises the line for drawing.
+    # Line-mark ensemble (ridge-CNN OR geometric longest-line). Computed LAZILY and
+    # only for Bracket parts (see _line_mark_pred) so the MODEL -- not the stored
+    # review polygon -- marks line marks without slowing down non-bracket images.
+    # Members fail on different parts, so OR-voting reaches the any-angle bar no
+    # single model hit. The geometric member localises the line for drawing.
+    lm = _line_mark_pred() if "bracket" in (verdict.get("part") or "").lower() else None
     if "bracket" in (verdict.get("part") or "").lower() and lm:
         verdict["line_mark"] = lm
         already = any("line mark" in (d.get("type", "").lower())
