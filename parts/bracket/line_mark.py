@@ -265,19 +265,23 @@ def _coverage(r, s, tk, frac=0.5):
     return float((vals >= frac * hi).mean())
 
 
-def _locate_scratches(prep, max_lines=3, min_contrast=9.0, min_cover=0.75):
+def _locate_scratches(prep, max_lines=3, min_contrast=9.0, min_cover=0.75,
+                      min_len_frac=0.185, strong_contrast=15.0):
     """Trace up to ``max_lines`` distinct scratches as thin oriented polygons.
 
-    PRECISE policy: a scratch is drawn only when it is a long, coherent, genuinely
-    HIGH-CONTRAST and well-COVERED line -- i.e. a real bold scratch that stands out
-    from the brushed-metal texture. Faint scratches at/below the texture noise floor
-    localise nowhere reliable, so nothing is returned and the recognizer falls back
-    to a whole-part red border rather than guessing a wrong box.
+    PRECISE policy: a scratch is drawn only when it is a real, coherent scratch that
+    clearly stands out from the brushed-metal texture. A line is accepted when it is
+    EITHER very high contrast (a bold scratch, even if short) OR decently high
+    contrast AND long (a clear scratch that runs across the part). A short, bright
+    BURR fails both -- its local contrast can rival a real scratch, but it is short,
+    so the length arm rejects it while the strong-contrast arm needs more separation.
+    Faint scratches at/below the texture noise floor localise nowhere reliable, so
+    nothing is returned and the recognizer falls back to a whole-part red border.
 
     Steps: line-opening edge map (amplifies coherent lines, kills speckle) -> Hough
-    thin lines -> score each on the RAW ridge map by contrast (scratch vs metal) and
-    coverage (bright along its whole length, not just a burr) -> keep only lines that
-    clear both gates -> dedupe collinear -> thin oriented quad on each segment.
+    thin lines -> score each on the RAW ridge map by contrast (scratch vs metal),
+    coverage (bright along its whole length) and length -> two-branch keep test ->
+    dedupe collinear -> thin oriented quad on each segment.
 
     Runs only after the ensemble has voted "line mark present"; it is purely a
     drawing aid and cannot change the verdict. Returns [] when nothing is precise.
@@ -304,13 +308,18 @@ def _locate_scratches(prep, max_lines=3, min_contrast=9.0, min_cover=0.75):
     if lines is None:
         return []
     tk = max(4, int(0.012 * axis))
+    long_len = min_len_frac * axis
     cand = []
     for l in lines:
         s = tuple(int(v) for v in l[0])
         length = float(np.hypot(s[2] - s[0], s[3] - s[1]))
         con = _contrast(r, valid, s, tk)
         cov = _coverage(r, s, tk)
-        if con >= min_contrast and cov >= min_cover:
+        if cov < min_cover:
+            continue
+        bold = con >= strong_contrast
+        clear_long = con >= min_contrast and length >= long_len
+        if bold or clear_long:
             cand.append((con, length, s))
     cand.sort(key=lambda t: t[0], reverse=True)
     picked = []
