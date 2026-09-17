@@ -170,6 +170,123 @@ def _geom_score(prep):
     return (best / axis if axis else 0.0), best_line, poly
 
 
+def _band_mean(r, p, q, tk):
+    import cv2
+    import numpy as np
+    h, w = r.shape[:2]
+    m = np.zeros((h, w), np.uint8)
+    cv2.line(m, (int(p[0]), int(p[1])), (int(q[0]), int(q[1])), 1, thickness=tk)
+    vals = r[m > 0]
+    return float(vals.mean()) if vals.size else 0.0
+
+
+def _extend_line(r, valid, s, tk, floor):
+    """Grow a segment along its own direction while the ridge band stays bright.
+
+    Lets a short Hough hit cover the FULL length of the scratch, walking across
+    the small gaps the mounting holes / stamp cut into it.
+    """
+    import numpy as np
+    h, w = r.shape[:2]
+    p = np.array([s[0], s[1]], float)
+    q = np.array([s[2], s[3]], float)
+    d = q - p
+    n = float(np.hypot(*d))
+    if n < 1:
+        return s
+    d /= n
+    step = max(3.0, tk * 0.6)
+    for _ in range(200):
+        nq = q + d * step
+        if not (0 <= nq[0] < w and 0 <= nq[1] < h):
+            break
+        if not valid[int(nq[1]), int(nq[0])]:
+            break
+        if _band_mean(r, q, nq, tk) < floor:
+            break
+        q = nq
+    for _ in range(200):
+        pp = p - d * step
+        if not (0 <= pp[0] < w and 0 <= pp[1] < h):
+            break
+        if not valid[int(pp[1]), int(pp[0])]:
+            break
+        if _band_mean(r, p, pp, tk) < floor:
+            break
+        p = pp
+    return (p[0], p[1], q[0], q[1])
+
+
+def _locate_scratches(prep, max_lines=3, rel=0.5):
+    """Trace up to ``max_lines`` distinct scratches as thin oriented polygons.
+
+    Anchored on ridge BRIGHTNESS so the marks land on the true scratches (not the
+    brushed-metal texture), each Hough hit is grown along its direction to span
+    the whole scratch, then wrapped in a thin oriented quad. Runs only after the
+    ensemble has already voted "line mark present", so it is purely a drawing aid
+    and cannot change the detection verdict. Returns a list of normalised polygons
+    (each a list of (x, y) points), longest first, or [] if nothing localises.
+    """
+    import cv2
+    import numpy as np
+    g2, valid, axis, _ = prep
+    h, w = g2.shape[:2]
+    r = _ridge_map(g2, valid)
+    rr = r[valid]
+    if rr.size == 0:
+        return []
+    thr = np.percentile(rr, 97)
+    edges = ((r > thr) & valid).astype(np.uint8)
+    lines = cv2.HoughLinesP(edges * 255, 1, np.pi / 180, threshold=30,
+                            minLineLength=max(30, int(0.05 * axis)), maxLineGap=20)
+    if lines is None:
+        return []
+    tk = max(4, int(0.012 * axis))
+    scored = []
+    for l in lines:
+        s = tuple(int(v) for v in l[0])
+        scored.append((_band_mean(r, (s[0], s[1]), (s[2], s[3]), tk), s))
+    scored.sort(key=lambda t: t[0], reverse=True)
+    top = scored[0][0]
+    if top <= 0:
+        return []
+    floor = rel * top
+    picked = []
+    out = []
+    for bm, s in scored:
+        if bm < floor:
+            break
+        cx, cy = (s[0] + s[2]) / 2.0, (s[1] + s[3]) / 2.0
+        ang = np.arctan2(s[3] - s[1], s[2] - s[0]) % np.pi
+        dup = False
+        for (pcx, pcy, pang) in picked:
+            dang = abs(((ang - pang + np.pi / 2) % np.pi) - np.pi / 2)
+            dx, dy = np.cos(pang), np.sin(pang)
+            pd = abs((cx - pcx) * (-dy) + (cy - pcy) * dx)
+            if dang < np.deg2rad(12) and pd < 0.05 * axis:
+                dup = True
+                break
+        if dup:
+            continue
+        es = _extend_line(r, valid, s, tk, floor * 0.6)
+        picked.append((cx, cy, ang))
+        L = float(np.hypot(es[2] - es[0], es[3] - es[1]))
+        dx, dy = (es[2] - es[0]) / max(L, 1), (es[3] - es[1]) / max(L, 1)
+        nx, ny = -dy, dx
+        hw = tk * 1.3
+        corners = [(es[0] + nx * hw, es[1] + ny * hw),
+                   (es[2] + nx * hw, es[3] + ny * hw),
+                   (es[2] - nx * hw, es[3] - ny * hw),
+                   (es[0] - nx * hw, es[1] - ny * hw)]
+        poly = [(round(float(px) / w, 4), round(float(py) / h, 4)) for px, py in corners]
+        out.append((L, poly))
+        if len(picked) >= max_lines:
+            break
+    out.sort(key=lambda t: t[0], reverse=True)
+    return [poly for _, poly in out]
+
+
+
 def _cnn_prob(path):
     """Ridge-CNN probability of line mark, TTA-averaged, or None if unavailable."""
     if not _load_cnn():
@@ -264,6 +381,19 @@ def predict(path):
     status = "present" if present else "absent"
     conf = prob if present else (1.0 - prob)
 
+    # Trace the actual scratches for drawing ONLY when a line mark is asserted
+    # (this is a marking aid and never affects the verdict). Brightness-anchored
+    # so the polygons land on the real scratches, up to 3 distinct ones.
+    polygons = []
+    if present:
+        try:
+            polygons = _locate_scratches(prep)
+        except Exception:
+            polygons = []
+    # Backward-compatible single polygon: prefer the multi-scratch trace, else the
+    # geometric contour from _geom_score.
+    main_poly = polygons[0] if polygons else poly
+
     # Build a normalised bounding box around the located line so the model can
     # draw its own mark. Padded so a thin diagonal line is still visible.
     box = None
@@ -282,4 +412,4 @@ def predict(path):
             "cnn_prob": round(cnn, 3) if cnn is not None else None,
             "geom_score": round(geom, 3), "votes": votes,
             "line": tuple(round(float(c), 4) for c in line) if line is not None else None,
-            "box": box, "polygon": poly}
+            "box": box, "polygon": main_poly, "polygons": polygons}

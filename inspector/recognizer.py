@@ -215,10 +215,22 @@ def inspect(path, m, out_dir, needs_review_dir=None):
                 verdict["part_confident"] = True
                 pending_ok = False
                 pending_review = False
-            # Draw the model's OWN mark: a polygon tracing the scratch when the
-            # geometric detector localised it, else the located box, else a
-            # whole-part indicator (CNN-only detections don't localise).
-            if lm.get("polygon"):
+            # Draw the model's OWN mark: thin polygons tracing EACH scratch when
+            # localised (up to 3), else the single contour, else the located box,
+            # else a whole-part indicator (faint CNN-only detections don't localise).
+            if lm.get("polygons"):
+                # Draw all scratches directly (fill + outline) with ONE shared label
+                # below, so 3 traces don't stack 3 redundant labels/locator boxes.
+                col = A.color_for("Line Mark")
+                ov = img.copy()
+                ih, iw = img.shape[:2]
+                for pg in lm["polygons"]:
+                    pts = np.array([[int(px * iw), int(py * ih)] for px, py in pg], np.int32)
+                    cv2.fillPoly(ov, [pts], col)
+                    cv2.polylines(img, [pts], True, col, 2)
+                cv2.addWeighted(ov, 0.28, img, 0.72, 0, img)
+                had_boxes = True
+            elif lm.get("polygon"):
                 A.annotate(img, [{"category": "Line Mark", "points": lm["polygon"],
                                   "reason": "trained ensemble"}])
                 had_boxes = True
