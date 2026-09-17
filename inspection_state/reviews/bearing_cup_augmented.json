@@ -1,0 +1,4162 @@
+{
+  "IMG20260824161444_0": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.4,
+          0.3,
+          0.09,
+          0.06
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "Eye-shaped dent/fold deforming the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161444_0.jpg"
+  },
+  "IMG20260824161444_45": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.4,
+          0.3,
+          0.09,
+          0.06
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "Eye-shaped dent/fold deforming the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161444_45.jpg"
+  },
+  "IMG20260824161444_90": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.4,
+          0.3,
+          0.09,
+          0.06
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "Eye-shaped dent/fold deforming the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161444_90.jpg"
+  },
+  "IMG20260824161444_135": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.4,
+          0.3,
+          0.09,
+          0.06
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "Eye-shaped dent/fold deforming the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161444_135.jpg"
+  },
+  "IMG20260824161444_180": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.4,
+          0.3,
+          0.09,
+          0.06
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "Eye-shaped dent/fold deforming the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161444_180.jpg"
+  },
+  "IMG20260824161444_225": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.4,
+          0.3,
+          0.09,
+          0.06
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "Eye-shaped dent/fold deforming the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161444_225.jpg"
+  },
+  "IMG20260824161444_270": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.4,
+          0.3,
+          0.09,
+          0.06
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "Eye-shaped dent/fold deforming the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161444_270.jpg"
+  },
+  "IMG20260824161444_315": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.4,
+          0.3,
+          0.09,
+          0.06
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "Eye-shaped dent/fold deforming the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161444_315.jpg"
+  },
+  "IMG20260824161444_0_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.4,
+          0.3,
+          0.09,
+          0.06
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "Eye-shaped dent/fold deforming the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161444_0_flip.jpg"
+  },
+  "IMG20260824161444_45_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.4,
+          0.3,
+          0.09,
+          0.06
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "Eye-shaped dent/fold deforming the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161444_45_flip.jpg"
+  },
+  "IMG20260824161444_90_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.4,
+          0.3,
+          0.09,
+          0.06
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "Eye-shaped dent/fold deforming the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161444_90_flip.jpg"
+  },
+  "IMG20260824161444_135_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.4,
+          0.3,
+          0.09,
+          0.06
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "Eye-shaped dent/fold deforming the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161444_135_flip.jpg"
+  },
+  "IMG20260824161444_180_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.4,
+          0.3,
+          0.09,
+          0.06
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "Eye-shaped dent/fold deforming the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161444_180_flip.jpg"
+  },
+  "IMG20260824161444_225_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.4,
+          0.3,
+          0.09,
+          0.06
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "Eye-shaped dent/fold deforming the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161444_225_flip.jpg"
+  },
+  "IMG20260824161444_270_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.4,
+          0.3,
+          0.09,
+          0.06
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "Eye-shaped dent/fold deforming the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161444_270_flip.jpg"
+  },
+  "IMG20260824161444_315_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.4,
+          0.3,
+          0.09,
+          0.06
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "Eye-shaped dent/fold deforming the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161444_315_flip.jpg"
+  },
+  "IMG20260824161503_0": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.685,
+          0.325,
+          0.05,
+          0.05
+        ],
+        "location": "right outer flange edge (~3 o'clock)",
+        "reason": "A small dent/notch interrupts the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161503_0.jpg"
+  },
+  "IMG20260824161503_45": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.685,
+          0.325,
+          0.05,
+          0.05
+        ],
+        "location": "right outer flange edge (~3 o'clock)",
+        "reason": "A small dent/notch interrupts the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161503_45.jpg"
+  },
+  "IMG20260824161503_90": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.685,
+          0.325,
+          0.05,
+          0.05
+        ],
+        "location": "right outer flange edge (~3 o'clock)",
+        "reason": "A small dent/notch interrupts the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161503_90.jpg"
+  },
+  "IMG20260824161503_135": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.685,
+          0.325,
+          0.05,
+          0.05
+        ],
+        "location": "right outer flange edge (~3 o'clock)",
+        "reason": "A small dent/notch interrupts the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161503_135.jpg"
+  },
+  "IMG20260824161503_180": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.685,
+          0.325,
+          0.05,
+          0.05
+        ],
+        "location": "right outer flange edge (~3 o'clock)",
+        "reason": "A small dent/notch interrupts the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161503_180.jpg"
+  },
+  "IMG20260824161503_225": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.685,
+          0.325,
+          0.05,
+          0.05
+        ],
+        "location": "right outer flange edge (~3 o'clock)",
+        "reason": "A small dent/notch interrupts the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161503_225.jpg"
+  },
+  "IMG20260824161503_270": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.685,
+          0.325,
+          0.05,
+          0.05
+        ],
+        "location": "right outer flange edge (~3 o'clock)",
+        "reason": "A small dent/notch interrupts the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161503_270.jpg"
+  },
+  "IMG20260824161503_315": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.685,
+          0.325,
+          0.05,
+          0.05
+        ],
+        "location": "right outer flange edge (~3 o'clock)",
+        "reason": "A small dent/notch interrupts the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161503_315.jpg"
+  },
+  "IMG20260824161503_0_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.685,
+          0.325,
+          0.05,
+          0.05
+        ],
+        "location": "right outer flange edge (~3 o'clock)",
+        "reason": "A small dent/notch interrupts the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161503_0_flip.jpg"
+  },
+  "IMG20260824161503_45_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.685,
+          0.325,
+          0.05,
+          0.05
+        ],
+        "location": "right outer flange edge (~3 o'clock)",
+        "reason": "A small dent/notch interrupts the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161503_45_flip.jpg"
+  },
+  "IMG20260824161503_90_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.685,
+          0.325,
+          0.05,
+          0.05
+        ],
+        "location": "right outer flange edge (~3 o'clock)",
+        "reason": "A small dent/notch interrupts the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161503_90_flip.jpg"
+  },
+  "IMG20260824161503_135_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.685,
+          0.325,
+          0.05,
+          0.05
+        ],
+        "location": "right outer flange edge (~3 o'clock)",
+        "reason": "A small dent/notch interrupts the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161503_135_flip.jpg"
+  },
+  "IMG20260824161503_180_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.685,
+          0.325,
+          0.05,
+          0.05
+        ],
+        "location": "right outer flange edge (~3 o'clock)",
+        "reason": "A small dent/notch interrupts the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161503_180_flip.jpg"
+  },
+  "IMG20260824161503_225_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.685,
+          0.325,
+          0.05,
+          0.05
+        ],
+        "location": "right outer flange edge (~3 o'clock)",
+        "reason": "A small dent/notch interrupts the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161503_225_flip.jpg"
+  },
+  "IMG20260824161503_270_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.685,
+          0.325,
+          0.05,
+          0.05
+        ],
+        "location": "right outer flange edge (~3 o'clock)",
+        "reason": "A small dent/notch interrupts the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161503_270_flip.jpg"
+  },
+  "IMG20260824161503_315_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.685,
+          0.325,
+          0.05,
+          0.05
+        ],
+        "location": "right outer flange edge (~3 o'clock)",
+        "reason": "A small dent/notch interrupts the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161503_315_flip.jpg"
+  },
+  "IMG20260824161530_0": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "bbox": [
+          0.646,
+          0.3,
+          0.042,
+          0.03
+        ],
+        "location": "inner collar rim, upper-right (~2 o'clock)",
+        "reason": "A small dent-like raised nub/notch protrudes inward from the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161530_0.jpg"
+  },
+  "IMG20260824161530_45": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "bbox": [
+          0.646,
+          0.3,
+          0.042,
+          0.03
+        ],
+        "location": "inner collar rim, upper-right (~2 o'clock)",
+        "reason": "A small dent-like raised nub/notch protrudes inward from the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161530_45.jpg"
+  },
+  "IMG20260824161530_90": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "bbox": [
+          0.646,
+          0.3,
+          0.042,
+          0.03
+        ],
+        "location": "inner collar rim, upper-right (~2 o'clock)",
+        "reason": "A small dent-like raised nub/notch protrudes inward from the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161530_90.jpg"
+  },
+  "IMG20260824161530_135": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "bbox": [
+          0.646,
+          0.3,
+          0.042,
+          0.03
+        ],
+        "location": "inner collar rim, upper-right (~2 o'clock)",
+        "reason": "A small dent-like raised nub/notch protrudes inward from the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161530_135.jpg"
+  },
+  "IMG20260824161530_180": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "bbox": [
+          0.646,
+          0.3,
+          0.042,
+          0.03
+        ],
+        "location": "inner collar rim, upper-right (~2 o'clock)",
+        "reason": "A small dent-like raised nub/notch protrudes inward from the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161530_180.jpg"
+  },
+  "IMG20260824161530_225": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "bbox": [
+          0.646,
+          0.3,
+          0.042,
+          0.03
+        ],
+        "location": "inner collar rim, upper-right (~2 o'clock)",
+        "reason": "A small dent-like raised nub/notch protrudes inward from the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161530_225.jpg"
+  },
+  "IMG20260824161530_270": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "bbox": [
+          0.646,
+          0.3,
+          0.042,
+          0.03
+        ],
+        "location": "inner collar rim, upper-right (~2 o'clock)",
+        "reason": "A small dent-like raised nub/notch protrudes inward from the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161530_270.jpg"
+  },
+  "IMG20260824161530_315": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "bbox": [
+          0.646,
+          0.3,
+          0.042,
+          0.03
+        ],
+        "location": "inner collar rim, upper-right (~2 o'clock)",
+        "reason": "A small dent-like raised nub/notch protrudes inward from the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161530_315.jpg"
+  },
+  "IMG20260824161530_0_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "bbox": [
+          0.646,
+          0.3,
+          0.042,
+          0.03
+        ],
+        "location": "inner collar rim, upper-right (~2 o'clock)",
+        "reason": "A small dent-like raised nub/notch protrudes inward from the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161530_0_flip.jpg"
+  },
+  "IMG20260824161530_45_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "bbox": [
+          0.646,
+          0.3,
+          0.042,
+          0.03
+        ],
+        "location": "inner collar rim, upper-right (~2 o'clock)",
+        "reason": "A small dent-like raised nub/notch protrudes inward from the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161530_45_flip.jpg"
+  },
+  "IMG20260824161530_90_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "bbox": [
+          0.646,
+          0.3,
+          0.042,
+          0.03
+        ],
+        "location": "inner collar rim, upper-right (~2 o'clock)",
+        "reason": "A small dent-like raised nub/notch protrudes inward from the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161530_90_flip.jpg"
+  },
+  "IMG20260824161530_135_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "bbox": [
+          0.646,
+          0.3,
+          0.042,
+          0.03
+        ],
+        "location": "inner collar rim, upper-right (~2 o'clock)",
+        "reason": "A small dent-like raised nub/notch protrudes inward from the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161530_135_flip.jpg"
+  },
+  "IMG20260824161530_180_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "bbox": [
+          0.646,
+          0.3,
+          0.042,
+          0.03
+        ],
+        "location": "inner collar rim, upper-right (~2 o'clock)",
+        "reason": "A small dent-like raised nub/notch protrudes inward from the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161530_180_flip.jpg"
+  },
+  "IMG20260824161530_225_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "bbox": [
+          0.646,
+          0.3,
+          0.042,
+          0.03
+        ],
+        "location": "inner collar rim, upper-right (~2 o'clock)",
+        "reason": "A small dent-like raised nub/notch protrudes inward from the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161530_225_flip.jpg"
+  },
+  "IMG20260824161530_270_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "bbox": [
+          0.646,
+          0.3,
+          0.042,
+          0.03
+        ],
+        "location": "inner collar rim, upper-right (~2 o'clock)",
+        "reason": "A small dent-like raised nub/notch protrudes inward from the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161530_270_flip.jpg"
+  },
+  "IMG20260824161530_315_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "bbox": [
+          0.646,
+          0.3,
+          0.042,
+          0.03
+        ],
+        "location": "inner collar rim, upper-right (~2 o'clock)",
+        "reason": "A small dent-like raised nub/notch protrudes inward from the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161530_315_flip.jpg"
+  },
+  "IMG20260824161547_0": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.41,
+          0.405,
+          0.045,
+          0.05
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A small dent/notch bump interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161547_0.jpg"
+  },
+  "IMG20260824161547_45": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.41,
+          0.405,
+          0.045,
+          0.05
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A small dent/notch bump interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161547_45.jpg"
+  },
+  "IMG20260824161547_90": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.41,
+          0.405,
+          0.045,
+          0.05
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A small dent/notch bump interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161547_90.jpg"
+  },
+  "IMG20260824161547_135": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.41,
+          0.405,
+          0.045,
+          0.05
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A small dent/notch bump interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161547_135.jpg"
+  },
+  "IMG20260824161547_180": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.41,
+          0.405,
+          0.045,
+          0.05
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A small dent/notch bump interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161547_180.jpg"
+  },
+  "IMG20260824161547_225": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.41,
+          0.405,
+          0.045,
+          0.05
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A small dent/notch bump interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161547_225.jpg"
+  },
+  "IMG20260824161547_270": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.41,
+          0.405,
+          0.045,
+          0.05
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A small dent/notch bump interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161547_270.jpg"
+  },
+  "IMG20260824161547_315": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.41,
+          0.405,
+          0.045,
+          0.05
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A small dent/notch bump interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161547_315.jpg"
+  },
+  "IMG20260824161547_0_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.41,
+          0.405,
+          0.045,
+          0.05
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A small dent/notch bump interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161547_0_flip.jpg"
+  },
+  "IMG20260824161547_45_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.41,
+          0.405,
+          0.045,
+          0.05
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A small dent/notch bump interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161547_45_flip.jpg"
+  },
+  "IMG20260824161547_90_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.41,
+          0.405,
+          0.045,
+          0.05
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A small dent/notch bump interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161547_90_flip.jpg"
+  },
+  "IMG20260824161547_135_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.41,
+          0.405,
+          0.045,
+          0.05
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A small dent/notch bump interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161547_135_flip.jpg"
+  },
+  "IMG20260824161547_180_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.41,
+          0.405,
+          0.045,
+          0.05
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A small dent/notch bump interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161547_180_flip.jpg"
+  },
+  "IMG20260824161547_225_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.41,
+          0.405,
+          0.045,
+          0.05
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A small dent/notch bump interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161547_225_flip.jpg"
+  },
+  "IMG20260824161547_270_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.41,
+          0.405,
+          0.045,
+          0.05
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A small dent/notch bump interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161547_270_flip.jpg"
+  },
+  "IMG20260824161547_315_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.41,
+          0.405,
+          0.045,
+          0.05
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A small dent/notch bump interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161547_315_flip.jpg"
+  },
+  "IMG20260824161557_0": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.455,
+          0.355,
+          0.045,
+          0.045
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A raised square-tab dent interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161557_0.jpg"
+  },
+  "IMG20260824161557_45": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.455,
+          0.355,
+          0.045,
+          0.045
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A raised square-tab dent interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161557_45.jpg"
+  },
+  "IMG20260824161557_90": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.455,
+          0.355,
+          0.045,
+          0.045
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A raised square-tab dent interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161557_90.jpg"
+  },
+  "IMG20260824161557_135": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.455,
+          0.355,
+          0.045,
+          0.045
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A raised square-tab dent interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161557_135.jpg"
+  },
+  "IMG20260824161557_180": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.455,
+          0.355,
+          0.045,
+          0.045
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A raised square-tab dent interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161557_180.jpg"
+  },
+  "IMG20260824161557_225": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.455,
+          0.355,
+          0.045,
+          0.045
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A raised square-tab dent interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161557_225.jpg"
+  },
+  "IMG20260824161557_270": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.455,
+          0.355,
+          0.045,
+          0.045
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A raised square-tab dent interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161557_270.jpg"
+  },
+  "IMG20260824161557_315": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.455,
+          0.355,
+          0.045,
+          0.045
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A raised square-tab dent interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161557_315.jpg"
+  },
+  "IMG20260824161557_0_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.455,
+          0.355,
+          0.045,
+          0.045
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A raised square-tab dent interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161557_0_flip.jpg"
+  },
+  "IMG20260824161557_45_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.455,
+          0.355,
+          0.045,
+          0.045
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A raised square-tab dent interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161557_45_flip.jpg"
+  },
+  "IMG20260824161557_90_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.455,
+          0.355,
+          0.045,
+          0.045
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A raised square-tab dent interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161557_90_flip.jpg"
+  },
+  "IMG20260824161557_135_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.455,
+          0.355,
+          0.045,
+          0.045
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A raised square-tab dent interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161557_135_flip.jpg"
+  },
+  "IMG20260824161557_180_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.455,
+          0.355,
+          0.045,
+          0.045
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A raised square-tab dent interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161557_180_flip.jpg"
+  },
+  "IMG20260824161557_225_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.455,
+          0.355,
+          0.045,
+          0.045
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A raised square-tab dent interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161557_225_flip.jpg"
+  },
+  "IMG20260824161557_270_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.455,
+          0.355,
+          0.045,
+          0.045
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A raised square-tab dent interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161557_270_flip.jpg"
+  },
+  "IMG20260824161557_315_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Dent",
+        "seg": "edge",
+        "bbox": [
+          0.455,
+          0.355,
+          0.045,
+          0.045
+        ],
+        "location": "top of inner collar rim (~12 o'clock)",
+        "reason": "A raised square-tab dent interrupts the inner collar rim edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161557_315_flip.jpg"
+  },
+  "IMG20260824161920_0": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Out-of-Round",
+        "seg": "edge",
+        "bbox": [
+          0.33,
+          0.5,
+          0.28,
+          0.2
+        ],
+        "location": "lower portion of the inner bore",
+        "reason": "Inner bore is out-of-round / pinched (non-circular), flattened to a point along its lower edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161920_0.jpg"
+  },
+  "IMG20260824161920_45": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Out-of-Round",
+        "seg": "edge",
+        "bbox": [
+          0.33,
+          0.5,
+          0.28,
+          0.2
+        ],
+        "location": "lower portion of the inner bore",
+        "reason": "Inner bore is out-of-round / pinched (non-circular), flattened to a point along its lower edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161920_45.jpg"
+  },
+  "IMG20260824161920_90": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Out-of-Round",
+        "seg": "edge",
+        "bbox": [
+          0.33,
+          0.5,
+          0.28,
+          0.2
+        ],
+        "location": "lower portion of the inner bore",
+        "reason": "Inner bore is out-of-round / pinched (non-circular), flattened to a point along its lower edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161920_90.jpg"
+  },
+  "IMG20260824161920_135": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Out-of-Round",
+        "seg": "edge",
+        "bbox": [
+          0.33,
+          0.5,
+          0.28,
+          0.2
+        ],
+        "location": "lower portion of the inner bore",
+        "reason": "Inner bore is out-of-round / pinched (non-circular), flattened to a point along its lower edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161920_135.jpg"
+  },
+  "IMG20260824161920_180": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Out-of-Round",
+        "seg": "edge",
+        "bbox": [
+          0.33,
+          0.5,
+          0.28,
+          0.2
+        ],
+        "location": "lower portion of the inner bore",
+        "reason": "Inner bore is out-of-round / pinched (non-circular), flattened to a point along its lower edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161920_180.jpg"
+  },
+  "IMG20260824161920_225": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Out-of-Round",
+        "seg": "edge",
+        "bbox": [
+          0.33,
+          0.5,
+          0.28,
+          0.2
+        ],
+        "location": "lower portion of the inner bore",
+        "reason": "Inner bore is out-of-round / pinched (non-circular), flattened to a point along its lower edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161920_225.jpg"
+  },
+  "IMG20260824161920_270": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Out-of-Round",
+        "seg": "edge",
+        "bbox": [
+          0.33,
+          0.5,
+          0.28,
+          0.2
+        ],
+        "location": "lower portion of the inner bore",
+        "reason": "Inner bore is out-of-round / pinched (non-circular), flattened to a point along its lower edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161920_270.jpg"
+  },
+  "IMG20260824161920_315": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Out-of-Round",
+        "seg": "edge",
+        "bbox": [
+          0.33,
+          0.5,
+          0.28,
+          0.2
+        ],
+        "location": "lower portion of the inner bore",
+        "reason": "Inner bore is out-of-round / pinched (non-circular), flattened to a point along its lower edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161920_315.jpg"
+  },
+  "IMG20260824161920_0_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Out-of-Round",
+        "seg": "edge",
+        "bbox": [
+          0.33,
+          0.5,
+          0.28,
+          0.2
+        ],
+        "location": "lower portion of the inner bore",
+        "reason": "Inner bore is out-of-round / pinched (non-circular), flattened to a point along its lower edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161920_0_flip.jpg"
+  },
+  "IMG20260824161920_45_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Out-of-Round",
+        "seg": "edge",
+        "bbox": [
+          0.33,
+          0.5,
+          0.28,
+          0.2
+        ],
+        "location": "lower portion of the inner bore",
+        "reason": "Inner bore is out-of-round / pinched (non-circular), flattened to a point along its lower edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161920_45_flip.jpg"
+  },
+  "IMG20260824161920_90_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Out-of-Round",
+        "seg": "edge",
+        "bbox": [
+          0.33,
+          0.5,
+          0.28,
+          0.2
+        ],
+        "location": "lower portion of the inner bore",
+        "reason": "Inner bore is out-of-round / pinched (non-circular), flattened to a point along its lower edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161920_90_flip.jpg"
+  },
+  "IMG20260824161920_135_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Out-of-Round",
+        "seg": "edge",
+        "bbox": [
+          0.33,
+          0.5,
+          0.28,
+          0.2
+        ],
+        "location": "lower portion of the inner bore",
+        "reason": "Inner bore is out-of-round / pinched (non-circular), flattened to a point along its lower edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161920_135_flip.jpg"
+  },
+  "IMG20260824161920_180_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Out-of-Round",
+        "seg": "edge",
+        "bbox": [
+          0.33,
+          0.5,
+          0.28,
+          0.2
+        ],
+        "location": "lower portion of the inner bore",
+        "reason": "Inner bore is out-of-round / pinched (non-circular), flattened to a point along its lower edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161920_180_flip.jpg"
+  },
+  "IMG20260824161920_225_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Out-of-Round",
+        "seg": "edge",
+        "bbox": [
+          0.33,
+          0.5,
+          0.28,
+          0.2
+        ],
+        "location": "lower portion of the inner bore",
+        "reason": "Inner bore is out-of-round / pinched (non-circular), flattened to a point along its lower edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161920_225_flip.jpg"
+  },
+  "IMG20260824161920_270_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Out-of-Round",
+        "seg": "edge",
+        "bbox": [
+          0.33,
+          0.5,
+          0.28,
+          0.2
+        ],
+        "location": "lower portion of the inner bore",
+        "reason": "Inner bore is out-of-round / pinched (non-circular), flattened to a point along its lower edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161920_270_flip.jpg"
+  },
+  "IMG20260824161920_315_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Out-of-Round",
+        "seg": "edge",
+        "bbox": [
+          0.33,
+          0.5,
+          0.28,
+          0.2
+        ],
+        "location": "lower portion of the inner bore",
+        "reason": "Inner bore is out-of-round / pinched (non-circular), flattened to a point along its lower edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824161920_315_flip.jpg"
+  },
+  "IMG20260824162037_0": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Missing Punch",
+        "bbox": [
+          0.24,
+          0.62,
+          0.26,
+          0.22
+        ],
+        "location": "bottom cup - solid blind face, central bore not punched",
+        "reason": "Critical: center piercing/punching operation missed - the bottom cup has no through-hole where a bore is required."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162037_0.jpg"
+  },
+  "IMG20260824162037_45": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Missing Punch",
+        "bbox": [
+          0.24,
+          0.62,
+          0.26,
+          0.22
+        ],
+        "location": "bottom cup - solid blind face, central bore not punched",
+        "reason": "Critical: center piercing/punching operation missed - the bottom cup has no through-hole where a bore is required."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162037_45.jpg"
+  },
+  "IMG20260824162037_90": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Missing Punch",
+        "bbox": [
+          0.24,
+          0.62,
+          0.26,
+          0.22
+        ],
+        "location": "bottom cup - solid blind face, central bore not punched",
+        "reason": "Critical: center piercing/punching operation missed - the bottom cup has no through-hole where a bore is required."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162037_90.jpg"
+  },
+  "IMG20260824162037_135": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Missing Punch",
+        "bbox": [
+          0.24,
+          0.62,
+          0.26,
+          0.22
+        ],
+        "location": "bottom cup - solid blind face, central bore not punched",
+        "reason": "Critical: center piercing/punching operation missed - the bottom cup has no through-hole where a bore is required."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162037_135.jpg"
+  },
+  "IMG20260824162037_180": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Missing Punch",
+        "bbox": [
+          0.24,
+          0.62,
+          0.26,
+          0.22
+        ],
+        "location": "bottom cup - solid blind face, central bore not punched",
+        "reason": "Critical: center piercing/punching operation missed - the bottom cup has no through-hole where a bore is required."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162037_180.jpg"
+  },
+  "IMG20260824162037_225": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Missing Punch",
+        "bbox": [
+          0.24,
+          0.62,
+          0.26,
+          0.22
+        ],
+        "location": "bottom cup - solid blind face, central bore not punched",
+        "reason": "Critical: center piercing/punching operation missed - the bottom cup has no through-hole where a bore is required."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162037_225.jpg"
+  },
+  "IMG20260824162037_270": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Missing Punch",
+        "bbox": [
+          0.24,
+          0.62,
+          0.26,
+          0.22
+        ],
+        "location": "bottom cup - solid blind face, central bore not punched",
+        "reason": "Critical: center piercing/punching operation missed - the bottom cup has no through-hole where a bore is required."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162037_270.jpg"
+  },
+  "IMG20260824162037_315": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Missing Punch",
+        "bbox": [
+          0.24,
+          0.62,
+          0.26,
+          0.22
+        ],
+        "location": "bottom cup - solid blind face, central bore not punched",
+        "reason": "Critical: center piercing/punching operation missed - the bottom cup has no through-hole where a bore is required."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162037_315.jpg"
+  },
+  "IMG20260824162037_0_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Missing Punch",
+        "bbox": [
+          0.24,
+          0.62,
+          0.26,
+          0.22
+        ],
+        "location": "bottom cup - solid blind face, central bore not punched",
+        "reason": "Critical: center piercing/punching operation missed - the bottom cup has no through-hole where a bore is required."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162037_0_flip.jpg"
+  },
+  "IMG20260824162037_45_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Missing Punch",
+        "bbox": [
+          0.24,
+          0.62,
+          0.26,
+          0.22
+        ],
+        "location": "bottom cup - solid blind face, central bore not punched",
+        "reason": "Critical: center piercing/punching operation missed - the bottom cup has no through-hole where a bore is required."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162037_45_flip.jpg"
+  },
+  "IMG20260824162037_90_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Missing Punch",
+        "bbox": [
+          0.24,
+          0.62,
+          0.26,
+          0.22
+        ],
+        "location": "bottom cup - solid blind face, central bore not punched",
+        "reason": "Critical: center piercing/punching operation missed - the bottom cup has no through-hole where a bore is required."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162037_90_flip.jpg"
+  },
+  "IMG20260824162037_135_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Missing Punch",
+        "bbox": [
+          0.24,
+          0.62,
+          0.26,
+          0.22
+        ],
+        "location": "bottom cup - solid blind face, central bore not punched",
+        "reason": "Critical: center piercing/punching operation missed - the bottom cup has no through-hole where a bore is required."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162037_135_flip.jpg"
+  },
+  "IMG20260824162037_180_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Missing Punch",
+        "bbox": [
+          0.24,
+          0.62,
+          0.26,
+          0.22
+        ],
+        "location": "bottom cup - solid blind face, central bore not punched",
+        "reason": "Critical: center piercing/punching operation missed - the bottom cup has no through-hole where a bore is required."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162037_180_flip.jpg"
+  },
+  "IMG20260824162037_225_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Missing Punch",
+        "bbox": [
+          0.24,
+          0.62,
+          0.26,
+          0.22
+        ],
+        "location": "bottom cup - solid blind face, central bore not punched",
+        "reason": "Critical: center piercing/punching operation missed - the bottom cup has no through-hole where a bore is required."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162037_225_flip.jpg"
+  },
+  "IMG20260824162037_270_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Missing Punch",
+        "bbox": [
+          0.24,
+          0.62,
+          0.26,
+          0.22
+        ],
+        "location": "bottom cup - solid blind face, central bore not punched",
+        "reason": "Critical: center piercing/punching operation missed - the bottom cup has no through-hole where a bore is required."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162037_270_flip.jpg"
+  },
+  "IMG20260824162037_315_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Missing Punch",
+        "bbox": [
+          0.24,
+          0.62,
+          0.26,
+          0.22
+        ],
+        "location": "bottom cup - solid blind face, central bore not punched",
+        "reason": "Critical: center piercing/punching operation missed - the bottom cup has no through-hole where a bore is required."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162037_315_flip.jpg"
+  },
+  "IMG20260824162142_0": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.4,
+          0.7,
+          0.14,
+          0.07
+        ],
+        "location": "flattened chip/notch on bottom outer flange rim (~6 o'clock)",
+        "reason": "Edge chip / flattened notch: material missing/deformed on the bottom outer flange rim."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162142_0.jpg"
+  },
+  "IMG20260824162142_45": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.4,
+          0.7,
+          0.14,
+          0.07
+        ],
+        "location": "flattened chip/notch on bottom outer flange rim (~6 o'clock)",
+        "reason": "Edge chip / flattened notch: material missing/deformed on the bottom outer flange rim."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162142_45.jpg"
+  },
+  "IMG20260824162142_90": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.4,
+          0.7,
+          0.14,
+          0.07
+        ],
+        "location": "flattened chip/notch on bottom outer flange rim (~6 o'clock)",
+        "reason": "Edge chip / flattened notch: material missing/deformed on the bottom outer flange rim."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162142_90.jpg"
+  },
+  "IMG20260824162142_135": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.4,
+          0.7,
+          0.14,
+          0.07
+        ],
+        "location": "flattened chip/notch on bottom outer flange rim (~6 o'clock)",
+        "reason": "Edge chip / flattened notch: material missing/deformed on the bottom outer flange rim."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162142_135.jpg"
+  },
+  "IMG20260824162142_180": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.4,
+          0.7,
+          0.14,
+          0.07
+        ],
+        "location": "flattened chip/notch on bottom outer flange rim (~6 o'clock)",
+        "reason": "Edge chip / flattened notch: material missing/deformed on the bottom outer flange rim."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162142_180.jpg"
+  },
+  "IMG20260824162142_225": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.4,
+          0.7,
+          0.14,
+          0.07
+        ],
+        "location": "flattened chip/notch on bottom outer flange rim (~6 o'clock)",
+        "reason": "Edge chip / flattened notch: material missing/deformed on the bottom outer flange rim."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162142_225.jpg"
+  },
+  "IMG20260824162142_270": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.4,
+          0.7,
+          0.14,
+          0.07
+        ],
+        "location": "flattened chip/notch on bottom outer flange rim (~6 o'clock)",
+        "reason": "Edge chip / flattened notch: material missing/deformed on the bottom outer flange rim."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162142_270.jpg"
+  },
+  "IMG20260824162142_315": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.4,
+          0.7,
+          0.14,
+          0.07
+        ],
+        "location": "flattened chip/notch on bottom outer flange rim (~6 o'clock)",
+        "reason": "Edge chip / flattened notch: material missing/deformed on the bottom outer flange rim."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162142_315.jpg"
+  },
+  "IMG20260824162142_0_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.4,
+          0.7,
+          0.14,
+          0.07
+        ],
+        "location": "flattened chip/notch on bottom outer flange rim (~6 o'clock)",
+        "reason": "Edge chip / flattened notch: material missing/deformed on the bottom outer flange rim."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162142_0_flip.jpg"
+  },
+  "IMG20260824162142_45_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.4,
+          0.7,
+          0.14,
+          0.07
+        ],
+        "location": "flattened chip/notch on bottom outer flange rim (~6 o'clock)",
+        "reason": "Edge chip / flattened notch: material missing/deformed on the bottom outer flange rim."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162142_45_flip.jpg"
+  },
+  "IMG20260824162142_90_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.4,
+          0.7,
+          0.14,
+          0.07
+        ],
+        "location": "flattened chip/notch on bottom outer flange rim (~6 o'clock)",
+        "reason": "Edge chip / flattened notch: material missing/deformed on the bottom outer flange rim."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162142_90_flip.jpg"
+  },
+  "IMG20260824162142_135_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.4,
+          0.7,
+          0.14,
+          0.07
+        ],
+        "location": "flattened chip/notch on bottom outer flange rim (~6 o'clock)",
+        "reason": "Edge chip / flattened notch: material missing/deformed on the bottom outer flange rim."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162142_135_flip.jpg"
+  },
+  "IMG20260824162142_180_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.4,
+          0.7,
+          0.14,
+          0.07
+        ],
+        "location": "flattened chip/notch on bottom outer flange rim (~6 o'clock)",
+        "reason": "Edge chip / flattened notch: material missing/deformed on the bottom outer flange rim."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162142_180_flip.jpg"
+  },
+  "IMG20260824162142_225_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.4,
+          0.7,
+          0.14,
+          0.07
+        ],
+        "location": "flattened chip/notch on bottom outer flange rim (~6 o'clock)",
+        "reason": "Edge chip / flattened notch: material missing/deformed on the bottom outer flange rim."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162142_225_flip.jpg"
+  },
+  "IMG20260824162142_270_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.4,
+          0.7,
+          0.14,
+          0.07
+        ],
+        "location": "flattened chip/notch on bottom outer flange rim (~6 o'clock)",
+        "reason": "Edge chip / flattened notch: material missing/deformed on the bottom outer flange rim."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162142_270_flip.jpg"
+  },
+  "IMG20260824162142_315_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.4,
+          0.7,
+          0.14,
+          0.07
+        ],
+        "location": "flattened chip/notch on bottom outer flange rim (~6 o'clock)",
+        "reason": "Edge chip / flattened notch: material missing/deformed on the bottom outer flange rim."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162142_315_flip.jpg"
+  },
+  "IMG20260824162258_0": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.58,
+          0.6,
+          0.14,
+          0.13
+        ],
+        "location": "lower-right outer flange edge",
+        "reason": "A dent/notch breaks the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162258_0.jpg"
+  },
+  "IMG20260824162258_45": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.58,
+          0.6,
+          0.14,
+          0.13
+        ],
+        "location": "lower-right outer flange edge",
+        "reason": "A dent/notch breaks the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162258_45.jpg"
+  },
+  "IMG20260824162258_90": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.58,
+          0.6,
+          0.14,
+          0.13
+        ],
+        "location": "lower-right outer flange edge",
+        "reason": "A dent/notch breaks the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162258_90.jpg"
+  },
+  "IMG20260824162258_135": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.58,
+          0.6,
+          0.14,
+          0.13
+        ],
+        "location": "lower-right outer flange edge",
+        "reason": "A dent/notch breaks the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162258_135.jpg"
+  },
+  "IMG20260824162258_180": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.58,
+          0.6,
+          0.14,
+          0.13
+        ],
+        "location": "lower-right outer flange edge",
+        "reason": "A dent/notch breaks the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162258_180.jpg"
+  },
+  "IMG20260824162258_225": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.58,
+          0.6,
+          0.14,
+          0.13
+        ],
+        "location": "lower-right outer flange edge",
+        "reason": "A dent/notch breaks the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162258_225.jpg"
+  },
+  "IMG20260824162258_270": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.58,
+          0.6,
+          0.14,
+          0.13
+        ],
+        "location": "lower-right outer flange edge",
+        "reason": "A dent/notch breaks the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162258_270.jpg"
+  },
+  "IMG20260824162258_315": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.58,
+          0.6,
+          0.14,
+          0.13
+        ],
+        "location": "lower-right outer flange edge",
+        "reason": "A dent/notch breaks the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162258_315.jpg"
+  },
+  "IMG20260824162258_0_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.58,
+          0.6,
+          0.14,
+          0.13
+        ],
+        "location": "lower-right outer flange edge",
+        "reason": "A dent/notch breaks the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162258_0_flip.jpg"
+  },
+  "IMG20260824162258_45_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.58,
+          0.6,
+          0.14,
+          0.13
+        ],
+        "location": "lower-right outer flange edge",
+        "reason": "A dent/notch breaks the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162258_45_flip.jpg"
+  },
+  "IMG20260824162258_90_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.58,
+          0.6,
+          0.14,
+          0.13
+        ],
+        "location": "lower-right outer flange edge",
+        "reason": "A dent/notch breaks the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162258_90_flip.jpg"
+  },
+  "IMG20260824162258_135_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.58,
+          0.6,
+          0.14,
+          0.13
+        ],
+        "location": "lower-right outer flange edge",
+        "reason": "A dent/notch breaks the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162258_135_flip.jpg"
+  },
+  "IMG20260824162258_180_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.58,
+          0.6,
+          0.14,
+          0.13
+        ],
+        "location": "lower-right outer flange edge",
+        "reason": "A dent/notch breaks the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162258_180_flip.jpg"
+  },
+  "IMG20260824162258_225_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.58,
+          0.6,
+          0.14,
+          0.13
+        ],
+        "location": "lower-right outer flange edge",
+        "reason": "A dent/notch breaks the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162258_225_flip.jpg"
+  },
+  "IMG20260824162258_270_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.58,
+          0.6,
+          0.14,
+          0.13
+        ],
+        "location": "lower-right outer flange edge",
+        "reason": "A dent/notch breaks the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162258_270_flip.jpg"
+  },
+  "IMG20260824162258_315_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.58,
+          0.6,
+          0.14,
+          0.13
+        ],
+        "location": "lower-right outer flange edge",
+        "reason": "A dent/notch breaks the outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162258_315_flip.jpg"
+  },
+  "IMG20260824162340_0": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.66,
+          0.69,
+          0.062,
+          0.075
+        ],
+        "location": "outer rolled flange silhouette edge, lower-right (~4-5 o'clock)",
+        "reason": "The outer flange silhouette steps inward, showing dented/chipped edge damage that breaks the smooth outer curve."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162340_0.jpg"
+  },
+  "IMG20260824162340_45": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.66,
+          0.69,
+          0.062,
+          0.075
+        ],
+        "location": "outer rolled flange silhouette edge, lower-right (~4-5 o'clock)",
+        "reason": "The outer flange silhouette steps inward, showing dented/chipped edge damage that breaks the smooth outer curve."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162340_45.jpg"
+  },
+  "IMG20260824162340_90": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.66,
+          0.69,
+          0.062,
+          0.075
+        ],
+        "location": "outer rolled flange silhouette edge, lower-right (~4-5 o'clock)",
+        "reason": "The outer flange silhouette steps inward, showing dented/chipped edge damage that breaks the smooth outer curve."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162340_90.jpg"
+  },
+  "IMG20260824162340_135": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.66,
+          0.69,
+          0.062,
+          0.075
+        ],
+        "location": "outer rolled flange silhouette edge, lower-right (~4-5 o'clock)",
+        "reason": "The outer flange silhouette steps inward, showing dented/chipped edge damage that breaks the smooth outer curve."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162340_135.jpg"
+  },
+  "IMG20260824162340_180": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.66,
+          0.69,
+          0.062,
+          0.075
+        ],
+        "location": "outer rolled flange silhouette edge, lower-right (~4-5 o'clock)",
+        "reason": "The outer flange silhouette steps inward, showing dented/chipped edge damage that breaks the smooth outer curve."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162340_180.jpg"
+  },
+  "IMG20260824162340_225": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.66,
+          0.69,
+          0.062,
+          0.075
+        ],
+        "location": "outer rolled flange silhouette edge, lower-right (~4-5 o'clock)",
+        "reason": "The outer flange silhouette steps inward, showing dented/chipped edge damage that breaks the smooth outer curve."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162340_225.jpg"
+  },
+  "IMG20260824162340_270": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.66,
+          0.69,
+          0.062,
+          0.075
+        ],
+        "location": "outer rolled flange silhouette edge, lower-right (~4-5 o'clock)",
+        "reason": "The outer flange silhouette steps inward, showing dented/chipped edge damage that breaks the smooth outer curve."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162340_270.jpg"
+  },
+  "IMG20260824162340_315": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.66,
+          0.69,
+          0.062,
+          0.075
+        ],
+        "location": "outer rolled flange silhouette edge, lower-right (~4-5 o'clock)",
+        "reason": "The outer flange silhouette steps inward, showing dented/chipped edge damage that breaks the smooth outer curve."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162340_315.jpg"
+  },
+  "IMG20260824162340_0_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.66,
+          0.69,
+          0.062,
+          0.075
+        ],
+        "location": "outer rolled flange silhouette edge, lower-right (~4-5 o'clock)",
+        "reason": "The outer flange silhouette steps inward, showing dented/chipped edge damage that breaks the smooth outer curve."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162340_0_flip.jpg"
+  },
+  "IMG20260824162340_45_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.66,
+          0.69,
+          0.062,
+          0.075
+        ],
+        "location": "outer rolled flange silhouette edge, lower-right (~4-5 o'clock)",
+        "reason": "The outer flange silhouette steps inward, showing dented/chipped edge damage that breaks the smooth outer curve."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162340_45_flip.jpg"
+  },
+  "IMG20260824162340_90_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.66,
+          0.69,
+          0.062,
+          0.075
+        ],
+        "location": "outer rolled flange silhouette edge, lower-right (~4-5 o'clock)",
+        "reason": "The outer flange silhouette steps inward, showing dented/chipped edge damage that breaks the smooth outer curve."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162340_90_flip.jpg"
+  },
+  "IMG20260824162340_135_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.66,
+          0.69,
+          0.062,
+          0.075
+        ],
+        "location": "outer rolled flange silhouette edge, lower-right (~4-5 o'clock)",
+        "reason": "The outer flange silhouette steps inward, showing dented/chipped edge damage that breaks the smooth outer curve."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162340_135_flip.jpg"
+  },
+  "IMG20260824162340_180_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.66,
+          0.69,
+          0.062,
+          0.075
+        ],
+        "location": "outer rolled flange silhouette edge, lower-right (~4-5 o'clock)",
+        "reason": "The outer flange silhouette steps inward, showing dented/chipped edge damage that breaks the smooth outer curve."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162340_180_flip.jpg"
+  },
+  "IMG20260824162340_225_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.66,
+          0.69,
+          0.062,
+          0.075
+        ],
+        "location": "outer rolled flange silhouette edge, lower-right (~4-5 o'clock)",
+        "reason": "The outer flange silhouette steps inward, showing dented/chipped edge damage that breaks the smooth outer curve."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162340_225_flip.jpg"
+  },
+  "IMG20260824162340_270_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.66,
+          0.69,
+          0.062,
+          0.075
+        ],
+        "location": "outer rolled flange silhouette edge, lower-right (~4-5 o'clock)",
+        "reason": "The outer flange silhouette steps inward, showing dented/chipped edge damage that breaks the smooth outer curve."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162340_270_flip.jpg"
+  },
+  "IMG20260824162340_315_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "bbox": [
+          0.66,
+          0.69,
+          0.062,
+          0.075
+        ],
+        "location": "outer rolled flange silhouette edge, lower-right (~4-5 o'clock)",
+        "reason": "The outer flange silhouette steps inward, showing dented/chipped edge damage that breaks the smooth outer curve."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162340_315_flip.jpg"
+  },
+  "IMG20260824162425_0": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.37,
+          0.275,
+          0.15,
+          0.055
+        ],
+        "location": "top outer flange edge (~12 o'clock)",
+        "reason": "A dented step/notch breaks the smooth rolled outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162425_0.jpg"
+  },
+  "IMG20260824162425_45": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.37,
+          0.275,
+          0.15,
+          0.055
+        ],
+        "location": "top outer flange edge (~12 o'clock)",
+        "reason": "A dented step/notch breaks the smooth rolled outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162425_45.jpg"
+  },
+  "IMG20260824162425_90": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.37,
+          0.275,
+          0.15,
+          0.055
+        ],
+        "location": "top outer flange edge (~12 o'clock)",
+        "reason": "A dented step/notch breaks the smooth rolled outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162425_90.jpg"
+  },
+  "IMG20260824162425_135": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.37,
+          0.275,
+          0.15,
+          0.055
+        ],
+        "location": "top outer flange edge (~12 o'clock)",
+        "reason": "A dented step/notch breaks the smooth rolled outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162425_135.jpg"
+  },
+  "IMG20260824162425_180": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.37,
+          0.275,
+          0.15,
+          0.055
+        ],
+        "location": "top outer flange edge (~12 o'clock)",
+        "reason": "A dented step/notch breaks the smooth rolled outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162425_180.jpg"
+  },
+  "IMG20260824162425_225": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.37,
+          0.275,
+          0.15,
+          0.055
+        ],
+        "location": "top outer flange edge (~12 o'clock)",
+        "reason": "A dented step/notch breaks the smooth rolled outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162425_225.jpg"
+  },
+  "IMG20260824162425_270": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.37,
+          0.275,
+          0.15,
+          0.055
+        ],
+        "location": "top outer flange edge (~12 o'clock)",
+        "reason": "A dented step/notch breaks the smooth rolled outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162425_270.jpg"
+  },
+  "IMG20260824162425_315": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.37,
+          0.275,
+          0.15,
+          0.055
+        ],
+        "location": "top outer flange edge (~12 o'clock)",
+        "reason": "A dented step/notch breaks the smooth rolled outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162425_315.jpg"
+  },
+  "IMG20260824162425_0_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.37,
+          0.275,
+          0.15,
+          0.055
+        ],
+        "location": "top outer flange edge (~12 o'clock)",
+        "reason": "A dented step/notch breaks the smooth rolled outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162425_0_flip.jpg"
+  },
+  "IMG20260824162425_45_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.37,
+          0.275,
+          0.15,
+          0.055
+        ],
+        "location": "top outer flange edge (~12 o'clock)",
+        "reason": "A dented step/notch breaks the smooth rolled outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162425_45_flip.jpg"
+  },
+  "IMG20260824162425_90_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.37,
+          0.275,
+          0.15,
+          0.055
+        ],
+        "location": "top outer flange edge (~12 o'clock)",
+        "reason": "A dented step/notch breaks the smooth rolled outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162425_90_flip.jpg"
+  },
+  "IMG20260824162425_135_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.37,
+          0.275,
+          0.15,
+          0.055
+        ],
+        "location": "top outer flange edge (~12 o'clock)",
+        "reason": "A dented step/notch breaks the smooth rolled outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162425_135_flip.jpg"
+  },
+  "IMG20260824162425_180_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.37,
+          0.275,
+          0.15,
+          0.055
+        ],
+        "location": "top outer flange edge (~12 o'clock)",
+        "reason": "A dented step/notch breaks the smooth rolled outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162425_180_flip.jpg"
+  },
+  "IMG20260824162425_225_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.37,
+          0.275,
+          0.15,
+          0.055
+        ],
+        "location": "top outer flange edge (~12 o'clock)",
+        "reason": "A dented step/notch breaks the smooth rolled outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162425_225_flip.jpg"
+  },
+  "IMG20260824162425_270_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.37,
+          0.275,
+          0.15,
+          0.055
+        ],
+        "location": "top outer flange edge (~12 o'clock)",
+        "reason": "A dented step/notch breaks the smooth rolled outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162425_270_flip.jpg"
+  },
+  "IMG20260824162425_315_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Edge Cut",
+        "seg": "edge",
+        "bbox": [
+          0.37,
+          0.275,
+          0.15,
+          0.055
+        ],
+        "location": "top outer flange edge (~12 o'clock)",
+        "reason": "A dented step/notch breaks the smooth rolled outer flange edge."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162425_315_flip.jpg"
+  },
+  "IMG20260824162618_0": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162618_0.jpg"
+  },
+  "IMG20260824162618_45": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162618_45.jpg"
+  },
+  "IMG20260824162618_90": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162618_90.jpg"
+  },
+  "IMG20260824162618_135": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162618_135.jpg"
+  },
+  "IMG20260824162618_180": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162618_180.jpg"
+  },
+  "IMG20260824162618_225": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162618_225.jpg"
+  },
+  "IMG20260824162618_270": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162618_270.jpg"
+  },
+  "IMG20260824162618_315": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162618_315.jpg"
+  },
+  "IMG20260824162618_0_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162618_0_flip.jpg"
+  },
+  "IMG20260824162618_45_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162618_45_flip.jpg"
+  },
+  "IMG20260824162618_90_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162618_90_flip.jpg"
+  },
+  "IMG20260824162618_135_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162618_135_flip.jpg"
+  },
+  "IMG20260824162618_180_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162618_180_flip.jpg"
+  },
+  "IMG20260824162618_225_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162618_225_flip.jpg"
+  },
+  "IMG20260824162618_270_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162618_270_flip.jpg"
+  },
+  "IMG20260824162618_315_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162618_315_flip.jpg"
+  },
+  "IMG20260824162707_0": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Corrosion",
+        "seg": "rust",
+        "bbox": [
+          0.28,
+          0.48,
+          0.36,
+          0.3
+        ],
+        "location": "front outer (conical) wall",
+        "reason": "Brown/rust-toned corrosion on the outer drawn wall."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162707_0.jpg"
+  },
+  "IMG20260824162707_45": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Corrosion",
+        "seg": "rust",
+        "bbox": [
+          0.28,
+          0.48,
+          0.36,
+          0.3
+        ],
+        "location": "front outer (conical) wall",
+        "reason": "Brown/rust-toned corrosion on the outer drawn wall."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162707_45.jpg"
+  },
+  "IMG20260824162707_90": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Corrosion",
+        "seg": "rust",
+        "bbox": [
+          0.28,
+          0.48,
+          0.36,
+          0.3
+        ],
+        "location": "front outer (conical) wall",
+        "reason": "Brown/rust-toned corrosion on the outer drawn wall."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162707_90.jpg"
+  },
+  "IMG20260824162707_135": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Corrosion",
+        "seg": "rust",
+        "bbox": [
+          0.28,
+          0.48,
+          0.36,
+          0.3
+        ],
+        "location": "front outer (conical) wall",
+        "reason": "Brown/rust-toned corrosion on the outer drawn wall."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162707_135.jpg"
+  },
+  "IMG20260824162707_180": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Corrosion",
+        "seg": "rust",
+        "bbox": [
+          0.28,
+          0.48,
+          0.36,
+          0.3
+        ],
+        "location": "front outer (conical) wall",
+        "reason": "Brown/rust-toned corrosion on the outer drawn wall."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162707_180.jpg"
+  },
+  "IMG20260824162707_225": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Corrosion",
+        "seg": "rust",
+        "bbox": [
+          0.28,
+          0.48,
+          0.36,
+          0.3
+        ],
+        "location": "front outer (conical) wall",
+        "reason": "Brown/rust-toned corrosion on the outer drawn wall."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162707_225.jpg"
+  },
+  "IMG20260824162707_270": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Corrosion",
+        "seg": "rust",
+        "bbox": [
+          0.28,
+          0.48,
+          0.36,
+          0.3
+        ],
+        "location": "front outer (conical) wall",
+        "reason": "Brown/rust-toned corrosion on the outer drawn wall."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162707_270.jpg"
+  },
+  "IMG20260824162707_315": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Corrosion",
+        "seg": "rust",
+        "bbox": [
+          0.28,
+          0.48,
+          0.36,
+          0.3
+        ],
+        "location": "front outer (conical) wall",
+        "reason": "Brown/rust-toned corrosion on the outer drawn wall."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162707_315.jpg"
+  },
+  "IMG20260824162707_0_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Corrosion",
+        "seg": "rust",
+        "bbox": [
+          0.28,
+          0.48,
+          0.36,
+          0.3
+        ],
+        "location": "front outer (conical) wall",
+        "reason": "Brown/rust-toned corrosion on the outer drawn wall."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162707_0_flip.jpg"
+  },
+  "IMG20260824162707_45_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Corrosion",
+        "seg": "rust",
+        "bbox": [
+          0.28,
+          0.48,
+          0.36,
+          0.3
+        ],
+        "location": "front outer (conical) wall",
+        "reason": "Brown/rust-toned corrosion on the outer drawn wall."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162707_45_flip.jpg"
+  },
+  "IMG20260824162707_90_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Corrosion",
+        "seg": "rust",
+        "bbox": [
+          0.28,
+          0.48,
+          0.36,
+          0.3
+        ],
+        "location": "front outer (conical) wall",
+        "reason": "Brown/rust-toned corrosion on the outer drawn wall."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162707_90_flip.jpg"
+  },
+  "IMG20260824162707_135_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Corrosion",
+        "seg": "rust",
+        "bbox": [
+          0.28,
+          0.48,
+          0.36,
+          0.3
+        ],
+        "location": "front outer (conical) wall",
+        "reason": "Brown/rust-toned corrosion on the outer drawn wall."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162707_135_flip.jpg"
+  },
+  "IMG20260824162707_180_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Corrosion",
+        "seg": "rust",
+        "bbox": [
+          0.28,
+          0.48,
+          0.36,
+          0.3
+        ],
+        "location": "front outer (conical) wall",
+        "reason": "Brown/rust-toned corrosion on the outer drawn wall."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162707_180_flip.jpg"
+  },
+  "IMG20260824162707_225_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Corrosion",
+        "seg": "rust",
+        "bbox": [
+          0.28,
+          0.48,
+          0.36,
+          0.3
+        ],
+        "location": "front outer (conical) wall",
+        "reason": "Brown/rust-toned corrosion on the outer drawn wall."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162707_225_flip.jpg"
+  },
+  "IMG20260824162707_270_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Corrosion",
+        "seg": "rust",
+        "bbox": [
+          0.28,
+          0.48,
+          0.36,
+          0.3
+        ],
+        "location": "front outer (conical) wall",
+        "reason": "Brown/rust-toned corrosion on the outer drawn wall."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162707_270_flip.jpg"
+  },
+  "IMG20260824162707_315_flip": {
+    "part": "Bearing Cup",
+    "result": "DEFECT",
+    "defects": [
+      {
+        "category": "Corrosion",
+        "seg": "rust",
+        "bbox": [
+          0.28,
+          0.48,
+          0.36,
+          0.3
+        ],
+        "location": "front outer (conical) wall",
+        "reason": "Brown/rust-toned corrosion on the outer drawn wall."
+      }
+    ],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162707_315_flip.jpg"
+  },
+  "IMG20260824162751_0": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162751_0.jpg"
+  },
+  "IMG20260824162751_45": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162751_45.jpg"
+  },
+  "IMG20260824162751_90": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162751_90.jpg"
+  },
+  "IMG20260824162751_135": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162751_135.jpg"
+  },
+  "IMG20260824162751_180": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162751_180.jpg"
+  },
+  "IMG20260824162751_225": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162751_225.jpg"
+  },
+  "IMG20260824162751_270": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162751_270.jpg"
+  },
+  "IMG20260824162751_315": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162751_315.jpg"
+  },
+  "IMG20260824162751_0_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162751_0_flip.jpg"
+  },
+  "IMG20260824162751_45_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162751_45_flip.jpg"
+  },
+  "IMG20260824162751_90_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162751_90_flip.jpg"
+  },
+  "IMG20260824162751_135_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162751_135_flip.jpg"
+  },
+  "IMG20260824162751_180_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162751_180_flip.jpg"
+  },
+  "IMG20260824162751_225_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162751_225_flip.jpg"
+  },
+  "IMG20260824162751_270_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162751_270_flip.jpg"
+  },
+  "IMG20260824162751_315_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162751_315_flip.jpg"
+  },
+  "IMG20260824162819_0": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162819_0.jpg"
+  },
+  "IMG20260824162819_45": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162819_45.jpg"
+  },
+  "IMG20260824162819_90": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162819_90.jpg"
+  },
+  "IMG20260824162819_135": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162819_135.jpg"
+  },
+  "IMG20260824162819_180": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162819_180.jpg"
+  },
+  "IMG20260824162819_225": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162819_225.jpg"
+  },
+  "IMG20260824162819_270": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162819_270.jpg"
+  },
+  "IMG20260824162819_315": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162819_315.jpg"
+  },
+  "IMG20260824162819_0_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162819_0_flip.jpg"
+  },
+  "IMG20260824162819_45_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162819_45_flip.jpg"
+  },
+  "IMG20260824162819_90_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162819_90_flip.jpg"
+  },
+  "IMG20260824162819_135_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162819_135_flip.jpg"
+  },
+  "IMG20260824162819_180_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162819_180_flip.jpg"
+  },
+  "IMG20260824162819_225_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162819_225_flip.jpg"
+  },
+  "IMG20260824162819_270_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162819_270_flip.jpg"
+  },
+  "IMG20260824162819_315_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162819_315_flip.jpg"
+  },
+  "IMG20260824162900_0": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162900_0.jpg"
+  },
+  "IMG20260824162900_45": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162900_45.jpg"
+  },
+  "IMG20260824162900_90": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162900_90.jpg"
+  },
+  "IMG20260824162900_135": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162900_135.jpg"
+  },
+  "IMG20260824162900_180": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162900_180.jpg"
+  },
+  "IMG20260824162900_225": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162900_225.jpg"
+  },
+  "IMG20260824162900_270": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162900_270.jpg"
+  },
+  "IMG20260824162900_315": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162900_315.jpg"
+  },
+  "IMG20260824162900_0_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162900_0_flip.jpg"
+  },
+  "IMG20260824162900_45_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162900_45_flip.jpg"
+  },
+  "IMG20260824162900_90_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162900_90_flip.jpg"
+  },
+  "IMG20260824162900_135_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162900_135_flip.jpg"
+  },
+  "IMG20260824162900_180_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162900_180_flip.jpg"
+  },
+  "IMG20260824162900_225_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162900_225_flip.jpg"
+  },
+  "IMG20260824162900_270_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162900_270_flip.jpg"
+  },
+  "IMG20260824162900_315_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824162900_315_flip.jpg"
+  },
+  "IMG20260824163000_0": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163000_0.jpg"
+  },
+  "IMG20260824163000_45": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163000_45.jpg"
+  },
+  "IMG20260824163000_90": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163000_90.jpg"
+  },
+  "IMG20260824163000_135": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163000_135.jpg"
+  },
+  "IMG20260824163000_180": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163000_180.jpg"
+  },
+  "IMG20260824163000_225": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163000_225.jpg"
+  },
+  "IMG20260824163000_270": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163000_270.jpg"
+  },
+  "IMG20260824163000_315": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163000_315.jpg"
+  },
+  "IMG20260824163000_0_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163000_0_flip.jpg"
+  },
+  "IMG20260824163000_45_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163000_45_flip.jpg"
+  },
+  "IMG20260824163000_90_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163000_90_flip.jpg"
+  },
+  "IMG20260824163000_135_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163000_135_flip.jpg"
+  },
+  "IMG20260824163000_180_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163000_180_flip.jpg"
+  },
+  "IMG20260824163000_225_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163000_225_flip.jpg"
+  },
+  "IMG20260824163000_270_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163000_270_flip.jpg"
+  },
+  "IMG20260824163000_315_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163000_315_flip.jpg"
+  },
+  "IMG20260824163031_0": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163031_0.jpg"
+  },
+  "IMG20260824163031_45": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163031_45.jpg"
+  },
+  "IMG20260824163031_90": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163031_90.jpg"
+  },
+  "IMG20260824163031_135": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163031_135.jpg"
+  },
+  "IMG20260824163031_180": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163031_180.jpg"
+  },
+  "IMG20260824163031_225": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163031_225.jpg"
+  },
+  "IMG20260824163031_270": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163031_270.jpg"
+  },
+  "IMG20260824163031_315": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163031_315.jpg"
+  },
+  "IMG20260824163031_0_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163031_0_flip.jpg"
+  },
+  "IMG20260824163031_45_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163031_45_flip.jpg"
+  },
+  "IMG20260824163031_90_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163031_90_flip.jpg"
+  },
+  "IMG20260824163031_135_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163031_135_flip.jpg"
+  },
+  "IMG20260824163031_180_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163031_180_flip.jpg"
+  },
+  "IMG20260824163031_225_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163031_225_flip.jpg"
+  },
+  "IMG20260824163031_270_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163031_270_flip.jpg"
+  },
+  "IMG20260824163031_315_flip": {
+    "part": "Bearing Cup",
+    "result": "OK",
+    "defects": [],
+    "image": "c:\\workspace-ai\\QMSInspector\\inspection_state\\data\\images\\bearing_cup_aug\\IMG20260824163031_315_flip.jpg"
+  }
+}
