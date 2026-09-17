@@ -45,7 +45,7 @@ flowchart TD
     E -. Bracket only .-> S[Trained second opinions]
     S --> S1["Serration:<br/>YOLO big-hole crop<br/>+ MobileNetV2"]
     S --> S3["Dark Spots:<br/>MobileNetV2<br/>+ rotation TTA"]
-    S --> S4["Line Mark:<br/>classical Hough + matched-filter<br/>OR ridge-CNN"]
+    S --> S4["Line Mark:<br/>classical Hough<br/>+ matched-filter<br/>OR ridge-CNN"]
     S1 --> G2
     S3 --> G2
     S4 --> G2
