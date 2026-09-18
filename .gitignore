@@ -13,6 +13,9 @@ uploads/
 # local data images (keep the folder, ignore contents)
 data/images/
 
+# augmented image sets and their zips (regenerable, too large for GitHub)
+inspection_state/augmented/
+
 inspection_jobs/
 
 # YOLO training artifacts (regenerable)
