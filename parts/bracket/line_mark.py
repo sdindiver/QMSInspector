@@ -36,6 +36,45 @@ GEOM_THRESHOLD = 0.152
 # Number of augmented views averaged for the CNN at inference.
 TTA_VIEWS = 6
 
+# Part-axis (in px) the classical-CV ridge constants were tuned at. The black-hat
+# / top-hat kernel (9x9), oriented line-opening length and Hough min-length are
+# all pixel-absolute and were calibrated when the pipeline processed images at
+# ~1024px (MAX_DIM), where the part axis is ~700-1024px. On a 640px (or smaller)
+# capture the part occupies far fewer pixels, so a thin scratch collapses below
+# those fixed sizes and the SAME logic finds nothing. To keep the detector
+# resolution-robust down to the 640px floor we upscale a small part back to this
+# reference budget before the ridge morphology runs. Coordinates are normalised
+# downstream, so the upscale is coordinate-invariant and full-res parts (whose
+# axis already meets the reference) are left untouched -- no full-res regression.
+LINE_REF_AXIS = 900
+# Cap the upscale factor so a tiny/failed segmentation can't blow the image up to
+# an unreasonable size (INTER_CUBIC beyond ~3x adds interpolation ghosts that the
+# black-hat could amplify into false ridges).
+LINE_MAX_UPSCALE = 3.0
+# A geometry "line" shorter than this normalised length is a nub -- a handful of
+# Hough pixels caught on brushed-metal grain, not a credible scratch. It is
+# dropped for DRAWING so the caller falls back to the directional locator or an
+# honest chip-only mark instead of a misleading dot. Does not affect the verdict.
+LINE_MIN_DRAW_FRAC = 0.05
+
+
+def _scale_to_ref(bgr, cnt):
+    """Upscale ``bgr`` so the segmented part axis reaches ``LINE_REF_AXIS``.
+
+    Returns the (possibly) upscaled image. A part already at/above the reference
+    scale is returned unchanged, so this is a no-op on full-resolution captures.
+    """
+    import cv2
+    from inspector import image_features as F
+    axis = F._part_axis(cnt)
+    if not (0 < axis < LINE_REF_AXIS):
+        return bgr
+    s = min(LINE_REF_AXIS / axis, LINE_MAX_UPSCALE)
+    if s <= 1.01:
+        return bgr
+    return cv2.resize(bgr, (int(round(bgr.shape[1] * s)), int(round(bgr.shape[0] * s))),
+                      interpolation=cv2.INTER_CUBIC)
+
 _LOCK = threading.Lock()
 _STATE = {"loaded": False, "model": None, "meta": None}
 
@@ -88,6 +127,15 @@ def _ridge_prep(path):
     mask, cnt = F.segment_part(g)
     if cnt is None or (mask > 0).sum() < 500:
         return None
+    # Normalise a small (e.g. 640px) part up to the reference budget the ridge
+    # constants are tuned at, then re-segment at the new scale. No-op at full res.
+    scaled = _scale_to_ref(bgr, cnt)
+    if scaled is not bgr:
+        bgr = scaled
+        g = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
+        mask, cnt = F.segment_part(g)
+        if cnt is None or (mask > 0).sum() < 500:
+            return None
     part = mask > 0
     axis = F._part_axis(cnt)
     med = int(np.median(g[part]))
@@ -353,6 +401,97 @@ def _locate_scratches(prep, max_lines=3, min_contrast=9.0, min_cover=0.75,
     return [poly for _, poly in out]
 
 
+def _locate_lines_directional(prep, max_lines=3, min_cover=0.72,
+                              min_len_frac=0.30, min_contrast=8.0):
+    """Low-resolution scratch localiser: return line segments for DRAWING only.
+
+    The strict ``_geom_score``/``_locate_scratches`` path uses a morphological
+    line-OPENING which erodes thin scratches away on downscaled (e.g. 640px)
+    images, so it returns nothing there even when the ridge-CNN is certain a line
+    mark is present. This fallback instead sweeps an oriented black-hat/top-hat
+    (which AMPLIFIES thin directional ridges instead of eroding them), then keeps
+    coherent Hough segments validated on the raw ridge map by coverage/contrast.
+
+    CONSERVATIVE policy: brushed-metal grain and a part's own long edges routinely
+    produce directional lines whose contrast/length RIVAL a genuine faint scratch
+    at 640px (measured: clean serration/dark-spot parts score higher than real
+    line marks). Low-level geometry therefore cannot separate a faint scratch from
+    grain at this resolution, so the gates below are deliberately strict: only a
+    dominant, LONG (>=0.30 of the part axis) and clearly HIGH-contrast (>=8) line
+    that is bright along its whole length is drawn. When nothing clears the bar we
+    return [] and the caller keeps the honest chip-only mark instead of tracing
+    grain as a defect.
+
+    It runs ONLY after the ensemble has already asserted "line mark present" (the
+    caller gates it behind ``status == present`` AND an empty strict result), so it
+    is a pure marking aid on an image already judged defective and cannot change the
+    verdict or fire on parts the classifier deemed clean.
+
+    Returns a list of normalised (x1, y1, x2, y2) segments (longest first), or [].
+    """
+    import cv2
+    import numpy as np
+    g2, valid, axis, _ = prep
+    h, w = g2.shape[:2]
+    r = _ridge_map(g2, valid)
+    if r[valid].size == 0:
+        return []
+    L = max(9, int(0.05 * axis))
+    resp = np.zeros((h, w), np.float32)
+    for ang in range(0, 180, 15):
+        se = _line_se(L, ang)
+        bh = cv2.morphologyEx(g2, cv2.MORPH_BLACKHAT, se)
+        th = cv2.morphologyEx(g2, cv2.MORPH_TOPHAT, se)
+        resp = np.maximum(resp, cv2.max(bh, th).astype(np.float32))
+    resp[~valid] = 0
+    rv = resp[valid]
+    if rv.size == 0:
+        return []
+    thr = np.percentile(rv, 90)
+    edges = ((resp > thr) & valid).astype(np.uint8)
+    minlen = max(30, int(min_len_frac * axis))
+    lines = cv2.HoughLinesP(edges * 255, 1, np.pi / 180, threshold=18,
+                            minLineLength=minlen, maxLineGap=max(8, int(0.03 * axis)))
+    if lines is None:
+        return []
+    tk = max(4, int(0.012 * axis))
+    long_len = min_len_frac * axis
+    cand = []
+    for l in lines:
+        s = tuple(int(v) for v in l[0])
+        length = float(np.hypot(s[2] - s[0], s[3] - s[1]))
+        if length < long_len:
+            continue
+        con = _contrast(r, valid, s, tk)
+        cov = _coverage(r, s, tk)
+        if cov < min_cover or con < min_contrast:
+            continue
+        cand.append((length, con, s))
+    if not cand:
+        return []
+    cand.sort(key=lambda t: t[0], reverse=True)
+    picked = []
+    out = []
+    for length, con, s in cand:
+        cx, cy = (s[0] + s[2]) / 2.0, (s[1] + s[3]) / 2.0
+        ang = np.arctan2(s[3] - s[1], s[2] - s[0]) % np.pi
+        dup = False
+        for (pcx, pcy, pang) in picked:
+            dang = abs(((ang - pang + np.pi / 2) % np.pi) - np.pi / 2)
+            dx, dy = np.cos(pang), np.sin(pang)
+            pd = abs((cx - pcx) * (-dy) + (cy - pcy) * dx)
+            if dang < np.deg2rad(10) and pd < 0.06 * axis:
+                dup = True
+                break
+        if dup:
+            continue
+        picked.append((cx, cy, ang))
+        out.append((s[0] / w, s[1] / h, s[2] / w, s[3] / h))
+        if len(picked) >= max_lines:
+            break
+    return [tuple(round(float(c), 4) for c in seg) for seg in out]
+
+
 
 def _cnn_prob(path):
     """Ridge-CNN probability of line mark, TTA-averaged, or None if unavailable."""
@@ -448,6 +587,15 @@ def predict(path):
     status = "present" if present else "absent"
     conf = prob if present else (1.0 - prob)
 
+    # Drawing guard: drop a nub-length geometry line (grain artefact) so a weak
+    # detection doesn't draw a misleading dot; the directional fallback or an
+    # honest chip takes over instead. Verdict/vote are unaffected.
+    if line is not None:
+        _ll = ((line[2] - line[0]) ** 2 + (line[3] - line[1]) ** 2) ** 0.5
+        if _ll < LINE_MIN_DRAW_FRAC:
+            line = None
+            poly = None
+
     # Trace the actual scratches for drawing ONLY when a line mark is asserted
     # (this is a marking aid and never affects the verdict). PRECISE policy: draw
     # only bold, high-contrast scratches. When nothing localises precisely (faint
@@ -460,6 +608,20 @@ def predict(path):
         except Exception:
             polygons = []
     main_poly = polygons[0] if polygons else None
+
+    # Low-res fallback: when the CNN asserts a line mark but the strict geometry
+    # path localised nothing (thin scratch eroded by the line-opening on a
+    # downscaled image), trace the scratch with the directional black-hat locator
+    # so 640px images still get a drawn line instead of a chip-only mark. Gated
+    # behind status==present, so it never fires on parts judged clean.
+    lines = None
+    if present and line is None and not polygons:
+        try:
+            segs = _locate_lines_directional(prep)
+        except Exception:
+            segs = []
+        if segs:
+            lines = segs
 
     # A located box is offered ONLY when precise scratches were found, so faint
     # detections deliberately have box=None and hit the border fallback.
@@ -479,4 +641,5 @@ def predict(path):
             "cnn_prob": round(cnn, 3) if cnn is not None else None,
             "geom_score": round(geom, 3), "votes": votes,
             "line": tuple(round(float(c), 4) for c in line) if line is not None else None,
+            "lines": lines,
             "box": box, "polygon": main_poly, "polygons": polygons}
