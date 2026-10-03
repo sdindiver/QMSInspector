@@ -72,6 +72,63 @@ flowchart TD
 
 ---
 
+## Why these strategies (design rationale)
+
+The guiding principle: **match the technique to the defect's physics and to the hard
+constraints** - fully offline, CPU-only / Raspberry-Pi, and tiny labelled datasets.
+Every choice below was made because the cheaper option was *measured* to fail, not
+assumed to - see [`parts/bracket/SERRATION_CASE_STUDY.md`](parts/bracket/SERRATION_CASE_STUDY.md)
+for the full narrated engineering log.
+
+- **Perceptual-hash recall first (on every image).** Zero tokens, instant, and zero
+  false positives on known parts. *Limit:* it only recognises **near-duplicates** - a
+  genuinely new photo (new lighting/angle/rotation) does not match. So recall is the
+  fast path, not the whole answer: anything it cannot resolve goes to a trained second
+  opinion or to **Needs Review**. The reframing that drove the whole design: *this is a
+  generalization problem, not a recall problem* - memorising more images never generalises.
+
+- **Why trained models over hand-crafted thresholds** (serration, dark spots, bearing
+  cup). Classical thresholding was **proven to fail**, not assumed to: the serration FFT
+  "teeth-score" gave a *present* part 14.9 and a *missing* part 14.8 - the distributions
+  overlapped completely. Root cause: on shiny chromate parts the **nuisance variation
+  (glare, arbitrary rotation, wrong-hole selection) has more variance than the signal**,
+  so no fixed threshold survives. That is the canonical "learn the features instead of
+  hand-crafting them" signal.
+
+- **Why MobileNetV2 specifically.** With ~22 labelled images on a CPU-only offline box,
+  training from scratch would overfit instantly, so we use **transfer learning on a small
+  pretrained backbone**. MobileNetV2 is **small, CPU-friendly** (fits the Pi target) and
+  its ImageNet weights actually download on the gated-internet machine. To survive the
+  tiny dataset: **freeze the backbone** (unfreeze only the last blocks), **heavy
+  rotation/flip augmentation** (which teaches the orientation-invariance that killed
+  classical CV), **class-weighted loss**, and **stratified k-fold CV**; at inference,
+  **rotation/flip TTA** makes it any-angle - unlike recall, which only matches stored
+  orientations.
+
+- **Why serration is crop-then-classify (YOLO -> CNN).** A whole-image classifier scored
+  90.9% but an **occlusion-sensitivity test proved it was cheating** - keying on part
+  colour and the "VA" stamp, not the rim. Cropping to the big hole first (trained YOLO
+  locator) removes the body from view, so the classifier *physically cannot* use the
+  shortcut and must judge the serration itself.
+
+- **Why line marks use a classical-CV + matched-filter + Hough ensemble (not just a CNN).**
+  Thin scratches **vanish when the part is downscaled to the CNN's 224 px input**, and
+  with only ~5 examples a single model is unreliable. So two members that **fail on
+  different images** vote **OR**: a **classical geometric detector** (black-hat/top-hat
+  ridge morphology -> oriented line-opening matched filter at 12 angles -> probabilistic
+  Hough) that is **rotation-invariant by construction and can draw a tight line**, plus a
+  **ridge-CNN** that catches faint marks the geometry misses. Leave-one-out, the union
+  catches 4/5 while keeping false alarms low. (The three classical stages divide the work:
+  morphology **enhances** thin dark-or-bright ridges, the oriented line-opening **confirms**
+  a coherent straight line at any angle, and Hough **extracts** measurable, drawable
+  segments.)
+
+- **Needs Review is a first-class outcome.** When nothing is confident, the system returns
+  **Needs Review** and collects the image for labelling - it never emits a silent guess.
+  That is what keeps it safe for production QC.
+
+---
+
 ## How it works
 
 ```
